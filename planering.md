@@ -98,4 +98,11 @@ Express
 SQL
 
 ### Auth
+
 ?
+
+## MVP
+* Ingen återkommande bokning i MVP
+* Ingen avancerad prioriteringslogik i MVP
+* En typ av inloggning i början
+* En vy för bokning
