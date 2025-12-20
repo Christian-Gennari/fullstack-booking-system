@@ -1,0 +1,13 @@
+/*
+  🎨 STYLESHEET (DECORATION)
+  * PURPOSE:
+  * Controls how the website looks (Colors, Layout, Fonts).
+  *
+  * SCOPE:
+  * - Global styles (body, fonts).
+  * - Layout classes (.room-grid, .navbar).
+  * - Component styles (.room-card, .btn-primary).
+  *
+  * RELATION:
+  * - Loaded by both index.html and login.html.
+*/

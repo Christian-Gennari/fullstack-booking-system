@@ -1,9 +1,11 @@
-/*
-  server.js – startar Node/Express-servern
-
-  - Importerar app.js
-  - Lyssnar på angiven port
-  - Startar backend-appen
-
-  Gör inte: hanterar routes, logik eller databasanrop
-*/
+/**
+ * 🚀 SERVER ENTRY POINT
+ * * PURPOSE:
+ * The "Start Button" for the application.
+ * * SCOPE:
+ * - Import the configured 'app' from app.js.
+ * - Listen on the required Port (80 or 3000).
+ * - Log a message confirming the server is running.
+ * * RELATION:
+ * - Imports: 'src/app.js'
+ */
