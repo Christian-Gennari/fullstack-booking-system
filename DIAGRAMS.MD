@@ -12,15 +12,15 @@ sequenceDiagram
 
     Note over User, Frontend: Phase 1: The Order
     User->>Frontend: Clicks "Book Room"
-    Frontend->>Frontend: Checks localStorage<br/>(Finds "Wristband" UserID: 5)
+    Frontend->>Frontend: Checks localStorage<br/>(Finds "Wristband" Token: wkPv...73s)
     Frontend->>Middleware: POST /api/bookings Headers: { Authorization: "wkPv...73s" }
 
     Note over Middleware, Controller: Phase 2: Security Check
     Middleware->>DB: SELECT * FROM sessions WHERE token = "wkPv...73s"
-    alt No Wristband?
+    alt No Wristband / Invalid?
         Middleware-->>Frontend: 401 Unauthorized ⛔
-    else Has Wristband
-        Middleware->>Controller: next() ✅
+    else Valid Wristband
+        Middleware->>Controller: next() (User ID attached) ✅
     end
 
     Note over Controller, DB: Phase 3: Processing
@@ -53,6 +53,7 @@ graph TD
             Route["📜 Routes"]
             Ctrl["🤵 Controllers"]
             Repo["📚 Repositories"]
+            Utils["🧰 Utils"]
         end
 
         DB[("💽 SQLite Database")]
@@ -65,7 +66,9 @@ graph TD
 
     App --> Route
     Route --> MW
-    MW --> Ctrl
+    MW -- Checks Token --> DB
+    MW -- If Valid --> Ctrl
+
     Ctrl -- Asks for Data --> Repo
     Repo -- SQL Query --> DB
 
