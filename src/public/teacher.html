@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="teacher.css" />
+  <title>ella | Edugrade Location & Logistics Assistant</title>
+</head>
+<body>
+
+  <!-- Header med logga och logga ut-knapp -->
+  <header class="top-header">
+    <img class="top-logo" src="assets/ELLA header.png" alt="Logo small" />
+    <div class="user-actions">
+      <span class="user-label">"Inloggning + användartyp"</span>
+      <button class="logout-btn">Logga ut</button>
+    </div>
+  </header>
+
+  <div class="teacher-layout">
+
+  <!-- Vänsterkolumn: Mina bokningar -->
+  <section class="left-panel">
+    <h2>Mina bokningar</h2>
+    <div class="booking-card">
+      <h3>Conference Room</h3>
+      <p>Event: Department Meeting</p>
+      <p>Datum: 2025-12-20</p>
+      <p>Tid: 10:00 (3 timmar)</p>
+      <p>Deltagare: 8</p>
+      <button class="cancel-btn">Avboka</button>
+    </div>
+  </section>
+
+  <!-- Högerkolumn: Snabbinfo + tillgängliga rum -->
+  <section class="right-panel">
+
+    <div class="quick-info">
+      <div class="stats-box">
+        <h3>Snabbinfo</h3>
+        <p>Aktiva bokningar: <strong>1</strong></p>
+        <p>Lediga rum: <strong>5</strong></p>
+      </div>
+
+      <div class="benefits-box">
+        <h3>Förmåner för lärare</h3>
+        <ul>
+          <li>Förlängd bokningstid</li>
+          <li>Prioriterad tillgång till rum</li>
+          <li>Åtkomst till lärarrum</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="room-list">
+      <h2>Tillgängliga rum</h2>
+
+      <div class="room-card available">
+        <h3>Study Room A</h3>
+        <p>Kapacitet: 4 personer</p>
+        <p>Utrustning: Whiteboard, Projektor</p>
+        <button>Boka</button>
+      </div>
+
+      <div class="room-card available">
+        <h3>Study Room B</h3>
+        <p>Kapacitet: 6 personer</p>
+        <p>Utrustning: Whiteboard, Dator</p>
+        <button>Boka</button>
+      </div>
+
+      <div class="room-card occupied">
+        <h3>Study Room C</h3>
+        <p>Kapacitet: 8 personer</p>
+        <p>Utrustning: Whiteboard, TV-skärm</p>
+        <button disabled>Upptaget</button>
+      </div>
+    </div>
+
+  </section>
+</div>
+</body>
+</html>
