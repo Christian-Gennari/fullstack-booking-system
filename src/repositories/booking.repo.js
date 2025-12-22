@@ -27,7 +27,7 @@ import { db } from "../db/db.js";
 export const createBooking = (roomId, userId, start, end) => {
   return db
     .prepare(
-      "INSERT INTO bookings (roomId, userId, start, end) VALUES (?, ?, ?, ?)"
+      "INSERT INTO bookings (room_id, user_id, start_time, end_time, status) VALUES (?, ?, ?, ?, 'active')"
     )
     .run(roomId, userId, start, end);
 };
@@ -49,7 +49,7 @@ export const getBookingById = (id) => {
  * @returns {object} An object containing the booking data.
  */
 export const getAllBookingsByUser = (userId) => {
-  return db.prepare("SELECT * FROM bookings WHERE userId = ?").all(userId);
+  return db.prepare("SELECT * FROM bookings WHERE user_id = ?").all(userId);
 };
 
 /**
@@ -58,7 +58,7 @@ export const getAllBookingsByUser = (userId) => {
  * @returns {object} An object containing the booking data.
  */
 export const getAllBookingsByRoom = (roomId) => {
-  return db.prepare("SELECT * FROM bookings WHERE roomId = ?").all(roomId);
+  return db.prepare("SELECT * FROM bookings WHERE room_id = ?").all(roomId);
 };
 
 /**
@@ -69,7 +69,7 @@ export const getAllBookingsByRoom = (roomId) => {
  */
 export const getAllBookingsByDate = (start, end) => {
   return db
-    .prepare("SELECT * FROM bookings WHERE start >= ? AND end <= ?")
+    .prepare("SELECT * FROM bookings WHERE start_time >= ? AND end_time <= ?")
     .all(start, end);
 };
 
@@ -97,3 +97,6 @@ export const changeBookingStatusById = (id, status) => {
 export const deleteBookingById = (id) => {
   return db.prepare("DELETE FROM bookings WHERE id = ?").run(id);
 };
+
+console.log(getAllBookingsByUser(1));
+console.log(getBookingById(3));
