@@ -81,7 +81,7 @@ export const getAllBookingsByDate = (start, end) => {
  * @param {string} status - The new status of the booking. Must be one of the following: "active", "cancelled".
  * @returns {object} The result of the change operation.
  */
-export const changeBookingStatusById = (id, status) => {
+export const changeBookingStatusById = (status, id) => {
   return db
     .prepare("UPDATE bookings SET status = ? WHERE id = ?")
     .run(status, id);
