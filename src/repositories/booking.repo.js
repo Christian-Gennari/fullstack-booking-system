@@ -13,10 +13,6 @@
 
 import { db } from "../db/db.js";
 
-const query = db.prepare("SELECT * FROM bookings");
-const users = query.all();
-
-console.log(users);
 
 /**
  * Finds all bookings made by the user with the given ID.
