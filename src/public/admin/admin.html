@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="admin.css" />
+  <title>ella | Edugrade Location & Logistics Assistant</title>
+</head>
+<body>
+
+  <!-- Header med logga och logga ut-knapp -->
+  <header class="top-header">
+    <img class="top-logo" src="../assets/ELLA header.png" alt="Logo small" />
+    <div class="user-actions">
+      <span class="user-label">"Inloggning + användartyp"</span>
+      <button class="logout-btn">Logga ut</button>
+    </div>
+  </header>
+
+  <!-- Adminlayout -->
+  <div class="admin-layout">
+
+    <!-- Vänsterpanel: översikt + rum -->
+    <section class="left-panel">
+      <h2>Översikt</h2>
+      <div class="summary-grid">
+        <div class="summary-card">Totalt antal rum: <strong>6</strong></div>
+        <div class="summary-card">Lediga rum: <strong>5</strong></div>
+        <div class="summary-card">Aktiva bokningar: <strong>2</strong></div>
+        <div class="summary-card">Totala bokningar: <strong>3</strong></div>
+      </div>
+
+      <h2>Rum</h2>
+      <div class="room-card">
+        <h3>Study Room A</h3>
+        <p>Status: Ledigt</p>
+        <p>Kapacitet: 4 personer</p>
+        <p>Utrustning: Whiteboard, Projektor</p>
+        <div class="room-actions">
+          <button>Markera som upptaget</button>
+          <button>Redigera</button>
+          <button class="danger">Ta bort</button>
+        </div>
+      </div>
+
+      <div class="room-card">
+        <h3>Study Room B</h3>
+        <p>Status: Ledigt</p>
+        <p>Kapacitet: 6 personer</p>
+        <p>Utrustning: Whiteboard, Dator</p>
+        <div class="room-actions">
+          <button>Markera som upptaget</button>
+          <button>Redigera</button>
+          <button class="danger">Ta bort</button>
+        </div>
+      </div>
+
+      <button class="add-room-btn">+ Lägg till rum</button>
+    </section>
+
+    <!-- Högerpanel: bokningshantering -->
+    <section class="right-panel">
+      <h2>Bokningshantering</h2>
+      <!-- Här kan du lägga bokningslistor, filter, etc -->
+    </section>
+
+  </div>
+
+</body>
+</html>
