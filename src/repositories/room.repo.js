@@ -92,6 +92,36 @@ export const getAssetById = (assetId) => {
     return db.prepare("SELECT * FROM room_assets WHERE id = ?").get(assetId);
 };
 
+export const createRoomAsset = (assetData) => {
+    const stmt = db.prepare(`
+        INSERT INTO room_assets (room_id, asset)
+        VALUES (?, ?)
+    `);
+
+    return stmt.run(assetData.room_id, assetData.asset);
+};
+
+export const updateRoomAsset = (assetId, assetData) => {
+    const stmt = db.prepare(`
+        UPDATE room_assets
+        SET room_id = ?,
+            asset = ?
+        WHERE id = ?
+    `);
+
+    return stmt.run(assetData.room_id, assetData.asset, assetId);
+};
+
+export const deleteRoomAsset = (assetId) => {
+    const stmt = db.prepare("DELETE FROM room_assets WHERE id = ?");
+    return stmt.run(assetId);
+};
+
+export const deleteAllAssetsByRoomId = (roomId) => {
+    const stmt = db.prepare("DELETE FROM room_assets WHERE room_id = ?");
+    return stmt.run(roomId);
+};
+
 /**
  ===================
  Room with Assets (JOIN)
