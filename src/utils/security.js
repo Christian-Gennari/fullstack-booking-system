@@ -73,3 +73,11 @@ export const verifyPassword = async (inputPassword, storedHash) => {
     return false;
   }
 };
+
+/**
+ * Generates a random session token using crypto.randomBytes.
+ * @returns {string} A 32-byte random token encoded as hex string.
+ */
+export const generateToken = () => {
+  return crypto.randomBytes(32).toString("hex");
+};
