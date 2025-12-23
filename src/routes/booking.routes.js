@@ -5,12 +5,20 @@
 
 import express from "express";
 import * as bookingController from "../controllers/booking.controller.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
 
 const bookingsRouter = express.Router();
 
-// Route directs traffic to the Controller
-bookingsRouter.post("/", bookingController.createBooking);
+// GET /api/bookings - Get all bookings (All authenticated users)
+bookingsRouter.get("/", authenticate, bookingController.listBookings);
 
-bookingsRouter.get("/", bookingController.listBookings);
+// POST /api/bookings - Create a new booking (All authenticated users)
+bookingsRouter.post("/", authenticate, bookingController.createBooking);
+
+// PUT /api/bookings/:id - Update booking by ID (All authenticated users)
+bookingsRouter.put("/:id", authenticate, bookingController.updateBooking);
+
+// DELETE /api/bookings/:id - Delete booking by ID (All authenticated users)
+bookingsRouter.delete("/:id", authenticate, bookingController.deleteBooking);
 
 export default bookingsRouter;

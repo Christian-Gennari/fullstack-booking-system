@@ -9,15 +9,66 @@
  * - Imported by: 'src/app.js'
  */
 
+// =======================================
+//      HEJ @ANDRÉ HEATONLOVER PONTÉN
+//      START PÅ APIANROPET ÄR:
+//      -----------------------
+//      | localhost/api/rooms |
+//      -----------------------
+// =======================================
+
 import express from "express";
 import * as roomController from "../controllers/room.controller.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
+import { authorize } from "../middleware/authorization.middleware.js";
+import { ROLES } from "../constants/roles.js";
 
 const roomsRouter = express.Router();
 
-roomsRouter.get("/", roomController.listRooms);
+roomsRouter.get("/", authenticate, roomController.listRooms);
+roomsRouter.post(
+  "/",
+  authenticate,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.createRoom
+);
 
-roomsRouter.post("/", (req, res) => {
-  res.send("Create a new room");
-});
+// Room-specific
+roomsRouter.get("/:id", authenticate, roomController.getRoom);
+roomsRouter.put(
+  "/:id",
+  authenticate,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.updateRoom
+);
+roomsRouter.delete(
+  "/:id",
+  authenticate,
+  authorize(ROLES.ADMIN),
+  roomController.deleteRoom
+);
+
+// Assets under a room
+//roomsRouter.get("/:id/assets", roomController.listAssetsByRoom);
+roomsRouter.post(
+  "/:id/assets",
+  authenticate,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.createRoomAsset
+);
+
+//// Assets by id
+roomsRouter.put(
+  "/assets/:assetId",
+  authenticate,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.updateRoomAsset
+);
+roomsRouter.delete(
+  "/assets/:assetId",
+  authenticate,
+  authorize(ROLES.ADMIN),
+  roomController.deleteRoomAsset
+);
 
 export default roomsRouter;

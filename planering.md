@@ -9,6 +9,7 @@
 - Boka en sal ett visst tidsintervall
 - Undvika dubbelbokningar
 - Kunna ändra eller avboka
+- Kunna logga in/ut med tokenbaserade sessioner (via Cookies)
 
 ## Användartyper
 
@@ -30,6 +31,7 @@
 - Ta bort bokningar
 - Se alla bokningar
 - Sätta regler
+- Hantera användare och roller
 
 ## Sal-information
 
@@ -52,6 +54,7 @@
 - Vad händer vid krock?
 - Vem vinner vid konflikt, elev vs lärare?
 - Hur långt i förväg får man boka?
+- Rollen styr via `authorization.middleware.js` (student, teacher, admin)
 
 ## UI och UX
 
@@ -91,9 +94,13 @@ user_id
 
 #### Roles/Permission
 
-id_student  
-id_teacher  
-id_admin
+role (text): 'student' | 'teacher' | 'admin'
+
+Behörighetsmatris (MVP):
+
+- student: Se rum, göra egna bokningar, se egna bokningar
+- teacher: Allt som student + skapa/uppdatera rum (administrativt), hantera fler bokningar vid behov
+- admin: Full behörighet – hantera användare, radera rum, radera bokningar
 
 ### Assets
 
@@ -116,9 +123,26 @@ Express
 
 SQL
 
-### Auth
+### Auth & Security
 
-Basic Auth
+**Hybrid Authentication**
+
+- **Primary**: HttpOnly Cookies (`auth_token`). Säkrar mot XSS-attacker och hanteras automatiskt av webbläsaren.
+- **Fallback**: Bearer Token i Header. Underlättar testning via Postman/Curl.
+- `cookieParser.middleware.js` hanterar inkommande cookies.
+
+**Role-Based Authorization**
+
+- Separat middleware för roller: `authorization.middleware.js`
+- **Server-Side Protection**: Statiska filer för `/student`, `/teacher`, och `/admin` skyddas direkt i `app.js` innan de levereras.
+- 401 = Saknar token (Redirect till /login om det är en sidvisning).
+- 403 = Inloggad men saknar behörighet.
+
+Praktisk tillämpning (MVP):
+
+- Users: Endast admin får lista/hämta/skapa användare
+- Rooms: GET kräver inloggning; POST/PUT kräver teacher eller admin; DELETE kräver admin
+- Bookings: Alla inloggade får använda (vidare begränsning per ägare kan läggas senare)
 
 ## MVP
 

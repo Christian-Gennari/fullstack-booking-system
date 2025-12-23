@@ -10,15 +10,15 @@
  */
 
 import express from "express";
+import { login, logout } from "../controllers/auth.controller.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
 
 const authRouter = express.Router();
 
-authRouter.get("/", (req, res) => {
-  res.send("Get all users");
-});
+// POST /api/auth/login - Validate user credentials
+authRouter.post("/login", login);
 
-authRouter.post("/", (req, res) => {
-  res.send("Create a new user");
-});
+// DELETE /api/auth/logout - Invalidate session token
+authRouter.delete("/logout", authenticate, logout);
 
 export default authRouter;

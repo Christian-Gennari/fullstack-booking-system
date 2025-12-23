@@ -1,1 +1,0 @@
-/* The "Bouncer". It decodes the Basic Auth header, verifies the email and password against the DB, and attaches the user to req.user. If credentials are missing or invalid, it blocks the request with a 401. */
