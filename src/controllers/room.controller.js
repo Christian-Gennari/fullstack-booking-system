@@ -26,7 +26,7 @@ export const listRooms = (req, res) => {
     return res.status(200).json(rooms);
   } catch (err) {
     console.error("Error fetching rooms:", err);
-    return res.status(500).send();
+    return res.sendStatus(500);
   }
 };
 
@@ -40,7 +40,7 @@ export const createRoom = (req, res) => {
     return res.status(201).send();
   } catch (err) {
     console.error('Error creating room:', err);
-    return res.status(500).send();
+    return res.sendStatus(500);
   }
 };
 
@@ -70,7 +70,7 @@ export const updateRoom = (req, res) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {
-      return res.status(400).json({ error: "Invalid room id" });
+      return res.sendStatus(400)
     }
 
     const { room_number, type, capacity, location, floor_number } = req.body || {};
@@ -82,18 +82,37 @@ export const updateRoom = (req, res) => {
         location === undefined &&
         floor_number === undefined
     ) {
-      return res.status(400).json({ error: "No fields provided to update" });
+      return res.sendStatus(400);
     }
 
     const roomData = { room_number, type, capacity, location, floor_number };
     roomRepo.updateRoom(id, roomData);
 
     const updated = roomRepo.getRoomById(id);
-    if (!updated) return res.status(404).json({ error: "Room not found" });
+    if (!updated) return res.sendStatus(404);
 
     return res.status(200).json(updated);
   } catch (err) {
     console.error("Error updating room:", err);
-    return res.status(500).json({ error: "Could not update room" });
+    return res.sendStatus(500);
+  }
+};
+
+export const deleteRoom = (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.sendStatus(400);
+    }
+
+    const result = roomRepo.deleteRoom(id);
+    if (!result || result.changes === 0) {
+      return res.sendStatus(404);
+    }
+
+    return res.sendStatus(204);
+  } catch (err) {
+    console.error("Error deleting room:", err);
+    return res.sendStatus(500);
   }
 };

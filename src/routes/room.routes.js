@@ -20,7 +20,7 @@ roomsRouter.post("/", roomController.createRoom);
 // Room-specific
 roomsRouter.get("/:id", roomController.getRoom);
 roomsRouter.put("/:id", roomController.updateRoom);
-//roomsRouter.delete("/:id", roomController.deleteRoom);
+roomsRouter.delete("/:id", roomController.deleteRoom);
 //
 //// Assets under a room
 //roomsRouter.get("/:id/assets", roomController.listAssetsByRoom);
