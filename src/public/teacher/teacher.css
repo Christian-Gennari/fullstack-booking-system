@@ -60,6 +60,14 @@ body {
   padding: 20px;
 }
 
+.room-card {
+    background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
 .booking-card {
   background: white;
   border: 1px solid #ccc;
@@ -132,6 +140,19 @@ body {
 }
 
 .room-card.available button:hover {
+  background: #1b5e20;
+}
+
+.room-list button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.room-list button:hover {
   background: #1b5e20;
 }
 
