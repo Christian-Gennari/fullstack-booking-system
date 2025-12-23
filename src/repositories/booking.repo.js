@@ -1,7 +1,6 @@
 /**
  * 📚 BOOKING REPOSITORY
  * * PURPOSE: Handles access to the "bookings" table.
- * * SCOPE: Create, Read, Update, Delete
  */
 
 import { db } from "../db/db.js";
@@ -9,19 +8,13 @@ import { db } from "../db/db.js";
 // --- CREATE ---
 
 export const createBooking = (bookingData) => {
+  // We use Named Parameters (@key) matching the object keys
   const stmt = db.prepare(`
     INSERT INTO bookings (room_id, user_id, start_time, end_time, status, notes)
-    VALUES (?, ?, ?, ?, ?, ?)
+    VALUES (@room_id, @user_id, @start_time, @end_time, @status, @notes)
   `);
 
-  return stmt.run(
-    bookingData.room_id,
-    bookingData.user_id,
-    bookingData.start_time,
-    bookingData.end_time,
-    bookingData.status,
-    bookingData.notes // Cleaned by controller, safe to insert
-  );
+  return stmt.run(bookingData);
 };
 
 // --- READ ---
@@ -43,8 +36,6 @@ export const getAllBookingsByRoom = (roomId) => {
 };
 
 export const getAllBookingsByDate = (searchStart, searchEnd) => {
-  // Finds ANY overlap.
-  // Logic: Booking starts before search ends AND Booking ends after search starts.
   return db
     .prepare("SELECT * FROM bookings WHERE start_time < ? AND end_time > ?")
     .all(searchEnd, searchStart);
@@ -52,25 +43,20 @@ export const getAllBookingsByDate = (searchStart, searchEnd) => {
 
 // --- UPDATE ---
 
-export const updateBooking = (bookingId, bookingData) => {
+export const updateBookingById = (bookingId, bookingData) => {
   const stmt = db.prepare(`
         UPDATE bookings
-        SET room_id = ?,
-            user_id = ?,
-            start_time = ?,
-            end_time = ?,
-            status = ?
-        WHERE id = ?
+        SET room_id = @room_id,
+            user_id = @user_id,
+            start_time = @start_time,
+            end_time = @end_time,
+            status = @status,
+            notes = @notes
+        WHERE id = @id
     `);
 
-  return stmt.run(
-    bookingData.room_id,
-    bookingData.user_id,
-    bookingData.start_time,
-    bookingData.end_time,
-    bookingData.status,
-    bookingId
-  );
+  // We merge the 'id' into the object so it binds to @id
+  return stmt.run({ ...bookingData, id: bookingId });
 };
 
 // --- DELETE ---
