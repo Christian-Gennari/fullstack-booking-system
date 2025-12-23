@@ -155,7 +155,7 @@ export const updateRoomAsset = (req, res) => {
     }
 
     const existing = roomRepo.getAssetById(assetId);
-    if (!existing) return res.status(404).json('Asset not found');
+    if (!existing) return res.sendStatus(404);
 
     let newRoomId = existing.room_id;
     if (room_id !== undefined) {
@@ -164,7 +164,7 @@ export const updateRoomAsset = (req, res) => {
         return res.sendStatus(400);
       }
       const room = roomRepo.getRoomById(parsedRoomId);
-      if (!room) return res.sendStatus(404).json('Room not found');
+      if (!room) return res.sendStatus(404);
       newRoomId = parsedRoomId;
     }
 
@@ -181,5 +181,28 @@ export const updateRoomAsset = (req, res) => {
     return res.sendStatus(500);
   }
 };
+
+export const deleteRoomAsset = (req, res) => {
+  try {
+    const assetId = Number(req.params.assetId);
+    if (!Number.isInteger(assetId) || assetId <= 0) {
+      return res.sendStatus(400);
+    }
+
+    const existing = roomRepo.getAssetById(assetId);
+    if (!existing) return res.sendStatus(404);
+
+    const result = roomRepo.deleteRoomAsset(assetId);
+    if (!result || result.changes === 0) {
+      return res.sendStatus(404);
+    }
+
+    return res.sendStatus(204);
+  } catch (err) {
+    console.error("Error deleting room asset:", err);
+    return res.sendStatus(500);
+  }
+};
+
 
 
