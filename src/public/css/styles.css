@@ -11,25 +11,216 @@
   * RELATION:
   * - Loaded by both index.html and login.html.
 */
+/* utkast färger
 
 :root {
-  /* Button */
+  /* Button 
   --color-primary: #9236cb;
   --color-secondary: #6a6a6a;
 
-  /* Statusfärger */
+  /* Statusfärger 
   --color-danger: #c62828;
   --color-success: #2e7d32;
 
-  /* Bakgrund & ytor */
+  /* Bakgrund & ytor 
   --color-bg: #ffffff;
   --color-bg-alt: #f5f5f5;
 
-  /* Text */
+  /* Text 
   --color-text: #222;
   --color-text-muted: #666;
 
-  /* Border */
+  /* Border 
   --color-border: #ddd;
+}
+*/
+
+/* --- GLOBALT --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: #f8f9fc;
+}
+
+/* --- HEADER --- */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-bottom: 1px solid #9b9b9b;
+  padding: 10px;
+}
+
+.top-logo {
+  height: auto;
+  width: 150px;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.logout-btn {
+  background: #9236cb;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #6f289b;
+}
+
+/* --- PANELER (grundstil) --- */
+.panel,
+.left-panel,
+.right-panel,
+.info-panel {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px 24px 24px;
+  box-shadow: 0 2px 6px #0000000a;
+}
+
+/* --- RUBRIKER I PANELER --- */
+.left-panel h2,
+.right-panel h2,
+.info-panel h2,
+.info-panel h3 {
+  font-size: 22px;
+  color: #5e35b1;
+  margin-bottom: 16px;
+}
+
+/* --- RUMSKORT (delas av student + teacher) --- */
+.room-card {
+  border: 1px solid #d1c4e9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #f6f4fb;
+  transition: box-shadow 0.2s ease;
+}
+
+.room-card:hover {
+  box-shadow: 0 4px 12px #00000014;
+}
+
+.room-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.room-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* --- KNAPPAR I RUMSKORT --- */
+.room-card button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s ease;
+}
+
+.room-card button:hover {
+  background: #1b5e20;
+}
+
+.room-card.occupied button {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* --- SCROLLYTOR --- */
+.room-scroll,
+.booking-scroll {
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* --- STICKY RUBRIKER --- */
+.room-header,
+.booking-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  padding-bottom: 12px;
+}
+
+.room-header h2,
+.booking-header h2 {
+  margin-bottom: 4px;
+}
+
+.room-header p,
+.booking-header p {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #777;
+}
+
+/* --- MOBILANPASSNING (GLOBAL) --- */
+@media (max-width: 768px) {
+
+  /* Alla dashboards ska bli 1 kolumn */
+  .dashboard-layout,
+  .teacher-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  /* Paneler får lite mindre padding på mobil */
+  .left-panel,
+  .right-panel,
+  .info-panel {
+    padding: 16px;
+  }
+
+  /* Rumskort och bookingkort blir mer kompakta */
+  .room-card,
+  .booking-card {
+    padding: 14px;
+  }
+
+  /* Sticky headers får lite mindre padding */
+  .room-header,
+  .booking-header {
+    padding-bottom: 8px;
+  }
+
+  /* Quick-info rutorna i teacher ska också staplas */
+  .quick-info {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* För att undvika att scroll-yta blir för liten på mobil */
+  .room-scroll,
+  .booking-scroll {
+    max-height: none;
+    padding-right: 0;
+  }
 }
 
