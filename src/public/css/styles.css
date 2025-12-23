@@ -50,6 +50,9 @@ body {
   background: white;
   border-bottom: 1px solid #9b9b9b;
   padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .top-logo {

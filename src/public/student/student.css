@@ -4,7 +4,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   padding: 40px;
-  height: calc(100vh - 120px);
   box-sizing: border-box;
   background: transparent;
 }
