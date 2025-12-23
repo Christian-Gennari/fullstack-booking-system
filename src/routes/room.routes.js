@@ -9,6 +9,14 @@
  * - Imported by: 'src/app.js'
  */
 
+// =======================================
+//      HEJ @ANDRÉ HEATONLOVER PONTÉN
+//      START PÅ APIANROPET ÄR:
+//      -----------------------
+//      | localhost/api/rooms |
+//      -----------------------
+// =======================================
+
 import express from "express";
 import * as roomController from "../controllers/room.controller.js";
 
@@ -27,7 +35,7 @@ roomsRouter.delete("/:id", roomController.deleteRoom);
 roomsRouter.post("/:id/assets", roomController.createRoomAsset);
 //
 //// Assets by id
-//roomsRouter.put("/assets/:assetId", roomController.updateRoomAsset);
+roomsRouter.put("/assets/:assetId", roomController.updateRoomAsset);
 //roomsRouter.delete("/assets/:assetId", roomController.deleteRoomAsset);
 //
 export default roomsRouter;

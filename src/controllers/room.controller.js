@@ -141,3 +141,45 @@ export const createRoomAsset = (req, res) => {
   }
 };
 
+// javascript
+export const updateRoomAsset = (req, res) => {
+  try {
+    const assetId = Number(req.params.assetId);
+    if (!Number.isInteger(assetId) || assetId <= 0) {
+      return res.sendStatus(400);
+    }
+
+    const { asset, room_id } = req.body || {};
+    if (asset === undefined && room_id === undefined) {
+      return res.sendStatus(400);
+    }
+
+    const existing = roomRepo.getAssetById(assetId);
+    if (!existing) return res.status(404).json('Asset not found');
+
+    let newRoomId = existing.room_id;
+    if (room_id !== undefined) {
+      const parsedRoomId = Number(room_id);
+      if (!Number.isInteger(parsedRoomId) || parsedRoomId <= 0) {
+        return res.sendStatus(400);
+      }
+      const room = roomRepo.getRoomById(parsedRoomId);
+      if (!room) return res.sendStatus(404).json('Room not found');
+      newRoomId = parsedRoomId;
+    }
+
+    roomRepo.updateRoomAsset(assetId, {
+      room_id: newRoomId,
+      asset: asset !== undefined
+          ? asset
+          : existing.asset
+    });
+
+    return res.sendStatus(200);
+  } catch (err) {
+    console.error("Error updating room asset:", err);
+    return res.sendStatus(500);
+  }
+};
+
+
