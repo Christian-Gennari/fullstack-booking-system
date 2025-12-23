@@ -1,6 +1,8 @@
+/* --- GLOBALT --- */
 body {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: #f8f9fc;
 }
 
 /* --- HEADER --- */
@@ -39,7 +41,7 @@ body {
 }
 
 .logout-btn:hover {
-  background: #6a6a6a;
+  background: #6f289b;
 }
 
 /* --- DASHBOARD --- */
@@ -50,24 +52,96 @@ body {
   padding: 40px;
   height: calc(100vh - 120px); /* minus headerhöjd */
   box-sizing: border-box;
-  background: #f0e7f6;
-
+  background: transparent;
 }
 
-/* Vänsterpanel */
-.left-panel {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-/* Högerpanel */
+/* --- PANELER --- */
+.left-panel,
 .right-panel {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px 24px 24px; /* top | left/right | bottom */
+  box-shadow: 0 2px 6px #0000000a;
 }
+
+
+.left-panel h2,
+.right-panel h2 {
+  font-size: 22px;
+  color: #5e35b1;
+  margin-bottom: 16px;
+}
+
+/* --- RUMSKORT --- */
+.room-card {
+  border: 1px solid #d1c4e9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #f6f4fb; 
+  transition: box-shadow 0.2s ease;
+}
+
+.room-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.room-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.room-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* --- BOKNINGSKNAPP --- */
+.room-card button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s ease;
+}
+
+.room-card button:hover {
+  background: #1b5e20;
+}
+
+/* --- Scrollbara innehåll --- */
+.room-scroll,
+.booking-scroll {
+  max-height: calc(100vh - 240px); /* justera efter header + rubrikhöjd */
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* --- Rubriker som alltid syns --- */
+.room-header,
+.booking-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  padding-bottom: 12px;
+}
+
+.room-header h2,
+.booking-header h2 {
+  margin-bottom: 4px; /* mindre avstånd till p */
+}
+
+.room-header p,
+.booking-header p {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #777; /* ljusare text */
+}
+
