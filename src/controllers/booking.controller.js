@@ -34,12 +34,10 @@ export const createBooking = (req, res) => {
     const { room_id, user_id, start_time, end_time, status, notes } = req.body;
 
     if (!room_id || !user_id || !start_time || !end_time) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Missing required fields (room_id, user_id, start_time, end_time)",
-        });
+      return res.status(400).json({
+        error:
+          "Missing required fields (room_id, user_id, start_time, end_time)",
+      });
     }
 
     // 2. Prepare Data (Spread body + Add defaults)
@@ -89,5 +87,26 @@ export const updateBooking = (req, res) => {
   } catch (error) {
     console.error("Error updating booking:", error);
     res.status(500).json({ error: "Failed to update booking" });
+  }
+};
+
+/**
+ * Deletes a booking with the given ID.
+ * @param {Request} req request containing the ID of the booking to delete in req.params.id.
+ * @param {Response} res response to send back to the client.
+ * @returns {Response} a response with either a 200 status and a success message or a 404/500 status with an error message.
+ * @throws {Error} if an error occurs while deleting the booking.
+ */
+export const deleteBooking = (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const info = bookingRepo.deleteBookingById(id);
+    if (info.changes === 0) {
+      return res.status(404).json({ error: `Booking with ID ${id} not found` });
+    }
+    res.status(200).send(`Deleted booking with ID ${id}`);
+  } catch (error) {
+    console.error("Error deleting booking:", error);
+    res.status(500).json({ error: "Failed to delete booking" });
   }
 };
