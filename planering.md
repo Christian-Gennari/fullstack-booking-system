@@ -118,7 +118,11 @@ SQL
 
 ### Auth
 
-Basic Auth
+Token-Based Authentication
+
+- Login generates session tokens
+- Tokens stored in sessions table
+- Bearer token authentication for API requests
 
 ## MVP
 

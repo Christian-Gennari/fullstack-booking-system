@@ -17,7 +17,7 @@ Based on your transition to stateless **Basic Authentication**, here is the upda
 - **`controllers/`** 🤵 Waiter
   Handles requests and responses. Calls repositories.
 - **`middleware/`** 🛡️ The Bouncer
-  Code that runs _before_ the controller to verify your credentials using Basic Auth.
+  Code that runs _before_ the controller to verify your session token.
 - **`utils/`** 🧰 Tool Belt
   Helper functions (like password hashing and decoding Basic Auth).
 - **`routes/`** 📜 Menu
@@ -36,11 +36,11 @@ Based on your transition to stateless **Basic Authentication**, here is the upda
 - **`css/`** 🎨 Decoration
   Styling and layout.
 - **`js/`** 🤖 Customer
-  Fetches data, updates the DOM, and stores Base64 credentials.
+  Fetches data, updates the DOM, and stores session tokens.
 
 ## Data Flow
 
-Browser → Route → **Middleware (Verify Credentials)** → Controller → Repository → Controller → Browser
+Browser → Route → **Middleware (Verify Token)** → Controller → Repository → Controller → Browser
 
 ---
 
@@ -76,8 +76,9 @@ This layer talks directly to the database. It contains raw SQL and nothing else.
 **Analogy:** The Bouncer
 Middleware stands at the door of your routes. It checks every request _before_ it reaches the Controller.
 
-- Decodes the `Authorization: Basic ...` header.
-- Verifies the email and password against the database for **every single request**.
+- Extracts the `Authorization: Bearer <token>` header.
+- Validates the token against the sessions table (checks if it exists and hasn't expired).
+- Retrieves the user from the database and attaches them to `req.user`.
 - Rejects unauthorized users with a `401 Unauthorized`.
 
 ### `src/utils/` 🧰
@@ -85,7 +86,7 @@ Middleware stands at the door of your routes. It checks every request _before_ i
 **Analogy:** The Tool Belt
 Holds small, useful tools used across the application.
 
-- Decoding Basic Auth headers.
+- Generating secure random tokens.
 - Hashing and verifying passwords.
 
 ### `src/controllers/` 🤵
@@ -117,7 +118,7 @@ JavaScript in the browser drives interaction.
 
 1. Requests data using `fetch()`.
 2. Inserts that data into the HTML.
-3. Stores Base64 credentials in `localStorage` so you stay "logged in".
+3. Stores session tokens in `localStorage` so you stay "logged in".
 
 ---
 
@@ -125,9 +126,9 @@ JavaScript in the browser drives interaction.
 
 When a user clicks **Show Rooms**:
 
-1. The browser attaches stored credentials to `fetch('/api/rooms')` in the `Authorization` header.
+1. The browser retrieves the stored token from `localStorage` and attaches it to `fetch('/api/rooms')` in the `Authorization: Bearer <token>` header.
 2. The router matches the URL.
-3. **The Middleware verifies your credentials against the Users table**.
+3. **The Middleware validates the token against the sessions table and retrieves the user**.
 4. The controller asks the repository for data.
 5. The repository runs a SQL query.
 6. The controller returns JSON.
@@ -141,9 +142,14 @@ When a user clicks **Show Rooms**:
 
 SQLite saves dates as plain text. To ensure sorting works, **ALWAYS** use ISO 8601: `YYYY-MM-DD HH:MM:SS`.
 
-### 2. "Are we RESTful?" (Stateless Auth) 🎟️
+### 2. "Are we RESTful?" (Token-Based Auth) 🎟️
 
-This project uses **Stateless Basic Authentication**.
+This project uses **Token-Based Authentication with Sessions**.
 
-- **How it works:** The server does not "remember" you. The browser sends your ID card (email and password) with every request.
-- **Why?** This is a truly stateless REST approach. We no longer need a `sessions` table in the database; if the credentials in the header are valid, the request is allowed.
+- **How it works:**
+  1. User logs in with email and password.
+  2. Server generates a random token and stores it in the `sessions` table with an expiration date.
+  3. Browser receives the token and stores it in `localStorage`.
+  4. All subsequent requests include `Authorization: Bearer <token>` header.
+  5. Server validates the token against the sessions table (no password re-verification needed).
+- **Why?** This improves performance (no password hashing on every request) and security (passwords aren't sent repeatedly). Tokens can expire and be revoked.

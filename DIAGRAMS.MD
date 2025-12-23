@@ -10,19 +10,20 @@ sequenceDiagram
     participant Repo as 📚 Repository (The Librarian)
     participant DB as 💽 Database (SQLite)
 
-    Note right of Middleware: 🛡️ Basic Auth: The Bouncer decodes the Authorization header<br/>and verifies credentials against the Users table on every request.
+    Note right of Middleware: 🛡️ Bearer Token Auth: The Bouncer validates the token<br/>against the sessions table and attaches the user to the request.
 
     Note over User, Frontend: Phase 1: The Order
     User->>Frontend: Clicks "Book Room"
-    Frontend->>Frontend: Retrieves Base64 credentials<br/>(Finds "Basic Auth" string in localStorage)
-    Frontend->>Middleware: POST /api/bookings Headers: { Authorization: "Basic YW5kcmU..." }
+    Frontend->>Frontend: Retrieves token from localStorage<br/>(Stored after successful login)
+    Frontend->>Middleware: POST /api/bookings Headers: { Authorization: "Bearer abc123..." }
 
     Note over Middleware, Controller: Phase 2: Security Check
-    Middleware->>DB: SELECT * FROM users WHERE email = "..."
-    alt Invalid Credentials?
+    Middleware->>DB: SELECT * FROM sessions WHERE token = "..." AND expires_at > NOW
+    alt Invalid or Expired Token?
         Middleware-->>Frontend: 401 Unauthorized ⛔
-    else Valid Credentials
-        Middleware->>Controller: next() (User ID attached) ✅
+    else Valid Token
+        Middleware->>DB: SELECT * FROM users WHERE id = session.user_id
+        Middleware->>Controller: next() (User attached to req.user) ✅
     end
 
     Note over Controller, DB: Phase 3: Processing
@@ -44,7 +45,7 @@ graph TD
     subgraph Client ["🍽️ Dining Room (Frontend)"]
         User((👤 User))
         Browser["🖥️ Browser / public/"]
-        LS[("Credentials / localStorage")]
+        LS[("Token / localStorage")]
     end
 
     subgraph Server ["The Kitchen (Backend)"]
@@ -63,12 +64,12 @@ graph TD
 
     %% Connections
     User -- Clicks Button --> Browser
-    Browser -- 1. Reads Credentials --> LS
-    Browser -- 2. Sends HTTP Request with Basic Auth --> App
+    Browser -- 1. Reads Token --> LS
+    Browser -- 2. Sends HTTP Request with Bearer Token --> App
 
     App --> Route
     Route --> MW
-    MW -- Verifies Email/Password --> DB
+    MW -- Validates Token in Sessions Table --> DB
     MW -- If Valid --> Ctrl
 
     Ctrl -- Asks for Data --> Repo
