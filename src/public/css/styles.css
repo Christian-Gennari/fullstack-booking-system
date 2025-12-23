@@ -50,6 +50,9 @@ body {
   background: white;
   border-bottom: 1px solid #9b9b9b;
   padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .top-logo {
@@ -180,12 +183,69 @@ body {
   color: #777;
 }
 
+/* --- KOMPAKT ANVÄNDARRUTA --- */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #f0f0f0;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Ikon */
+.user-icon {
+  font-size: 18px;
+  opacity: 0.8;
+  margin-right: 2px;
+}
+
+/* Namn */
+.user-name {
+  color: #333;
+}
+
+
+/* --- ROLL-ID / USER ROLE --- */
+.user-role {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-left: 4px;
+  background: #e0e0e0;
+  color: #333;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Färger per roll */
+.user-role.student {
+  background: #c5e1a5;
+  color: #2e7d32;
+}
+
+.user-role.teacher {
+  background: #d1c4e9;
+  color: #5e35b1;
+}
+
+.user-role.admin {
+  background: #ffccbc;
+  color: #d84315;
+}
+
+
+
 /* --- MOBILANPASSNING (GLOBAL) --- */
 @media (max-width: 768px) {
 
   /* Alla dashboards ska bli 1 kolumn */
   .dashboard-layout,
-  .teacher-layout {
+  .teacher-layout,
+  .admin-layout {
     grid-template-columns: 1fr !important;
     gap: 20px;
     padding: 20px;
