@@ -42,3 +42,35 @@ export const createRoom = (req, res) => {
     return res.status(500)
   }
 };
+
+export const updateRoom = (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ error: "Invalid room id" });
+    }
+
+    const { room_number, type, capacity, location, floor_number } = req.body || {};
+
+    if (
+        room_number === undefined &&
+        type === undefined &&
+        capacity === undefined &&
+        location === undefined &&
+        floor_number === undefined
+    ) {
+      return res.status(400).json({ error: "No fields provided to update" });
+    }
+
+    const roomData = { room_number, type, capacity, location, floor_number };
+    roomRepo.updateRoom(id, roomData);
+
+    const updated = roomRepo.getRoomById(id);
+    if (!updated) return res.status(404).json({ error: "Room not found" });
+
+    return res.status(200).json(updated);
+  } catch (err) {
+    console.error("Error updating room:", err);
+    return res.status(500).json({ error: "Could not update room" });
+  }
+};
