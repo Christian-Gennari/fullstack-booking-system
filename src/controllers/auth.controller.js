@@ -41,7 +41,7 @@ export const login = async (req, res) => {
     }
 
     // Verify password
-    const isValidPassword = verifyPassword(password, user.password_hash);
+    const isValidPassword = await verifyPassword(password, user.password_hash);
 
     if (!isValidPassword) {
       return res.status(401).json({ error: "Invalid credentials" });
