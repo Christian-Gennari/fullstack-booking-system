@@ -10,7 +10,7 @@
  */
 
 import express from "express";
-import * as roomController from "../controllers/rooms.controller.js";
+import * as roomController from "../controllers/room.controller.js";
 
 const roomsRouter = express.Router();
 
