@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,15 +8,21 @@
   <link rel="stylesheet" href="teacher.css" />
   <title>ella | Teacher</title>
 </head>
+
 <body>
 
   <!-- Header med logga och logga ut-knapp -->
   <header class="top-header">
     <img class="top-logo" src="../assets/ELLA header.png" alt="Logo small" />
     <div class="user-actions">
-      <span class="user-label">"Inloggning + användartyp"</span>
+      <div class="user-box">
+        <span class="user-icon">👤</span>
+        <span class="user-label" id="username">discovicke</span>
+        <span class="user-role teacher" id="user-role">Teacher</span>
+      </div>
       <button class="logout-btn">Logga ut</button>
-    </div>
+
+
   </header>
 
   <div class="teacher-layout">
@@ -28,12 +35,6 @@
       </div>
       <div class="booking-scroll">
         <div class="booking-card">
-          <h3>"Inser booking here"</h3>
-          <p>"Event: Department Meeting"</p>
-          <p>"Datum: 2025-12-20"</p>
-          <p>"Tid: 10:00 (3 timmar)"</p>
-          <p>"Deltagare: 8"</p>
-          <button class="cancel-btn">Avboka</button>
         </div>
       </div>
     </section>
@@ -45,12 +46,7 @@
         <p>Bläddra och boka studierum</p>
       </div>
       <div class="room-scroll" id="student-room-list">
-        <div class="room-card occupied">
-          <h3>"Upptaget rum 1"</h3>
-          <p>"Kapacitet: 8 personer"</p>
-          <p>"Utrustning: Whiteboard, TV-skärm"</p>
-          <button disabled>Upptaget</button>
-        </div>
+
       </div>
     </section>
 
@@ -59,8 +55,10 @@
       <div class="quick-info">
         <div class="stats-box">
           <h3>Snabbinfo</h3>
-          <p>Aktiva bokningar: <strong>1</strong></p>
-          <p>Lediga rum: <strong>5</strong></p>
+          <p>Aktiva bokningar: <strong id="active-bookings">0</strong></p>
+          <p>Lediga rum: <strong id="available-rooms">0</strong>/<strong id="total-rooms">0</strong></p>
+
+
         </div>
         <div class="benefits-box">
           <h3>Förmåner för lärare</h3>
@@ -77,4 +75,5 @@
 
   <script type="module" src="./teacher.js"></script>
 </body>
+
 </html>
