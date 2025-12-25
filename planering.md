@@ -9,6 +9,7 @@
 - Boka en sal ett visst tidsintervall
 - Undvika dubbelbokningar
 - Kunna ändra eller avboka
+- Kunna logga in/ut med tokenbaserade sessioner
 
 ## Användartyper
 
@@ -30,6 +31,7 @@
 - Ta bort bokningar
 - Se alla bokningar
 - Sätta regler
+- Hantera användare och roller
 
 ## Sal-information
 
@@ -52,6 +54,7 @@
 - Vad händer vid krock?
 - Vem vinner vid konflikt, elev vs lärare?
 - Hur långt i förväg får man boka?
+- Rollen styr via `authorization.middleware.js` (student, teacher, admin)
 
 ## UI och UX
 

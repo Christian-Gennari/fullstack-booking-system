@@ -28,6 +28,8 @@ Purpose: Browser-facing pages and scripts.
 - css/ 🎨 Styles
 - api/api.js 🌐 API layer: attaches Authorization header automatically
 - login/login.js 🔑 Handles login, stores token+user, role-based redirect
+- js/guard.js 🛡️ Client guard: requireRole(...roles) uses localStorage token+user.role and redirects to /login/
+- Clean URLs are served via Express: /login, /student, /teacher, /admin before the general static handler
 
 ## Data Flow
 
