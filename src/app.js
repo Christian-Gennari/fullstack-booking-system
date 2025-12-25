@@ -18,6 +18,10 @@ app.use(express.json());
 // FRONTEND SERVING
 // ==========================
 
+// Expose the "src/constants" folder at the URL "/constants"
+// This allows the frontend to import "../constants/roles.js"
+app.use("/constants", express.static("src/constants"));
+
 // A. Specific Page Routes (Clean URLs)
 // Maps "/login" -> "src/public/login/login.html", etc.
 app.use("/login", express.static("src/public/login", { index: "login.html" }));

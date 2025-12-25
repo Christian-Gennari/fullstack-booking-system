@@ -1,4 +1,4 @@
-/* Role-based authorization middleware. Checks if authenticated user has required role. Must be used AFTER authenticationMiddleware. */
+/* Role-based authorization middleware. Checks if authenticated user has required role. Must be used AFTER authenticate. */
 
 /**
  * 🔐 AUTHORIZATION MIDDLEWARE FACTORY
@@ -6,8 +6,8 @@
  * Creates middleware that checks if req.user.role matches allowed roles.
  *
  * EXAMPLE USAGE:
- * router.get('/admin', authenticationMiddleware, authorize(ROLES.ADMIN), controller);
- * router.post('/room', authenticationMiddleware, authorize(ROLES.TEACHER, ROLES.ADMIN), controller);
+ * router.get('/admin', authenticate, authorize(ROLES.ADMIN), controller);
+ * router.post('/room', authenticate, authorize(ROLES.TEACHER, ROLES.ADMIN), controller);
  *
  * @param {...string} allowedRoles - One or more role strings from ROLES constant
  * @returns {Function} Express middleware function

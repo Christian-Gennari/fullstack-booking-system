@@ -19,31 +19,31 @@
 
 import express from "express";
 import * as roomController from "../controllers/room.controller.js";
-import { authenticationMiddleware } from "../middleware/authentication.middleware.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
 import { authorize } from "../middleware/authorization.middleware.js";
 import { ROLES } from "../constants/roles.js";
 
 const roomsRouter = express.Router();
 
-roomsRouter.get("/", authenticationMiddleware, roomController.listRooms);
+roomsRouter.get("/", authenticate, roomController.listRooms);
 roomsRouter.post(
   "/",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.TEACHER, ROLES.ADMIN),
   roomController.createRoom
 );
 
 // Room-specific
-roomsRouter.get("/:id", authenticationMiddleware, roomController.getRoom);
+roomsRouter.get("/:id", authenticate, roomController.getRoom);
 roomsRouter.put(
   "/:id",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.TEACHER, ROLES.ADMIN),
   roomController.updateRoom
 );
 roomsRouter.delete(
   "/:id",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.ADMIN),
   roomController.deleteRoom
 );
@@ -52,7 +52,7 @@ roomsRouter.delete(
 //roomsRouter.get("/:id/assets", roomController.listAssetsByRoom);
 roomsRouter.post(
   "/:id/assets",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.TEACHER, ROLES.ADMIN),
   roomController.createRoomAsset
 );
@@ -60,13 +60,13 @@ roomsRouter.post(
 //// Assets by id
 roomsRouter.put(
   "/assets/:assetId",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.TEACHER, ROLES.ADMIN),
   roomController.updateRoomAsset
 );
 roomsRouter.delete(
   "/assets/:assetId",
-  authenticationMiddleware,
+  authenticate,
   authorize(ROLES.ADMIN),
   roomController.deleteRoomAsset
 );
