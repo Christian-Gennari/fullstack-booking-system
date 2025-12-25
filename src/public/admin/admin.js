@@ -1,6 +1,10 @@
-// Get all rooms 
-import API from '../api/api.js';
+// Get all rooms
+import API from "../api/api.js";
+import { ROLES } from "../../constants/roles.js";
+import { requireRole } from "../js/guard.js";
 
+// Auth guard: Only ADMIN allowed
+requireRole(ROLES.ADMIN);
 
 async function loadRooms() {
   const rooms = await API.getRooms();
@@ -9,7 +13,9 @@ async function loadRooms() {
 
 function renderStudentRooms(rooms) {
   const container = document.getElementById("student-room-list");
-  container.innerHTML = rooms.map(r => `
+  container.innerHTML = rooms
+    .map(
+      (r) => `
     <div class="room-card">
       <h3>Nr ${r.room_number} - ${r.location}</h3>
       <p>Typ: ${r.type}</p>
@@ -21,8 +27,9 @@ function renderStudentRooms(rooms) {
         <button class="danger">Ta bort</button>
       </div>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 }
-
 
 window.addEventListener("DOMContentLoaded", loadRooms);
