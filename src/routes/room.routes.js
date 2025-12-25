@@ -19,23 +19,56 @@
 
 import express from "express";
 import * as roomController from "../controllers/room.controller.js";
+import { authenticationMiddleware } from "../middleware/authentication.middleware.js";
+import { authorize } from "../middleware/authorization.middleware.js";
+import { ROLES } from "../constants/roles.js";
 
 const roomsRouter = express.Router();
 
-roomsRouter.get("/", roomController.listRooms);
-roomsRouter.post("/", roomController.createRoom);
+roomsRouter.get("/", authenticationMiddleware, roomController.listRooms);
+roomsRouter.post(
+  "/",
+  authenticationMiddleware,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.createRoom
+);
 
 // Room-specific
-roomsRouter.get("/:id", roomController.getRoom);
-roomsRouter.put("/:id", roomController.updateRoom);
-roomsRouter.delete("/:id", roomController.deleteRoom);
+roomsRouter.get("/:id", authenticationMiddleware, roomController.getRoom);
+roomsRouter.put(
+  "/:id",
+  authenticationMiddleware,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.updateRoom
+);
+roomsRouter.delete(
+  "/:id",
+  authenticationMiddleware,
+  authorize(ROLES.ADMIN),
+  roomController.deleteRoom
+);
 
 // Assets under a room
 //roomsRouter.get("/:id/assets", roomController.listAssetsByRoom);
-roomsRouter.post("/:id/assets", roomController.createRoomAsset);
+roomsRouter.post(
+  "/:id/assets",
+  authenticationMiddleware,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.createRoomAsset
+);
 
 //// Assets by id
-roomsRouter.put("/assets/:assetId", roomController.updateRoomAsset);
-roomsRouter.delete("/assets/:assetId", roomController.deleteRoomAsset);
+roomsRouter.put(
+  "/assets/:assetId",
+  authenticationMiddleware,
+  authorize(ROLES.TEACHER, ROLES.ADMIN),
+  roomController.updateRoomAsset
+);
+roomsRouter.delete(
+  "/assets/:assetId",
+  authenticationMiddleware,
+  authorize(ROLES.ADMIN),
+  roomController.deleteRoomAsset
+);
 
 export default roomsRouter;
