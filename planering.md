@@ -91,9 +91,13 @@ user_id
 
 #### Roles/Permission
 
-id_student  
-id_teacher  
-id_admin
+role (text): 'student' | 'teacher' | 'admin'
+
+Behörighetsmatris (MVP):
+
+- student: Se rum, göra egna bokningar, se egna bokningar
+- teacher: Allt som student + skapa/uppdatera rum (administrativt), hantera fler bokningar vid behov
+- admin: Full behörighet – hantera användare, radera rum, radera bokningar
 
 ### Assets
 
@@ -123,6 +127,18 @@ Token-Based Authentication
 - Login generates session tokens
 - Tokens stored in sessions table
 - Bearer token authentication for API requests
+
+Role-Based Authorization
+
+- Separat middleware för roller: `authorization.middleware.js`
+- Endpoints skyddas med `authentication.middleware.js` (token) följt av `authorize(...roller)`
+- 401 = ej inloggad/ogiltig token, 403 = inloggad men saknar behörighet
+
+Praktisk tillämpning (MVP):
+
+- Users: Endast admin får lista/hämta/skapa användare
+- Rooms: GET kräver inloggning; POST/PUT kräver teacher eller admin; DELETE kräver admin
+- Bookings: Alla inloggade får använda (vidare begränsning per ägare kan läggas senare)
 
 ## MVP
 

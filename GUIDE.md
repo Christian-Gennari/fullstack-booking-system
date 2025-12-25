@@ -1,155 +1,159 @@
-Based on your transition to stateless **Basic Authentication**, here is the updated **Project Map Guide**. This version replaces the "Wristband" (session token) logic with the new credential-verification flow.
+This guide reflects the current Token-based Sessions + Role-based Authorization implementation, including logout functionality.
 
 ---
-
-# TLDR:
 
 # 🗺️ Project Map Cheat Sheet
 
-## Backend (`src/`) — The Kitchen
+## Backend (src/) — The Kitchen
 
-**Purpose:** Server logic, data, rules.
+Purpose: Server logic, data, rules.
 
-- **`db/`** 🔌 Power Socket
-  Opens and manages the database connection.
-- **`repositories/`** 📚 Librarian
-  Runs all SQL queries. Talks to the database only.
-- **`controllers/`** 🤵 Waiter
-  Handles requests and responses. Calls repositories.
-- **`middleware/`** 🛡️ The Bouncer
-  Code that runs _before_ the controller to verify your session token.
-- **`utils/`** 🧰 Tool Belt
-  Helper functions (like password hashing and decoding Basic Auth).
-- **`routes/`** 📜 Menu
-  Maps URLs to controllers.
-- **`app.js`** 📘 Rulebook
-  Registers middleware and routes.
-- **`server.js`** ▶️ Start Button
-  Starts the server and listens on a port.
+- db/ 🔌 Power Socket: DB connection and helpers.
+- repositories/ 📚 Librarian: All SQL lives here.
+- controllers/ 🤵 Waiter: Accepts requests, returns JSON.
+- middleware/ 🛡️ Security Staff:
+  - authentication.middleware.js: Verifies Bearer token, attaches req.user.
+  - authorization.middleware.js: Checks `req.user.role` against allowed roles.
+- constants/ 🔖 Shared Truths: roles.js with ROLES.
+- utils/ 🧰 Tool Belt: hashing, token generation, etc.
+- routes/ 📜 Menu: Maps URLs to controllers.
+- app.js 📘 Rulebook: Registers middleware and routes.
+- server.js ▶️ Start Button: Boots the server.
 
-## Frontend (`public/`) — The Dining Room
+## Frontend (public/) — The Dining Room
 
-**Purpose:** Everything the browser runs and displays.
+Purpose: Browser-facing pages and scripts.
 
-- **HTML files** 🖼️ Plates
-  Page structure and placeholders.
-- **`css/`** 🎨 Decoration
-  Styling and layout.
-- **`js/`** 🤖 Customer
-  Fetches data, updates the DOM, and stores session tokens.
+- HTML 🖼️ Structure per page (login, student, teacher, admin)
+- css/ 🎨 Styles
+- api/api.js 🌐 API layer: attaches Authorization header automatically
+- login/login.js 🔑 Handles login, stores token+user, role-based redirect
 
 ## Data Flow
 
-Browser → Route → **Middleware (Verify Token)** → Controller → Repository → Controller → Browser
+Browser → Route → authentication.middleware → authorization.middleware → Controller → Repository → DB → Controller → Browser
 
 ---
 
-# 🗺️ The Project Map Guide: How Our Code Is Organized
+# 🧭 The Project Map Guide
 
-Our codebase is divided into two distinct worlds: **The Kitchen** (Backend) and **The Dining Room** (Frontend).
+Our codebase is split into two worlds: The Kitchen (Backend) and The Dining Room (Frontend).
 
-## 📂 `src/`
+## 📂 src/
 
-### The Kitchen (Backend)
+### db/ 🔌
 
-This is where the server lives. It handles logic, data, and rules. The browser never sees this code.
+Opens the SQLite database and provides helpers.
 
-### `src/db/` 🔌
+### repositories/ 📚
 
-**Analogy:** The Power Socket
-This folder establishes the connection to our SQLite database.
+Only SQL. No HTTP, no auth logic. Example: users, sessions, rooms, bookings.
 
-- `db.js` opens the database connection.
-- `query.js` provides helper utilities.
+### middleware/ 🛡️
 
-### `src/repositories/` 📚
+- authentication.middleware.js (the Bouncer):
+  - Reads Authorization: Bearer <token>
+  - validateSession(token) against sessions table
+  - Loads user by user_id, assigns `req.user` (without password)
+  - Sends 401 if missing/invalid/expired
+- authorization.middleware.js (the Gatekeeper):
+  - `authorize(...roles)` allows only if `req.user.role` is in roles
+  - Sends 403 if role not permitted
 
-**Analogy:** The Librarian
-This layer talks directly to the database. It contains raw SQL and nothing else.
+### constants/ 🔖
 
-- Runs queries like `SELECT` and `INSERT`.
-- Has no idea what HTTP requests or users are.
-- **Rule of thumb:** SQL belongs here and nowhere else.
+roles.js exports ROLES = { STUDENT: 'student', TEACHER: 'teacher', ADMIN: 'admin' } for both backend and frontend.
 
-### `src/middleware/` 🛡️
+### controllers/ 🤵
 
-**Analogy:** The Bouncer
-Middleware stands at the door of your routes. It checks every request _before_ it reaches the Controller.
+Pure request/response orchestration. Call repositories, return JSON.
 
-- Extracts the `Authorization: Bearer <token>` header.
-- Validates the token against the sessions table (checks if it exists and hasn't expired).
-- Retrieves the user from the database and attaches them to `req.user`.
-- Rejects unauthorized users with a `401 Unauthorized`.
+### routes/ 📜
 
-### `src/utils/` 🧰
+Wires URLs to controllers and applies middlewares. Examples:
 
-**Analogy:** The Tool Belt
-Holds small, useful tools used across the application.
-
-- Generating secure random tokens.
-- Hashing and verifying passwords.
-
-### `src/controllers/` 🤵
-
-**Analogy:** The Waiter
-Controllers handle incoming requests and outgoing responses.
-
-1. Receive the request.
-2. Ask the Librarian for data.
-3. Send a response back as JSON.
-
-### `src/routes/` 📜
-
-**Analogy:** The Menu
-Defines which URLs exist and which controller handles them. Example: `POST /login` points to `authController.login`.
+- Bookings: All authenticated users
+- Rooms: Create/Update = Teacher/Admin, Delete = Admin
+- Users: Admin only
 
 ---
 
-## 📂 `public/`
+## 📂 public/
 
-### The Dining Room (Frontend)
+### api/api.js 🌐
 
-This is what users interact with. The browser runs this code.
+`apiFetch()` attaches Authorization header when token exists; handles 401 (clear+redirect) and 403 (access denied).
 
-### `public/js/` 🤖
+### login/login.js 🔑
 
-**Analogy:** The Customer
-JavaScript in the browser drives interaction.
-
-1. Requests data using `fetch()`.
-2. Inserts that data into the HTML.
-3. Stores session tokens in `localStorage` so you stay "logged in".
+Submits credentials, stores `{ token, user }` in localStorage, redirects by role to /admin, /teacher, or /student.
 
 ---
 
-## 🚀 How Everything Works Together
+## 🚀 Flows
 
-When a user clicks **Show Rooms**:
+### Login
 
-1. The browser retrieves the stored token from `localStorage` and attaches it to `fetch('/api/rooms')` in the `Authorization: Bearer <token>` header.
-2. The router matches the URL.
-3. **The Middleware validates the token against the sessions table and retrieves the user**.
-4. The controller asks the repository for data.
-5. The repository runs a SQL query.
-6. The controller returns JSON.
-7. The browser renders the result.
+1. POST /api/auth/login with email/password
+2. Server verifies password, creates session (token, user_id, expiresAt)
+3. Returns `{ token, user }` (no password)
+4. Frontend stores token+user, redirects based on `user.role`
+
+### Authenticated request
+
+1. apiFetch adds `Authorization: Bearer <token>`
+2. authentication.middleware validates session and attaches `req.user`
+3. authorization.middleware optionally checks roles; 403 if not allowed
+4. Controller executes and returns JSON
+
+### Logout
+
+DELETE /api/auth/logout removes the session; frontend clears storage on 401 automatically.
 
 ---
 
-## ⚠️ Important Notes for the Team
+## 🔐 Semantics
 
-### 1. The "Date" Trap 📅
+- 401 Unauthorized: Not logged in / token invalid/expired (authentication)
+- 403 Forbidden: Logged in but not allowed (authorization)
 
-SQLite saves dates as plain text. To ensure sorting works, **ALWAYS** use ISO 8601: `YYYY-MM-DD HH:MM:SS`.
+---
 
-### 2. "Are we RESTful?" (Token-Based Auth) 🎟️
+## 🧪 Quick Tests (PowerShell)
 
-This project uses **Token-Based Authentication with Sessions**.
+Login
 
-- **How it works:**
-  1. User logs in with email and password.
-  2. Server generates a random token and stores it in the `sessions` table with an expiration date.
-  3. Browser receives the token and stores it in `localStorage`.
-  4. All subsequent requests include `Authorization: Bearer <token>` header.
-  5. Server validates the token against the sessions table (no password re-verification needed).
-- **Why?** This improves performance (no password hashing on every request) and security (passwords aren't sent repeatedly). Tokens can expire and be revoked.
+```powershell
+curl -X POST http://localhost:80/api/auth/login `
+  -H "Content-Type: application/json" `
+  -d '{"email":"admin@example.com","password":"secret"}'
+```
+
+Authenticated request
+
+```powershell
+curl http://localhost:80/api/rooms `
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Admin-only
+
+```powershell
+curl -X DELETE http://localhost:80/api/rooms/123 `
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Logout
+
+```powershell
+curl -X DELETE http://localhost:80/api/auth/logout `
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+---
+
+## ⚠️ Notes for the Team
+
+- Dates: Use ISO 8601 `YYYY-MM-DD HH:MM:SS` with SQLite text columns
+- Don’t hardcode roles; always import from ROLES
+- Protect mutating routes consistently with `auth → authorize`
