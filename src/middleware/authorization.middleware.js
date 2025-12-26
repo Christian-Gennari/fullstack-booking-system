@@ -1,36 +1,25 @@
-/* Role-based authorization middleware. Checks if authenticated user has required role. Must be used AFTER authenticate. */
-
 /**
- * 🔐 AUTHORIZATION MIDDLEWARE FACTORY
- * PURPOSE:
- * Creates middleware that checks if req.user.role matches allowed roles.
- *
- * EXAMPLE USAGE:
- * router.get('/admin', authenticate, authorize(ROLES.ADMIN), controller);
- * router.post('/room', authenticate, authorize(ROLES.TEACHER, ROLES.ADMIN), controller);
- *
- * @param {...string} allowedRoles - One or more role strings from ROLES constant
- * @returns {Function} Express middleware function
+ * 👮 AUTHORIZATION MIDDLEWARE
+ * * PURPOSE:
+ * Gates access to specific routes based on the user's role.
  */
-export function authorize(...allowedRoles) {
+export const authorize = (...allowedRoles) => {
   return (req, res, next) => {
-    // Ensure user is authenticated (authMiddleware should run first)
-    if (!req.user) {
-      return res.status(401).json({
-        error: "Authentication required. Use authMiddleware before authorize()",
-      });
-    }
+    const userRole = req.user?.role;
 
-    // Check if user's role is in allowed roles
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!userRole || !allowedRoles.includes(userRole)) {
+      // 1. If it's a browser request (HTML), redirect to 403 page
+      if (req.accepts("html")) {
+        return res.redirect("/403");
+      }
+
+      // 2. If it's an API request, send JSON error
       return res.status(403).json({
-        error: "Access denied. Insufficient permissions.",
-        required: allowedRoles,
-        current: req.user.role,
+        error: "Forbidden",
+        message: "You do not have permission to perform this action",
       });
     }
 
-    // User has correct role, proceed
     next();
   };
-}
+};

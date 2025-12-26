@@ -1,61 +1,78 @@
 /**
  * ⚙️ APP CONFIGURATION
- * PURPOSE: The main "Rulebook" for the Express application.
  */
-
 import express from "express";
 import bookingsRouter from "./routes/booking.routes.js";
 import roomsRouter from "./routes/room.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import { cookieParser } from "./middleware/cookieParser.middleware.js";
+import { authenticate } from "./middleware/authentication.middleware.js";
+import { authorize } from "./middleware/authorization.middleware.js";
 
 const app = express();
 
-// Allows the app to understand JSON data sent in requests
 app.use(express.json());
-
-// Custom Cookie Parser (since no external libs are allowed)
-app.use(cookieParser());
+app.use(cookieParser);
 
 // ==========================
-// FRONTEND SERVING
+// 🔓 1. PUBLIC ASSETS
 // ==========================
-
-// Expose the "src/constants" folder at the URL "/constants"
-// This allows the frontend to import "../constants/roles.js"
+app.use("/css", express.static("src/public/css"));
+app.use("/js", express.static("src/public/js"));
+app.use("/assets", express.static("src/public/assets"));
 app.use("/constants", express.static("src/constants"));
+app.use("/api", express.static("src/public/api"));
 
-// A. Specific Page Routes (Clean URLs)
-// Maps "/login" -> "src/public/login/login.html", etc.
+// ==========================
+// 🔓 2. PUBLIC PAGES
+// ==========================
 app.use("/login", express.static("src/public/login", { index: "login.html" }));
+app.get("/403", (req, res) => res.sendFile("403.html", { root: "src/public" }));
+app.get("/404", (req, res) => res.sendFile("404.html", { root: "src/public" }));
+
+// ==========================
+// 🛡️ 3. PROTECTED PAGES (HTML VIEWS)
+// ==========================
 app.use(
   "/student",
+  authenticate,
+  authorize("student"),
   express.static("src/public/student", { index: "student.html" })
 );
 app.use(
   "/teacher",
+  authenticate,
+  authorize("teacher"),
   express.static("src/public/teacher", { index: "teacher.html" })
 );
-app.use("/admin", express.static("src/public/admin", { index: "admin.html" }));
-
-// Redirect root to /login
-app.get("/", (req, res) => {
-  res.redirect("/login");
-});
-
-// B. General Public Fallback
-// Serves shared assets (like /css, /js, /assets) from the root public folder.
-// NOTE: This is intentionally registered *after* the specific page routes above
-// so that those routes take precedence in Express's middleware ordering.
-app.use(express.static("src/public"));
+app.use(
+  "/admin",
+  authenticate,
+  authorize("admin"),
+  express.static("src/public/admin", { index: "admin.html" })
+);
 
 // ==========================
-
-// API ROUTES
+// 🛡️ 4. API ROUTES
+// ==========================
+// /api/auth stays public so users can hit /login
 app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
-app.use("/api/rooms", roomsRouter);
-app.use("/api/bookings", bookingsRouter);
+
+// 🔒 These require a valid cookie/token
+app.use("/api/users", authenticate, userRouter);
+app.use("/api/rooms", authenticate, roomsRouter);
+app.use("/api/bookings", authenticate, bookingsRouter);
+
+// ==========================
+// 🔀 5. REDIRECTS & ERRORS
+// ==========================
+app.get("/", (req, res) => res.redirect("/login"));
+
+// Catch-all 404 (Must be last)
+app.use((req, res) => {
+  if (req.accepts("html")) return res.status(404).redirect("/404");
+  res.status(404).json({ error: "Endpoint not found" });
+});
 
 export default app;
