@@ -54,12 +54,23 @@ export const login = async (req, res) => {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     createSession(user.id, token, expiresAt);
 
+    // Set auth cookie so browser sends it on subsequent requests
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, // set true when serving over HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
     // Return user data (excluding password_hash) and token
     const { password_hash, ...userWithoutPassword } = user;
+    const normalizedRole = (user.role || "").toLowerCase();
+    const userResponse = { ...userWithoutPassword, role: normalizedRole };
 
     return res.status(200).json({
       message: "Login successful",
-      user: userWithoutPassword,
+      user: userResponse,
       token: token,
     });
   } catch (error) {
@@ -79,6 +90,8 @@ export const logout = (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      // Clear cookie even if header missing to ensure browser loses session
+      res.clearCookie("auth_token", { path: "/" });
       return res.status(400).json({ error: "No token provided" });
     }
 
@@ -86,6 +99,9 @@ export const logout = (req, res) => {
 
     // Delete session from database
     deleteSession(token);
+
+    // Clear auth cookie in browser
+    res.clearCookie("auth_token", { path: "/" });
 
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {

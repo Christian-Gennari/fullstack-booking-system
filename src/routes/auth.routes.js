@@ -11,6 +11,7 @@
 
 import express from "express";
 import { login, logout } from "../controllers/auth.controller.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
 
 const authRouter = express.Router();
 
@@ -18,6 +19,6 @@ const authRouter = express.Router();
 authRouter.post("/login", login);
 
 // DELETE /api/auth/logout - Invalidate session token
-authRouter.delete("/logout", logout);
+authRouter.delete("/logout", authenticate, logout);
 
 export default authRouter;

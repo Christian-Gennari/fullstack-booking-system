@@ -16,47 +16,54 @@ import { getUserById } from "../repositories/user.repo.js";
  * - Why? Because cookies are not handled automatically by API clients like Postman or cURL. This fallback allows us developers to test the API easily by
  * manually setting the Authorization header.
  */
+
 export const authenticate = (req, res, next) => {
   try {
     let token = null;
 
-    // 1. Browser Check (Secure & Automatic)
+    // 1. Check Cookie (Priority)
     if (req.cookies && req.cookies.auth_token) {
       token = req.cookies.auth_token;
     }
 
-    // 2. Tooling Check (Manual Fallback for Postman/Devs)
+    // 2. Check Header (Fallback for Postman)
     const authHeader = req.headers.authorization;
     if (!token && authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];
     }
 
-    // Block if no token found in either place
+    // 🛑 No token found
     if (!token) {
+      // If user is browsing a page (not an API), redirect them
+      if (req.accepts("html") && !req.path.startsWith("/api/")) {
+        return res.redirect("/login");
+      }
       return res.status(401).json({ error: "Missing authentication token" });
     }
 
-    // Validate token in sessions table
     const session = validateSession(token);
-
     if (!session) {
+      if (req.accepts("html") && !req.path.startsWith("/api/"))
+        return res.redirect("/login");
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
-    // Find user by session's user_id
     const user = getUserById(session.user_id);
-
     if (!user) {
+      if (req.accepts("html") && !req.path.startsWith("/api/"))
+        return res.redirect("/login");
       return res.status(401).json({ error: "User not found" });
     }
 
-    // Attach user to request (exclude password_hash for security)
     const { password_hash, ...userWithoutPassword } = user;
-    req.user = userWithoutPassword;
-
+    // Normalize role to lowercase to match allowedRoles constants
+    req.user = {
+      ...userWithoutPassword,
+      role: (user.role || "").toLowerCase(),
+    };
     next();
   } catch (error) {
-    console.error("Authentication error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Auth Error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
