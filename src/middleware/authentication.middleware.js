@@ -1,36 +1,39 @@
-/* The "Bouncer". It extracts the Bearer token from the Authorization header, verifies it exists in the sessions table and hasn't expired, then attaches the user to req.user. If token is missing or invalid, it blocks the request with a 401. */
-
 import { validateSession } from "../repositories/session.repo.js";
 import { getUserById } from "../repositories/user.repo.js";
 
 /**
  * 🛡️ AUTHENTICATION MIDDLEWARE
+ *
  * * PURPOSE:
- * Verifies Bearer token on every request and attaches authenticated user to req.user.
- * * FLOW:
- * 1. Extract Authorization header (Bearer token)
- * 2. Validate token exists in sessions table and hasn't expired
- * 3. Find user by user_id from session
- * 4. Attach user to req.user (excluding password_hash)
- * 5. Block with 401 if any step fails
+ * Verifies the identity of the user for protected routes.
+ *
+ * * HYBRID AUTH STRATEGY (Cookie + Header):
+ * 1. 🍪 Cookies (Priority): Checks for 'auth_token' in HTTP-Only cookies first.
+ * - Why? Best for Browsers. It renders the app immune to XSS attacks because
+ * JavaScript cannot read the token. It also simplifies the frontend code, which is the real reason we want this.
+ *
+ * 2. 🔑 Headers (Fallback): Checks for 'Authorization: Bearer <token>' second.
+ * - Why? Because cookies are not handled automatically by API clients like Postman or cURL. This fallback allows us developers to test the API easily by
+ * manually setting the Authorization header.
  */
-
 export const authenticate = (req, res, next) => {
   try {
-    // Extract Authorization header
-    const authHeader = req.headers.authorization;
+    let token = null;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res
-        .status(401)
-        .json({ error: "Missing or invalid Authorization header" });
+    // 1. Browser Check (Secure & Automatic)
+    if (req.cookies && req.cookies.auth_token) {
+      token = req.cookies.auth_token;
     }
 
-    // Extract token from "Bearer <token>"
-    const token = authHeader.split(" ")[1];
+    // 2. Tooling Check (Manual Fallback for Postman/Devs)
+    const authHeader = req.headers.authorization;
+    if (!token && authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
 
+    // Block if no token found in either place
     if (!token) {
-      return res.status(401).json({ error: "Missing token" });
+      return res.status(401).json({ error: "Missing authentication token" });
     }
 
     // Validate token in sessions table

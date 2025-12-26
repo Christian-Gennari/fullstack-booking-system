@@ -8,11 +8,15 @@ import bookingsRouter from "./routes/booking.routes.js";
 import roomsRouter from "./routes/room.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
+import { cookieParser } from "./middleware/cookieParser.middleware.js";
 
 const app = express();
 
 // Allows the app to understand JSON data sent in requests
 app.use(express.json());
+
+// Custom Cookie Parser (since no external libs are allowed)
+app.use(cookieParser());
 
 // ==========================
 // FRONTEND SERVING
