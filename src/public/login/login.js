@@ -1,74 +1,58 @@
 import API from "../api/api.js";
 import { ROLES } from "../../constants/roles.js";
 
-// Check if already logged in
-const token = localStorage.getItem("token");
-if (token) {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  redirectToDashboard(user.role);
-}
-
-// Handle login form submission
 const loginForm = document.querySelector("form");
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const email = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-  const submitButton = loginForm.querySelector('button[type="submit"]');
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  // Validation
-  if (!email || !password) {
-    showError("Ange både email och lösenord");
-    return;
-  }
+    const emailInput =
+      document.getElementById("username") || document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const submitButton = loginForm.querySelector('button[type="submit"]');
 
-  // Disable button during login
-  submitButton.disabled = true;
-  submitButton.textContent = "Loggar in...";
+    if (!emailInput.value || !passwordInput.value) {
+      showError("Ange både email och lösenord");
+      return;
+    }
 
-  try {
-    const data = await API.login(email, password);
+    submitButton.disabled = true;
+    submitButton.textContent = "Loggar in...";
 
-    // Store token and user info in localStorage
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    try {
+      // 1. Backend sets the cookie automatically
+      const data = await API.login(
+        emailInput.value.trim(),
+        passwordInput.value
+      );
 
-    // Redirect based on role
-    redirectToDashboard(data.user.role);
-  } catch (error) {
-    showError(error.message || "Inloggning misslyckades");
-    submitButton.disabled = false;
-    submitButton.textContent = "Logga in";
-  }
-});
+      // 2. Clear old garbage from localStorage just in case
+      localStorage.removeItem("token");
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-/**
- * Redirect user to appropriate dashboard based on role
- */
-function redirectToDashboard(role) {
-  switch (role) {
-    case ROLES.ADMIN:
-      window.location.href = "/admin/";
-      break;
-    case ROLES.TEACHER:
-      window.location.href = "/teacher/";
-      break;
-    case ROLES.STUDENT:
-      window.location.href = "/student/";
-      break;
-    default:
-      window.location.href = "/";
-  }
+      // 3. Redirect
+      redirectToDashboard(data.user.role);
+    } catch (error) {
+      // This is where "Fel email eller lösenord" will show up now
+      showError(error.message);
+      submitButton.disabled = false;
+      submitButton.textContent = "Logga in";
+    }
+  });
 }
 
-/**
- * Show error message to user
- */
-function showError(message) {
-  // Check if error element exists, if not create it
-  let errorElement = document.querySelector(".error-message");
+function redirectToDashboard(role) {
+  const routes = {
+    [ROLES.ADMIN]: "/admin/",
+    [ROLES.TEACHER]: "/teacher/",
+    [ROLES.STUDENT]: "/student/",
+  };
+  window.location.href = routes[role] || "/";
+}
 
+function showError(message) {
+  let errorElement = document.querySelector(".error-message");
   if (!errorElement) {
     errorElement = document.createElement("div");
     errorElement.className = "error-message";
@@ -76,11 +60,8 @@ function showError(message) {
       "color: #d32f2f; background: #ffebee; padding: 12px; border-radius: 4px; margin-bottom: 16px; text-align: center;";
     loginForm.insertBefore(errorElement, loginForm.firstChild);
   }
-
   errorElement.textContent = message;
   errorElement.style.display = "block";
-
-  // Hide error after 5 seconds
   setTimeout(() => {
     errorElement.style.display = "none";
   }, 5000);

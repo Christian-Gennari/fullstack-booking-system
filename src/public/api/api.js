@@ -1,4 +1,4 @@
-// api.js – frontend API layer
+// Frontend API layer
 
 /**
  * Helper to make authenticated API calls.
@@ -13,40 +13,33 @@ async function apiFetch(url, options = {}) {
   const response = await fetch(url, {
     ...options,
     headers,
-    credentials: "include", // Ensure cookies are sent no matter domain differences
+    credentials: "include",
   });
 
   if (!response.ok) {
     if (response.status === 401) {
-      // Token expired or missing (Cookie is dead)
-      // Just redirect. No need to clear localStorage since we don't store tokens there anymore.
-      window.location.href = "/login/";
-      throw new Error("Session expired. Please login again.");
+      // ONLY redirect if we are NOT currently trying to log in
+      if (!url.includes("/api/auth/login")) {
+        window.location.href = "/login/";
+        throw new Error("Session expired. Please login again.");
+      }
+      // If we ARE logging in, 401 means "Wrong password"
+      throw new Error("Fel email eller lösenord.");
     }
-    if (response.status === 403) {
-      throw new Error("Access denied. Insufficient permissions.");
-    }
+
+    if (response.status === 403) throw new Error("Access denied.");
 
     const error = await response
       .json()
       .catch(() => ({ error: "Request failed" }));
-
     throw new Error(error.error || "Request failed");
   }
 
-  // Some endpoints (like logout) might not return JSON content
-  if (response.status === 204) {
-    return null;
-  }
-
-  return response.json();
+  return response.status === 204 ? null : response.json();
 }
 
 const API = {
-  // Auth
   async login(email, password) {
-    // The backend sets the HTTP-Only cookie automatically on success.
-    // We just return the user object.
     return await apiFetch("/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -54,13 +47,9 @@ const API = {
   },
 
   async logout() {
-    // The backend clears the cookie automatically.
-    return await apiFetch("/api/auth/logout", {
-      method: "DELETE",
-    });
+    return await apiFetch("/api/auth/logout", { method: "DELETE" });
   },
 
-  // Rooms
   async getRooms() {
     return await apiFetch("/api/rooms");
   },
@@ -70,13 +59,11 @@ const API = {
   // TODO: Implement updateRoom(id, roomData) - PUT /api/rooms/:id
   // TODO: Implement deleteRoom(id) - DELETE /api/rooms/:id
 
-  // Bookings
   // TODO: Implement getBookings() - GET /api/bookings
   // TODO: Implement createBooking(bookingData) - POST /api/bookings
   // TODO: Implement updateBooking(id, bookingData) - PUT /api/bookings/:id
   // TODO: Implement deleteBooking(id) - DELETE /api/bookings/:id
 
-  // Users
   // TODO: Implement getUsers() - GET /api/users
   // TODO: Implement getUser(id) - GET /api/users/:id
   // TODO: Implement createUser(userData) - POST /api/users
