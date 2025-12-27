@@ -1,5 +1,33 @@
 import API from "../api/api.js";
 
+// --- Hämta inloggad användare ---
+function loadUserFromLocalStorage() {
+  const user = localStorage.getItem("user");
+
+
+  if (!user) {
+    // Ingen user sparad → skicka till login
+    window.location.href = "/login/";
+    return;
+  }
+
+  const userobject = JSON.parse(user);
+  const displayname = userobject.display_name; 
+
+  document.getElementById("username").textContent = displayname;
+
+  console.log(displayname);
+  
+
+  const roleEl = document.getElementById("user-role");
+  roleEl.textContent = capitalize(userobject.role);
+  roleEl.className = `user-role ${userobject.role}`;
+}
+ 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 async function loadRooms() {
   // Hämta alla rum från API
@@ -43,4 +71,7 @@ function updateQuickInfo(rooms) {
   document.getElementById("active-bookings").textContent = 0;
 }
 
-window.addEventListener("DOMContentLoaded", loadRooms);
+window.addEventListener("DOMContentLoaded", () => {
+  loadUserFromLocalStorage();
+  loadRooms(); 
+});
