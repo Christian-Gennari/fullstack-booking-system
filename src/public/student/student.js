@@ -28,6 +28,19 @@ function loadUserFromLocalStorage() {
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn){
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    
+    window.location.href = "/login/";
+
+  });
+}
+
+  
 
 
 // --- Hämta rum ---
@@ -56,5 +69,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); // eller loadTeacherData(), loadAdminData()
 });
+
+
 
 
