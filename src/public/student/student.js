@@ -21,10 +21,10 @@ function loadUserFromLocalStorage() {
   
 
   const roleEl = document.getElementById("user-role");
-  roleEl.textContent = capitalize(user.role);
-  roleEl.className = `user-role ${user.role}`;
+  roleEl.textContent = capitalize(userobject.role);
+  roleEl.className = `user-role ${userobject.role}`;
 }
-
+ 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
