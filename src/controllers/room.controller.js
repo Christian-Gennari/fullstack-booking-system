@@ -12,6 +12,8 @@
  */
 
 import * as roomRepo from "../repositories/room.repo.js";
+import { mapRoomTypeToDisplay } from "../utils/room.utils.js";
+
 
 /**
  * GET /rooms
@@ -23,7 +25,8 @@ export const listRooms = (req, res) => {
     const rooms = includeAssets
         ? roomRepo.getAllRoomsWithAssets()
         : roomRepo.getAllRooms();
-    return res.status(200).json(rooms);
+    const mapped = rooms.map(r => ({ ...r, display_type: mapRoomTypeToDisplay(r.type) }));
+    return res.status(200).json(mapped);
   } catch (err) {
     console.error("Error fetching rooms:", err);
     return res.sendStatus(500);
@@ -58,6 +61,7 @@ export const getRoom = (req, res) => {
 
     if (!room) return res.sendStatus(404);
 
+    room.display_type = mapRoomTypeToDisplay(room.type);
     return res.status(200).json(room);
   } catch (err) {
     console.error("Error fetching room:", err);
