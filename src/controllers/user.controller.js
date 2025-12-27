@@ -7,7 +7,7 @@
  * - getAllUsers(req, res): Get all users
  * - getUserById(req, res): Get user by ID
  * * RELATION:
- * - Imports: 'src/repositories/user.repo.js', 'src/utils/security.js'
+ * - Imports: 'src/repositories/user.repo.js', 'src/utils/security.utils.js'
  */
 
 import * as userRepo from "../repositories/user.repo.js";
