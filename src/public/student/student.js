@@ -55,14 +55,24 @@ function renderStudentRooms(rooms) {
     .map(
       (r) => `
     <div class="room-card">
-      <h3>Nr ${r.room_number} - ${r.location}</h3>
+    <h3>Nr ${r.room_number} - ${r.location}</h3>
     <p>Typ: ${r.type}</p>
     <p>Antal platser: ${r.capacity}</p>
-    <button>Boka</button>
+    <button class="book-btn" data-room-id="${r.id}">Boka</button>
   </div>
   `
     )
     .join("");
+   container.querySelectorAll(".book-btn").forEach((btn) => {
+    btn.addEventListener("click", () => onclickBookRoom(btn.dataset.roomId));
+  });
+
+}
+
+function onclickBookRoom(btn) {
+  
+  alert(`Bokar rum: ${btn}`);
+
 }
 
 window.addEventListener("DOMContentLoaded", () => {
