@@ -44,7 +44,7 @@ function renderStudentRooms(rooms) {
             .join("");
         return `
     <div class="room-card">
-      <h3>Nr ${r.room_number} - ${r.location}</h3>
+      <h3># ${r.room_number} - ${r.location}</h3>
       <p>Typ: ${r.display_type}</p>
       <p>Antal platser: ${r.capacity}</p>
       <div class="asset-chips">${assets}</div>
