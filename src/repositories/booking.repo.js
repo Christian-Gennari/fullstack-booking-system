@@ -64,3 +64,24 @@ export const updateBookingById = (bookingId, bookingData) => {
 export const deleteBookingById = (bookingId) => {
   return db.prepare("DELETE FROM bookings WHERE id = ?").run(bookingId);
 };
+
+export const getAllBookingsWithRoom = () => {
+  return db
+    .prepare(`
+      SELECT b.*, r.room_number AS room_number, r.location AS room_location
+      FROM bookings b
+      LEFT JOIN rooms r ON b.room_id = r.id
+    `)
+    .all();
+};
+
+export const getAllBookingsByUserWithRoom = (userId) => {
+  return db
+    .prepare(`
+      SELECT b.*, r.room_number AS room_number, r.location AS room_location
+      FROM bookings b
+      LEFT JOIN rooms r ON b.room_id = r.id
+      WHERE b.user_id = ?
+    `)
+    .all(userId);
+};
