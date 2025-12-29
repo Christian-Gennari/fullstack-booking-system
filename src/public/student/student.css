@@ -83,14 +83,21 @@
     margin-top: 10px;
     border: none;
     border-radius: 8px;
-    background: #9236cb;
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-text-on-primary);
     font-weight: 600;
     cursor: pointer;
+    transition: 0.3s all;
 }
 
 .modal-content form button[type="submit"]:hover {
-    background: #6f289b;
+    background: var(--color-primary-hover);
+}
+.modal-content form button[type="submit"]:active {
+    background: var(--color-primary-active);
+    transform: scale(0.98) translateY(-1px) !important;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.1s ease;
 }
 .modal-content form input:focus,
 .modal-content form textarea:focus,

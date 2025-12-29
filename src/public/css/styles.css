@@ -21,7 +21,7 @@
 
   --color-success: #10B981;
   --color-success-hover: #059669;
-  --color-success-click: #059669;
+  --color-success-click: #086042;
   --color-success-bg: #D1FAE5;
 
   --color-warning: #F59E0B;
@@ -109,7 +109,7 @@ html, body {
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
 }
 
 .logout-btn:hover {
@@ -119,7 +119,9 @@ html, body {
 
 .logout-btn:active {
   background: var(--color-primary-active);
-  transition: background 0.3s;
+  transform: scale(0.98) translateY(-1px) !important;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s ease;
 }
 
 .dashboard-layout {
@@ -173,10 +175,11 @@ html, body {
   padding-top: 6px;
   flex: 1 1 auto;
   overflow-y: auto;
-  padding-bottom: 40px;
   box-sizing: border-box;
   min-height: 0;
+  margin-top: 6px;
 }
+
 .booking-card {
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -206,6 +209,7 @@ html, body {
   min-width: 86px;
   text-align: center;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  user-select: none;
 }
 
 /* Active = green */
@@ -235,7 +239,8 @@ html, body {
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
+  user-select: none;
 }
 
 .booking-card button:hover {
@@ -243,7 +248,10 @@ html, body {
 }
 
 .booking-card button:active {
-    background: var(--color-danger-click);
+  background: var(--color-danger-click);
+  transform: scale(0.98) translateY(-48%) !important;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s ease;
 }
 
 /* --- RUMSKORT (delas av student + teacher) --- */
@@ -298,7 +306,8 @@ html, body {
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  user-select: none;
 }
 
 .room-card button:hover {
@@ -308,7 +317,9 @@ html, body {
 
 .room-card button:active {
   background: var(--color-success-click);
-  transition: background 0.3s ease;
+  transform: scale(0.98) translateY(-48%) !important;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s ease;
 }
 
 .room-card.occupied button {
@@ -344,15 +355,6 @@ html, body {
   margin-top: 12px;
 }
 
-/* --- SCROLLYTOR --- */
-.room-scroll,
-.booking-scroll {
-  margin-top: 6px;
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding-bottom: 40px;
-  box-sizing: border-box;
-}
 
 /* --- STICKY RUBRIKER --- */
 .room-header,
@@ -430,12 +432,37 @@ html, body {
   color: var(--role-admin-text);
 }
 
+::selection {
+  background: var(--color-primary-surface);
+  color: var(--color-primary-active);
+}
 
+/* TODO: Scrollbar stil */
+/* TODO: Fokusringar för tillgänglighet */
+/* TODO: Taktil feedback för knappar */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #D4A9EF;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-hover);
+  transition: background-color 0.3s ease;
+}
 
 /* --- MOBILANPASSNING (GLOBAL) --- */
 @media (max-width: 825px) {
 
-  /* Alla dashboards ska bli 1 kolumn */
   .dashboard-layout,
   .teacher-layout,
   .admin-layout {
