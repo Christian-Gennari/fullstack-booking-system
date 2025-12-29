@@ -11,29 +11,45 @@
   * RELATION:
   * - Loaded by both index.html and login.html.
 */
-/* utkast färger
 
+/* utkast färger */
 :root {
-  /* Button 
-  --color-primary: #9236cb;
-  --color-secondary: #6a6a6a;
+  --color-primary: #9136CB;
+  --color-primary-hover: #A34ADC;
+  --color-primary-active: #7326A3;
+  --color-primary-surface: #F4EAFB;
 
-  /* Statusfärger 
-  --color-danger: #c62828;
-  --color-success: #2e7d32;
+  --color-success: #10B981;
+  --color-success-hover: #059669;
+  --color-success-click: #059669;
+  --color-success-bg: #D1FAE5;
 
-  /* Bakgrund & ytor 
-  --color-bg: #ffffff;
-  --color-bg-alt: #f5f5f5;
+  --color-warning: #F59E0B;
+  --color-warning-hover: #D97706;
+  --color-warning-bg: #FEF3C7;
 
-  /* Text 
-  --color-text: #222;
-  --color-text-muted: #666;
+  --color-danger: #EF4444;
+  --color-danger-hover: #DC2626;
+  --color-danger-click: #3a1212;
+  --color-danger-bg: #FEE2E2;
 
-  /* Border 
-  --color-border: #ddd;
+  --color-bg-body: #F9FAFB;
+  --color-bg-surface: #FFFFFF;
+  --color-border: #E5E7EB;
+
+  --color-text-main: #1F2937;
+  --color-text-muted: #6B7280;
+  --color-text-on-primary: #FFFFFF;
+
+  --role-student-bg: #DCFCE7;
+  --role-student-text: #166534;
+
+  --role-teacher-bg: #F3E8FF;
+  --role-teacher-text: #6B21A8;
+
+  --role-admin-bg: #FFEDD5;
+  --role-admin-text: #9A3412;
 }
-*/
 
 /* --- GLOBALT --- */
 html, body {
@@ -41,7 +57,8 @@ html, body {
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  background: #f8f9fc;
+  background-color: var(--color-bg-body);
+  color: var(--color-text-main);
   height: 100%;
   min-height: 100vh;
   box-sizing: border-box;
@@ -54,8 +71,8 @@ html, body {
   flex: 0 0 auto;
   justify-content: space-between;
   align-items: center;
-  background: white;
-  border-bottom: 1px solid #9b9b9b;
+  background-color: var(--color-bg-body);
+  border-bottom: 1px solid var(--color-border);
   padding: 10px;
   position: sticky;
   top: 0;
@@ -79,16 +96,24 @@ html, body {
 }
 
 .logout-btn {
-  background: #9236cb;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  font-weight: bold;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 .logout-btn:hover {
-  background: #6f289b;
+  background: var(--color-primary-hover);
+  transition: background 0.3s;
+}
+
+.logout-btn:active {
+  background: var(--color-primary-active);
+  transition: background 0.3s;
 }
 
 .dashboard-layout {
@@ -106,9 +131,9 @@ html, body {
 .left-panel,
 .right-panel,
 .info-panel {
-  background: #fff;
+  background: var(--color-bg-surface);
   display: flex;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   flex-direction: column;
   padding: 12px 24px 24px;
@@ -124,17 +149,17 @@ html, body {
 .info-panel h2,
 .info-panel h3 {
   font-size: 22px;
-  color: #9036c8;
+  color: var(--color-primary);
   margin-bottom: 16px;
 }
 
 /* --- BOOKING LAYOUT (student) --- */
 .booking-card {
-  border: 1px solid #d1c4e9;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  background: #f6f4fb;
+  background: var(--color-bg-body);
   transition: box-shadow 0.2s ease;
   position: relative;
 }
@@ -162,15 +187,15 @@ html, body {
 
 /* Active = green */
 .status.active {
-  background: #e5fde4;
-  color: #1b6b2b;
+  background: var(--color-success-bg);
+  color: var(--color-text-main);
   border: 1px solid #cfead3;
 }
 
 /* Cancelled = red/neutral */
 .status.cancelled {
-  background: #fff0f0;
-  color: #9b1e1e;
+  background: var(--color-danger-bg);
+  color: var(--color-text-main);;
   border: 1px solid #f2c6c6;
 }
 
@@ -181,7 +206,7 @@ html, body {
   bottom: auto;
   transform: translateY(-50%);
   margin-top: 0;
-  background: #941e1e;
+  background: var(--color-danger);
   color: white;
   border: none;
   padding: 10px 16px;
@@ -191,20 +216,20 @@ html, body {
 }
 
 .booking-card button:hover {
-  background: #5e1b1b;
+  background: var(--color-danger-hover);
 }
 
 .booking-card button:active {
-    background: #3a1212;
+    background: var(--color-danger-click);
 }
 
 /* --- RUMSKORT (delas av student + teacher) --- */
 .room-card {
-  border: 1px solid #d1c4e9;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  background: #f6f4fb;
+  background: var(--color-bg-body);
   transition: box-shadow 0.2s ease;
   position: relative;
 }
@@ -218,14 +243,14 @@ html, body {
 .booking-card h3 {
   margin: 0 0 8px;
   font-size: 18px;
-  color: #333;
+  color: var(--color-text-main);
 }
 
 .room-card p,
 .booking-card p {
   margin: 4px 0;
   font-size: 14px;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 /* --- KNAPPAR I RUMSKORT --- */
@@ -236,25 +261,27 @@ html, body {
   bottom: auto;
   transform: translateY(-50%);
   margin-top: 0;
-  background: #2e7d32;
+  background: var(--color-success);
   color: white;
   border: none;
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.3s ease;
 }
 
 .room-card button:hover {
-  background: #246527;
+  background: var(--color-success-hover);
+  transition: background 0.3s ease;
 }
 
 .room-card button:active {
-    background: #0f3f0f;
+  background: var(--color-success-click);
+  transition: background 0.3s ease;
 }
 
 .room-card.occupied button {
-  background: #aaa;
+  background: var(--color-warning-bg);
   cursor: not-allowed;
 }
 
@@ -268,13 +295,13 @@ html, body {
 
 .asset-chip {
   display: inline-block;
-  background: #efe6ff;
-  color: #3f2b6f;
+  background: var(--color-primary-surface);
+  color: var(--color-text-main);
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 13px;
   line-height: 1;
-  border: 1px solid #3f2b6fe6;
+  border: 1px solid var(--color-primary-active);
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   white-space: nowrap;
   overflow: hidden;
@@ -299,7 +326,7 @@ html, body {
 .room-header,
 .booking-header {
   top: 0;
-  background: #fff;
+  background: var(--color-bg-surface);
   z-index: 1;
   padding-bottom: 12px;
 }
@@ -321,7 +348,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 2px;
-  background: #f0f0f0;
+  background: var(--color-primary-surface);
   padding: 6px 12px;
   border-radius: 10px;
   font-size: 14px;
@@ -337,7 +364,7 @@ html, body {
 
 /* Namn */
 .user-name {
-  color: #333;
+  color: var(--color-text-muted);
 }
 
 
@@ -348,26 +375,27 @@ html, body {
   padding: 4px 10px;
   border-radius: 12px;
   margin-left: 4px;
-  background: #e0e0e0;
-  color: #333;
+  background: var(--color-bg-surface);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
   display: inline-block;
   vertical-align: middle;
 }
 
 /* Färger per roll */
 .user-role.student {
-  background: #c5e1a5;
-  color: #2e7d32;
+  background: var(--role-student-bg);
+  color: var(--role-student-text);
 }
 
 .user-role.teacher {
-  background: #d1c4e9;
-  color: #5e35b1;
+  background: var(--role-teacher-bg);
+  color: var(--role-teacher-text);
 }
 
 .user-role.admin {
-  background: #ffccbc;
-  color: #d84315;
+  background: var(--role-student-bg);
+  color: var(--role-admin-text);
 }
 
 
