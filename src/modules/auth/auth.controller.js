@@ -84,21 +84,20 @@ export const login = async (req, res) => {
 
 /**
  * Handles user logout by invalidating the session token.
- * @param {Object} req - Express request object with token in Authorization header.
+ * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  * @returns {Object} JSON response confirming logout.
  */
 export const logout = (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
+    // We now strictly use the cookie for logout as well
+    const token = req.cookies ? req.cookies.auth_token : null;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      // Clear cookie even if header missing to ensure browser loses session
+    if (!token) {
+      // Clear cookie even if no session found to ensure browser state is clean
       res.clearCookie("auth_token", { path: "/" });
-      return res.status(400).json({ error: "No token provided" });
+      return res.status(400).json({ error: "No session provided" });
     }
-
-    const token = authHeader.split(" ")[1];
 
     // Delete session from database
     deleteSession(token);
