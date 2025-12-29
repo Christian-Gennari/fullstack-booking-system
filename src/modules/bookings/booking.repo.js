@@ -41,6 +41,23 @@ export const getAllBookingsByDate = (searchStart, searchEnd) => {
     .all(searchEnd, searchStart);
 };
 
+/**
+ * Checks for any bookings in the specified room that overlap with the given time range.
+ * Logic: (ExistingStart < NewEnd) AND (ExistingEnd > NewStart)
+ */
+export const getOverlappingBookings = (roomId, startTime, endTime) => {
+  return db
+    .prepare(
+      `
+      SELECT * FROM bookings 
+      WHERE room_id = ? 
+      AND start_time < ? 
+      AND end_time > ?
+    `
+    )
+    .all(roomId, endTime, startTime);
+};
+
 // --- UPDATE ---
 
 export const updateBookingById = (bookingId, bookingData) => {
