@@ -298,7 +298,6 @@ html, body {
 /* --- STICKY RUBRIKER --- */
 .room-header,
 .booking-header {
-  position: sticky;
   top: 0;
   background: #fff;
   z-index: 1;
