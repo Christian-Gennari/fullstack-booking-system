@@ -50,11 +50,11 @@ async function loadRooms() {
 function renderStudentRooms(rooms) {
   const container = document.getElementById("student-room-list");
   container.innerHTML = rooms
-      .map((r) => {
-        const assets = (r.assets || [])
-            .map((a) => `<span class="asset-chip">${a.asset}</span>`)
-            .join("");
-        return `
+    .map((r) => {
+      const assets = (r.assets || [])
+        .map((a) => `<span class="asset-chip">${a.asset}</span>`)
+        .join("");
+      return `
       <div class="room-card">
         <h3># ${r.room_number} - ${r.location}</h3>
         <p>${r.display_type}</p>
@@ -63,30 +63,69 @@ function renderStudentRooms(rooms) {
         <button class="book-btn" data-room-id="${r.id}">Boka</button>
       </div>
     `;
-      })
-      .join("");
+    })
+    .join("");
 
   container.querySelectorAll(".book-btn").forEach((btn) => {
     btn.addEventListener("click", () => onclickBookRoom(btn.dataset.roomId));
   });
 }
 function onclickBookRoom(btn) {
-  
+
   // alert(`Bokar rum: ${btn}`);
 
 }
-async function loadBookings() {
-try {
-const bookings = await API.getBookings();
-console.log("Användarens bokningar:", bookings);
-
-}catch (err) {
-console.error("Failed to load bookings:", err);
+// oklart !"!!"
+function formatDateTime(value) {
+  if (!value) return "-";
+  return new Date(value).toLocaleString("sv-SE", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
 }
+
+function renderBookings(bookings = []) {
+  const list = document.querySelector(".booking-scroll");
+  if (!list) return;
+  if (!bookings.length) {
+    list.innerHTML = "<p>Inga bokningar hittades.</p>";
+    return;
+  }
+  list.innerHTML = bookings
+  .map((booking) => {
+    const roomLabel = booking.room_number
+    ? `Rum ${booking.room_number}`
+    : `Rum #${booking.room_number}`;
+    const startTime = formatDateTime(booking.start_time);
+    const endTime = formatDateTime(booking.end_time);
+    const status = (booking.status || "väntar").toUpperCase();
+    return `
+    <article class="booking-card">
+    <h3>${roomLabel}</h3>
+    <p><strong>Start:</strong> ${startTime}</p>
+    <p><strong>Slut:</strong> ${endTime}</p>
+    <span class ="status ${status.toLowerCase()}">${status}</span>
+    </article>
+    `;
+  })
+  .join("");
+  console.log("Rendered bookings");
+}
+
+async function loadBookings() {
+  try {
+    const bookings = await API.getBookings();
+    renderBookings(bookings);
+    console.log("Användarens bokningar:", bookings);
+
+  } catch (err) {
+    console.error("Failed to load bookings:", err);
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); // eller loadTeacherData(), loadAdminData()
   loadBookings();
+
 });
