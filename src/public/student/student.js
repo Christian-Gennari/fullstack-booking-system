@@ -72,11 +72,21 @@ function renderStudentRooms(rooms) {
 }
 function onclickBookRoom(btn) {
   
-  alert(`Bokar rum: ${btn}`);
+  // alert(`Bokar rum: ${btn}`);
 
+}
+async function loadBookings() {
+try {
+const bookings = await API.getBookings();
+console.log("Användarens bokningar:", bookings);
+
+}catch (err) {
+console.error("Failed to load bookings:", err);
+}
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); // eller loadTeacherData(), loadAdminData()
+  loadBookings();
 });
