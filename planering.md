@@ -7,7 +7,7 @@
 - Se vilka salar som finns
 - Se när de är lediga eller upptagna
 - Boka en sal ett visst tidsintervall
-- Undvika dubbelbokningar
+- Undvika dubbelbokningar (Strikt validering i backend)
 - Kunna ändra eller avboka
 - Kunna logga in/ut med tokenbaserade sessioner (via Cookies)
 
@@ -51,7 +51,7 @@
 
 - Får elever boka på kvällstid?
 - Får man boka mer än X timmar per vecka?
-- Vad händer vid krock?
+- **Vad händer vid krock?** Backend gör en "Overlap Check" (StartA < EndB && EndA > StartB). Om krock uppstår returneras **409 Conflict** och bokningen nekas.
 - Vem vinner vid konflikt, elev vs lärare?
 - Hur långt i förväg får man boka?
 - Rollen styr via `authorization.middleware.js` (student, teacher, admin)
@@ -70,7 +70,7 @@ Konkreta vyer:
 - Inloggningsskärm
 - Startsida med “vad är ledigt just nu?”
 - Kalendervy per sal
-- Min sida med mina bokningar
+- Min sida med mina bokningar (Via Modal/Dashboard)
 
 ## Architecture
 
@@ -91,6 +91,8 @@ room_assets
 
 room_number  
 user_id
+start_time
+end_time
 
 #### Roles/Permission
 
@@ -112,6 +114,7 @@ Edugrade logo
 
 Javascript  
 CSS
+Native HTML5 Dialog (Modaler)
 
 ### Backend
 
@@ -121,28 +124,28 @@ Express
 
 ### Databas
 
-SQL
+SQL (SQLite)
 
 ### Auth & Security
 
-**Hybrid Authentication**
+**Strict Cookie Authentication**
 
-- **Primary**: HttpOnly Cookies (`auth_token`). Säkrar mot XSS-attacker och hanteras automatiskt av webbläsaren.
-- **Fallback**: Bearer Token i Header. Underlättar testning via Postman/Curl.
-- `cookieParser.middleware.js` hanterar inkommande cookies.
+- **Enbart Cookies**: Vi använder strikt `HttpOnly` Cookies (`auth_token`). Detta gör applikationen säkrare mot XSS (JavaScript kan inte läsa token).
+- **Ingen Header-hantering**: Frontend behöver inte manuellt sätta headers. Webbläsaren skickar automatiskt med cookien via `credentials: 'include'`.
+- `cookieParser.middleware.js`: Hanterar inkommande cookies på servern.
 
 **Role-Based Authorization**
 
 - Separat middleware för roller: `authorization.middleware.js`
 - **Server-Side Protection**: Statiska filer för `/student`, `/teacher`, och `/admin` skyddas direkt i `app.js` innan de levereras.
 - 401 = Saknar token (Redirect till /login om det är en sidvisning).
-- 403 = Inloggad men saknar behörighet.
+- 403 = Inloggad men saknar behörighet (Försöker en elev nå /admin).
 
 Praktisk tillämpning (MVP):
 
 - Users: Endast admin får lista/hämta/skapa användare
 - Rooms: GET kräver inloggning; POST/PUT kräver teacher eller admin; DELETE kräver admin
-- Bookings: Alla inloggade får använda (vidare begränsning per ägare kan läggas senare)
+- Bookings: Alla inloggade får skapa bokningar. Backend validerar att tiden är ledig.
 
 ## MVP
 
