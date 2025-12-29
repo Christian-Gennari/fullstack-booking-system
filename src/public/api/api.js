@@ -77,6 +77,7 @@ const API = {
   // TODO: Implement createBooking(bookingData) - POST /api/bookings
   // TODO: Implement updateBooking(id, bookingData) - PUT /api/bookings/:id
   // TODO: Implement deleteBooking(id) - DELETE /api/bookings/:id
+  // TODO: Implement getBookingsByUser(userId) - GET /api/users/:id/bookings
 
   // TODO: Implement getUsers() - GET /api/users
   // TODO: Implement getUser(id) - GET /api/users/:id
