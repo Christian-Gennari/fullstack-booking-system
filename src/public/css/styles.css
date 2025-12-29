@@ -33,13 +33,18 @@
   --color-danger-click: #3a1212;
   --color-danger-bg: #FEE2E2;
 
-  --color-bg-body: #F9FAFB;
-  --color-bg-surface: #FFFFFF;
+  --color-bg-body: #F3F4F6;
+  --color-bg-panel: #F8FAFC;
+  --color-bg-card: #F9F9F9;
   --color-border: #E5E7EB;
+
+  --color-asset-bg: #F1F5F9;
+  --color-asset-text: #475569;
+  --color-asset-border: #E2E8F0;
 
   --color-text-main: #1F2937;
   --color-text-muted: #6B7280;
-  --color-text-on-primary: #FFFFFF;
+  --color-text-on-primary: #F5F5F5;
 
   --role-student-bg: #DCFCE7;
   --role-student-text: #166534;
@@ -49,6 +54,7 @@
 
   --role-admin-bg: #FFEDD5;
   --role-admin-text: #9A3412;
+  --top-header-height: 64px;
 }
 
 /* --- GLOBALT --- */
@@ -117,13 +123,17 @@ html, body {
 }
 
 .dashboard-layout {
+  height: calc(100vh - var(--top-header-height));
+  max-height: calc(100vh - var(--top-header-height));
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 1fr 40px;
+  grid-template-columns: repeat(2, minmax(0, 600px));
+  justify-content: center;
   gap: 24px;
   padding: 20px 20px 40px;
-  overflow: auto;
+  overflow: hidden;
   box-sizing: border-box;
+  background: transparent;
 }
 
 /* --- PANELER (grundstil) --- */
@@ -131,7 +141,7 @@ html, body {
 .left-panel,
 .right-panel,
 .info-panel {
-  background: var(--color-bg-surface);
+  background: var(--color-bg-panel);
   display: flex;
   border: 1px solid var(--color-border);
   border-radius: 10px;
@@ -140,7 +150,11 @@ html, body {
   box-shadow: 0 2px 6px #0000000a;
   box-sizing: border-box;
   height: 100%;
+  min-height: 0;
   margin: 0;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
 }
 
 /* --- RUBRIKER I PANELER --- */
@@ -154,13 +168,22 @@ html, body {
 }
 
 /* --- BOOKING LAYOUT (student) --- */
+.room-scroll,
+.booking-scroll {
+  padding-top: 6px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  min-height: 0;
+}
 .booking-card {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  background: var(--color-bg-body);
-  transition: box-shadow 0.2s ease;
+  background: var(--color-bg-card);
+  transition: all 0.3s ease;
   position: relative;
 }
 
@@ -228,15 +251,23 @@ html, body {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
-  margin-bottom: 20px;
-  background: var(--color-bg-body);
-  transition: box-shadow 0.2s ease;
+  background: var(--color-bg-card);
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
   position: relative;
+  z-index: 600;
 }
 
 .room-card:hover,
 .booking-card:hover {
-  box-shadow: 0 4px 12px #00000014;
+  position: relative;
+  transform: translateY(-1px);
+  box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.08),
+          0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  border-color: var(--color-primary-hover);
+  z-index: 600;
+  transition: all 0.3s ease;
 }
 
 .room-card h3,
@@ -295,13 +326,13 @@ html, body {
 
 .asset-chip {
   display: inline-block;
-  background: var(--color-primary-surface);
-  color: var(--color-text-main);
+  background: var(--color-asset-bg);
+  color: var(--color-asset-text);
   padding: 6px 10px;
-  border-radius: 999px;
+  border-radius: 3px;
   font-size: 13px;
   line-height: 1;
-  border: 1px solid var(--color-primary-active);
+  border: 1px solid var(--color-asset-border);
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   white-space: nowrap;
   overflow: hidden;
@@ -316,9 +347,10 @@ html, body {
 /* --- SCROLLYTOR --- */
 .room-scroll,
 .booking-scroll {
+  margin-top: 6px;
   flex: 1 1 auto;
   overflow-y: auto;
-  padding-bottom: 40px; /* leave the requested space to viewport bottom */
+  padding-bottom: 40px;
   box-sizing: border-box;
 }
 
@@ -326,9 +358,9 @@ html, body {
 .room-header,
 .booking-header {
   top: 0;
-  background: var(--color-bg-surface);
-  z-index: 1;
   padding-bottom: 12px;
+  z-index: 5;
+  background: transparent;
 }
 
 .room-header h2,
@@ -375,7 +407,7 @@ html, body {
   padding: 4px 10px;
   border-radius: 12px;
   margin-left: 4px;
-  background: var(--color-bg-surface);
+  background: var(--color-bg-card);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
   display: inline-block;
@@ -401,7 +433,7 @@ html, body {
 
 
 /* --- MOBILANPASSNING (GLOBAL) --- */
-@media (max-width: 768px) {
+@media (max-width: 825px) {
 
   /* Alla dashboards ska bli 1 kolumn */
   .dashboard-layout,
@@ -410,6 +442,10 @@ html, body {
     grid-template-columns: 1fr !important;
     gap: 20px;
     padding: 20px;
+    height: calc(100vh - var(--top-header-height));
+    max-height: calc(100vh - var(--top-header-height));
+    grid-template-columns: 1fr;
+    justify-content: stretch;
   }
 
   /* Paneler får lite mindre padding på mobil */
@@ -417,6 +453,7 @@ html, body {
   .right-panel,
   .info-panel {
     padding: 16px;
+    max-width: none;
   }
 
   /* Rumskort och bookingkort blir mer kompakta */

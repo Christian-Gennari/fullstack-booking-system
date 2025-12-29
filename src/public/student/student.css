@@ -1,12 +1,4 @@
 /* --- STUDENT LAYOUT --- */
-.dashboard-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    padding: 40px;
-    box-sizing: border-box;
-    background: transparent;
-}
 
 .modal {
     position: fixed;
