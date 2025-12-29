@@ -64,14 +64,27 @@ export const createBooking = (req, res) => {
       });
     }
 
-    // 2. Prepare Data (Spread body + Add defaults)
+    // 2. Check for Overlaps (Prevent Double Booking)
+    const overlaps = bookingRepo.getOverlappingBookings(
+      room_id,
+      start_time,
+      end_time
+    );
+
+    if (overlaps.length > 0) {
+      return res.status(409).json({
+        error: "This room is already booked for the selected time slot.",
+      });
+    }
+
+    // 3. Prepare Data (Spread body + Add defaults)
     const bookingData = {
       ...req.body,
       status: status || "active",
       notes: notes || null,
     };
 
-    // 3. Pass directly to Repo
+    // 4. Pass directly to Repo
     bookingRepo.createBooking(bookingData);
 
     return res.status(201).send();
