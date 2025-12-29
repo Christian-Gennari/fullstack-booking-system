@@ -4,7 +4,6 @@
  */
 
 import * as bookingRepo from "../repositories/booking.repo.js";
-import * as roomRepo from "../repositories/room.repo.js";
 
 /**
  * Retrieves all bookings from the database.
@@ -12,7 +11,7 @@ import * as roomRepo from "../repositories/room.repo.js";
  * @returns {Response} a response with a 200 status and a JSON body containing all bookings.
  * @throws {Error} if an error occurs while fetching bookings, returns a response with a 500 status and an error message.
  */
-export const listAllBookings = (req, res) => {
+export const listBookings = (req, res) => {
   try {
     const bookings = bookingRepo.getAllBookings();
     return res.status(200).json(bookings);
@@ -31,7 +30,7 @@ export const listAllBookings = (req, res) => {
  */
 export const createBooking = (req, res) => {
   try {
-    // 1. Validation (Expecting snake_case from client)
+    // 1. Validation (Expecting snake_case from client now)
     const { room_id, user_id, start_time, end_time, status, notes } = req.body;
 
     if (!room_id || !user_id || !start_time || !end_time) {
@@ -41,44 +40,17 @@ export const createBooking = (req, res) => {
       });
     }
 
-    // 2. Validate Dates
-    if (new Date(start_time) >= new Date(end_time)) {
-      return res.status(400).json({
-        error: "Start time must be before end time",
-      });
-    }
-
-    // 3. Check if Room Exists
-    const room = roomRepo.getRoomById(room_id);
-    if (!room) {
-      return res.status(404).json({ error: "Room not found" });
-    }
-
-    // 4. Check for Double Booking (Conflict)
-    const conflicts = bookingRepo.findConflictingBookings(
-      room_id,
-      start_time,
-      end_time
-    );
-
-    if (conflicts.length > 0) {
-      return res.status(409).json({
-        error: "Room is already booked during this time interval",
-        conflicts,
-      });
-    }
-
-    // 5. Prepare Data (Spread body + Add defaults)
+    // 2. Prepare Data (Spread body + Add defaults)
     const bookingData = {
       ...req.body,
       status: status || "active",
       notes: notes || null,
     };
 
-    // 6. Pass directly to Repo
+    // 3. Pass directly to Repo
     bookingRepo.createBooking(bookingData);
 
-    return res.status(201).json({ message: "Booking created successfully" });
+    return res.status(201).send();
   } catch (error) {
     console.error("Error creating booking:", error);
     return res.status(500).json({ error: "Failed to create booking" });

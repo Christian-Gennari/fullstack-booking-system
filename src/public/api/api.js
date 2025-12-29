@@ -58,6 +58,11 @@ const API = {
         : "/api/rooms";
     return await apiFetch(url);
   },
+  async getBookings() {
+    
+
+    return await apiFetch("/api/bookings");
+  },
 
   async getBookingsByUser(userId) {
     return await apiFetch(`/api/bookings/user/${userId}`);

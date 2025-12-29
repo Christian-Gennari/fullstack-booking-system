@@ -10,7 +10,7 @@ import { authenticate } from "../middleware/authentication.middleware.js";
 const bookingsRouter = express.Router();
 
 // GET /api/bookings - Get all bookings (All authenticated users)
-bookingsRouter.get("/", authenticate, bookingController.listAllBookings);
+bookingsRouter.get("/", authenticate, bookingController.listBookings);
 
 // GET /api/bookings/user/:userId - Get bookings for a specific user
 bookingsRouter.get("/user/:userId", authenticate, bookingController.listBookingsByUser);
