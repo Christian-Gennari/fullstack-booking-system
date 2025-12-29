@@ -81,7 +81,7 @@ let selectedRoomId = null;
 
 function openbookingModal(room) {
     selectedRoomId = room.id;
-    modalRoomLabel.textContent = `Rum ID: ${room.room_number} - ${room.room_location}`;
+    modalRoomLabel.textContent = `Rum ${room.room_number} - ${room.location}`;
     bookModal.hidden = false;
 }
 

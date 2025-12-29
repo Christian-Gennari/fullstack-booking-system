@@ -41,9 +41,15 @@
 
 .modal-content h3 {
     color: #9036c8;
-    margin-top: 0;
+    margin: 0 0 8px;
+    font-size: 18px;
 }
 
+.modal-content p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+}
 
 .modal-close {
     position: absolute;
