@@ -80,7 +80,7 @@ let selectedRoomId = null;
 
 function openbookingModal(room) {
   selectedRoomId = room.id;
-  modalRoomLabel.textContent = `Rum ID: ${room.room_number} - ${room.room_location}`;
+  modalRoomLabel.textContent = `Rum: ${room.room_number} - ${room.location}`;
   bookModal.hidden = false;
   bookModal.style.display = "block";
 }
@@ -175,7 +175,7 @@ function renderBookings(bookings = []) {
     return `
     <article class="booking-card">
       <div class="card-header">
-        <h3># ${booking.room_number} - ${booking.room_location}</h3>
+        <h3># ${booking.room_id} - ${booking.room_location}</h3>
         <span class="status ${statusClass}">${statusSwe}</span>
       </div>
     <p><strong>Start:</strong> ${startTime}</p>
