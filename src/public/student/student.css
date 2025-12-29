@@ -51,6 +51,62 @@
     color: #555;
 }
 
+.modal-content form label {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #333;
+}
+
+.modal-content form label > input,
+.modal-content form label > textarea,
+.modal-content form label > select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    color: #222;
+}
+
+.modal-content #booking-form{
+    margin-top: 12px;
+}
+
+.modal-content form label > textarea {
+    height: 140px;
+    max-height: 300px;
+    overflow: auto;
+    resize: none;
+}
+
+.modal-content form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #9236cb;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-content form button[type="submit"]:hover {
+    background: #6f289b;
+}
+.modal-content form input:focus,
+.modal-content form textarea:focus,
+.modal-content form select:focus {
+    outline: 2px solid rgba(144,54,200,0.12);
+    border-color: #d0a9ef;
+}
+
 .modal-close {
     position: absolute;
     top: 12px;
