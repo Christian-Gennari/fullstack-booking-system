@@ -1,9 +1,68 @@
 /* --- STUDENT LAYOUT --- */
 .dashboard-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 40px;
-  box-sizing: border-box;
-  background: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    box-sizing: border-box;
+    background: transparent;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.45);
+    z-index: 2000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal[hidden] { display: none; }
+.modal:not([hidden]) { display: flex; }
+
+.modal-content {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    padding: 20px;
+    max-width: 720px;
+    width: 100%;
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+.modal-content h3 {
+    color: #9036c8;
+    margin-top: 0;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.modal-close:hover {
+    background: #f4f4f4;
+    color: #d71f1f;
+    font-weight: bold;
+    scale: 1.01;
+    transition: color 0.3s, scale 0.3s, font-weight 0.3s;
 }
