@@ -1,68 +1,94 @@
 import API from "../api/api.js";
-import { ROLES } from "../../constants/roles.js";
+import {ROLES} from "../../constants/roles.js";
 
-const loginForm = document.querySelector("form");
 
-if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+const loginForm = document.getElementById("loginForm");
 
-    const emailInput =
-      document.getElementById("username") || document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const submitButton = loginForm.querySelector('button[type="submit"]');
+if (!loginForm) {
+    console.error("loginForm not found in DOM");
+} else {
+    loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    if (!emailInput.value || !passwordInput.value) {
-      showError("Ange både email och lösenord");
-      return;
-    }
+        const emailInput = document.getElementById("username");
+        const passwordInputLocal = document.getElementById("password");
+        const submitButton = this.querySelector('button[type="submit"]');
+        const inputs = [emailInput, passwordInputLocal];
 
-    submitButton.disabled = true;
-    submitButton.textContent = "Loggar in...";
+        const triggerErrorOnGroup = (group) => {
+            if (!group) return;
+            group.classList.remove("error");
+            void group.offsetWidth;
+            group.classList.add("error");
+        };
 
-    try {
-      // 1. Backend sets the cookie automatically
-      const data = await API.login(
-        emailInput.value.trim(),
-        passwordInput.value
-      );
+        let hasError = false;
+        inputs.forEach((input) => {
+            const group = input && input.parentElement;
+            if (!input || !input.value.trim()) {
+                hasError = true;
+                triggerErrorOnGroup(group);
+            } else {
+                group && group.classList.remove("error");
+            }
+        });
 
-      // 2. Clear old garbage from localStorage just in case
-      localStorage.removeItem("token");
-      localStorage.setItem("user", JSON.stringify(data.user));
+        if (hasError) {
+            showError("Ange både email och lösenord");
+            return;
+        }
 
-      // 3. Redirect
-      redirectToDashboard(data.user.role);
-    } catch (error) {
-      // This is where "Fel email eller lösenord" will show up now
-      showError(error.message);
-      submitButton.disabled = false;
-      submitButton.textContent = "Logga in";
-    }
-  });
+        submitButton.disabled = true;
+        const originalText = submitButton.innerText;
+        submitButton.textContent = "Loggar in...";
+        submitButton.style.opacity = "0.8";
+
+        try {
+            const data = await API.login(emailInput.value.trim(), passwordInputLocal.value);
+            // Successful login
+            localStorage.removeItem("token");
+            localStorage.setItem("user", JSON.stringify(data.user));
+            redirectToDashboard(data.user.role);
+        } catch (error) {
+            // Mark both inputs as error and animate
+            inputs.forEach((input) => {
+                const group = input && input.parentElement;
+                triggerErrorOnGroup(group);
+            });
+
+            showError(error?.message || "Inloggning misslyckades");
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+            submitButton.style.opacity = "";
+        }
+    });
 }
 
 function redirectToDashboard(role) {
-  const routes = {
-    [ROLES.ADMIN]: "/admin/",
-    [ROLES.TEACHER]: "/teacher/",
-    [ROLES.STUDENT]: "/student/",
-  };
-  window.location.href = routes[role] || "/";
+    const routes = {
+        [ROLES.ADMIN]: "/admin/",
+        [ROLES.TEACHER]: "/teacher/",
+        [ROLES.STUDENT]: "/student/",
+    };
+    window.location.href = routes[role] || "/";
 }
 
 function showError(message) {
-  let errorElement = document.querySelector(".error-message");
-  if (!errorElement) {
-    errorElement = document.createElement("div");
-    errorElement.className = "error-message";
-    errorElement.style.cssText =
-      "color: #d32f2f; background: #ffebee; padding: 12px; border-radius: 4px; margin-bottom: 16px; text-align: center;";
-    loginForm.insertBefore(errorElement, loginForm.firstChild);
-  }
-  errorElement.textContent = message;
-  errorElement.style.display = "block";
-  setTimeout(() => {
-    errorElement.style.display = "none";
-  }, 5000);
+    if (!loginForm) {
+        alert(message);
+        return;
+    }
+    let errorElement = document.querySelector(".error-message");
+    if (!errorElement) {
+        errorElement = document.createElement("div");
+        errorElement.className = "error-message";
+        errorElement.style.cssText =
+            "color: #d32f2f; background: #ffebee; padding: 12px; border-radius: 4px; margin-bottom: 16px; text-align: center;";
+        loginForm.insertBefore(errorElement, loginForm.firstChild);
+    }
+    errorElement.textContent = message;
+    errorElement.style.display = "block";
+    setTimeout(() => {
+        errorElement.style.display = "none";
+    }, 5000);
 }
