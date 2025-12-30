@@ -515,3 +515,62 @@ html, body {
   }
 }
 
+/* =========================================
+   ANIMATION KEYFRAMES
+   ========================================= */
+
+@keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes nudge {
+  0% { transform: scale(1) translateX(0); }
+  25% { transform: scale(1.02) translateX(-5px); }
+  50% { transform: scale(0.98) translateX(0) translateY(-2px); }
+  75% { transform: scale(1.02) translateX(-5px); }
+  100% { transform: scale(1) translateX(0); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes pop-in-modal {
+  0% { transform: scale(0); opacity: 0; }
+  40% { transform: scale(1.1); opacity: 1; }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slide-in-elastic {
+  0% { transform: translateX(120%); opacity: 0; }
+  60% { transform: translateX(-10px); opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-out {
+  to { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes progress-shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(145, 54, 203, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0); }
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
