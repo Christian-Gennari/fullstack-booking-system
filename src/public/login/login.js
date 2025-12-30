@@ -74,23 +74,3 @@ function redirectToDashboard(role) {
     };
     window.location.href = routes[role] || "/";
 }
-
-function showError(message) {
-    if (!loginForm) {
-        alert(message);
-        return;
-    }
-    let errorElement = document.querySelector(".error-message");
-    if (!errorElement) {
-        errorElement = document.createElement("div");
-        errorElement.className = "error-message";
-        errorElement.style.cssText =
-            "color: #d32f2f; background: #ffebee; padding: 12px; border-radius: 4px; margin-bottom: 16px; text-align: center;";
-        loginForm.insertBefore(errorElement, loginForm.firstChild);
-    }
-    errorElement.textContent = message;
-    errorElement.style.display = "block";
-    setTimeout(() => {
-        errorElement.style.display = "none";
-    }, 5000);
-}

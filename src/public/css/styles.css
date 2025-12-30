@@ -88,6 +88,7 @@ html, body {
 .top-logo {
   height: auto;
   width: 150px;
+  user-select: none;
 }
 
 .user-actions {
@@ -110,6 +111,7 @@ html, body {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s;
+  user-select: none;
 }
 
 .logout-btn:hover {
@@ -436,9 +438,7 @@ html, body {
   color: var(--color-primary-active);
 }
 
-/* TODO: Scrollbar stil */
-/* TODO: Fokusringar för tillgänglighet */
-/* TODO: Taktil feedback för knappar */
+/* TODO: Fokusringar för tillgänglighet med var(--color-primary-hover) */
 /* TODO: Mörkt tema */
 
 ::-webkit-scrollbar {
@@ -459,6 +459,8 @@ html, body {
   background-color: var(--color-primary-hover);
   transition: background-color 0.3s ease;
 }
+
+
 
 /* --- MOBILANPASSNING (GLOBAL) --- */
 @media (max-width: 825px) {
