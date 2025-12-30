@@ -1,7 +1,6 @@
 // Frontend API layer
 
-import { response } from "express";
-
+// import { response } from "express";
 
 /**
  * Helper to make authenticated API calls.
@@ -40,7 +39,11 @@ async function apiFetch(url, options = {}) {
 
   // If response is empty (204 No Content, 201 Created without body) or not JSON, return null
   const contentType = response.headers.get("content-type") || "";
-  if (response.status === 204 || response.status === 201 || !contentType.includes("application/json")) {
+  if (
+    response.status === 204 ||
+    response.status === 201 ||
+    !contentType.includes("application/json")
+  ) {
     return null;
   }
 
@@ -60,9 +63,7 @@ const API = {
   },
 
   async getRooms(includeAssets = false) {
-    const url = includeAssets
-      ? "/api/rooms?includeAssets=true"
-      : "/api/rooms";
+    const url = includeAssets ? "/api/rooms?includeAssets=true" : "/api/rooms";
     return await apiFetch(url);
   },
   async getBookings() {
@@ -87,14 +88,13 @@ const API = {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
-    
-      if (!response.ok) {
-        throw new Error("Kunde inte avboka rummet.");
-      }
 
-      return response.json();
-    },
+    if (!response.ok) {
+      throw new Error("Kunde inte avboka rummet.");
+    }
 
+    return response.json();
+  },
 
   // TODO: Implement getRoom(id) - GET /api/rooms/:id
   // TODO: Implement createRoom(roomData) - POST /api/rooms
