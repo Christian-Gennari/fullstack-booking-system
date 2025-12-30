@@ -4,6 +4,7 @@
  */
 
 import * as bookingRepo from "./booking.repo.js";
+import { CreateBookingDTO, UpdateBookingDTO } from "./booking.dto.js";
 
 /**
  * GET /api/bookings
@@ -45,21 +46,15 @@ export const listBookings = (req, res) => {
  */
 export const createBooking = (req, res) => {
   try {
-    // 1. Validation (Expecting snake_case from client)
-    const { room_id, user_id, start_time, end_time, status, notes } = req.body;
-
-    if (!room_id || !user_id || !start_time || !end_time) {
-      return res.status(400).json({
-        error:
-          "Missing required fields (room_id, user_id, start_time, end_time)",
-      });
-    }
+    // 1. Validation & Data Prep (Handled by DTO)
+    // This will throw an error immediately if data is missing or wrong type
+    const bookingDTO = new CreateBookingDTO(req.body);
 
     // 2. Check for Overlaps (Prevent Double Booking)
     const overlaps = bookingRepo.getOverlappingBookings(
-      room_id,
-      start_time,
-      end_time
+      bookingDTO.room_id,
+      bookingDTO.start_time,
+      bookingDTO.end_time
     );
 
     if (overlaps.length > 0) {
@@ -68,18 +63,19 @@ export const createBooking = (req, res) => {
       });
     }
 
-    // 3. Prepare Data
-    const bookingData = {
-      ...req.body,
-      status: status || "active",
-      notes: notes || null,
-    };
-
-    // 4. Pass directly to Repo
-    bookingRepo.createBooking(bookingData);
+    // 3. Pass clean data to Repo
+    // .toStorage() ensures we only send the fields defined in our DTO
+    bookingRepo.createBooking(bookingDTO.toStorage());
 
     return res.status(201).send();
   } catch (error) {
+    // Handle DTO validation errors
+    if (
+      error.message.includes("Missing") ||
+      error.message.includes("must be")
+    ) {
+      return res.status(400).json({ error: error.message });
+    }
     console.error("Error creating booking:", error);
     return res.sendStatus(500);
   }
@@ -93,22 +89,25 @@ export const updateBooking = (req, res) => {
   try {
     const id = Number(req.params.id);
 
-    // 1. Fetch Existing Booking
-    // Crucial to prevent overwriting missing fields with null!
+    // 1. Validate Incoming Data (Handled by DTO)
+    // If req.body is empty or invalid, this will throw.
+    const updateDTO = new UpdateBookingDTO(req.body);
+
+    // 2. Fetch Existing Booking
     const existingBooking = bookingRepo.getBookingById(id);
 
     if (!existingBooking) {
       return res.status(404).json({ error: `Booking with ID ${id} not found` });
     }
 
-    // 2. Prepare Data (Merge Strategy)
-    // The repo will strip out extra fields (like created_at), so no need to worry here.
+    // 3. Prepare Data (Merge Strategy)
+    // We merge the CLEANED partial update into the existing data
     const bookingData = {
       ...existingBooking, // Start with old data
-      ...req.body, // Overwrite with new data (e.g. status)
+      ...updateDTO.toPartialUpdate(), // Overwrite with valid new data
     };
 
-    // 3. Perform Update
+    // 4. Perform Update
     const info = bookingRepo.updateBookingById(id, bookingData);
 
     if (info.changes === 0) {
@@ -120,6 +119,9 @@ export const updateBooking = (req, res) => {
       booking: bookingData,
     });
   } catch (error) {
+    if (error.message === "No valid fields provided for update") {
+      return res.status(400).json({ error: error.message });
+    }
     console.error("Error updating booking:", error);
     res.status(500).json({ error: "Failed to update booking" });
   }
