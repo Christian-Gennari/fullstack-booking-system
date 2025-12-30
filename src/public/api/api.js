@@ -1,7 +1,5 @@
 // Frontend API layer
 
-// import { response } from "express";
-
 /**
  * Helper to make authenticated API calls.
  * Browser automatically sends the 'auth_token' cookie.
