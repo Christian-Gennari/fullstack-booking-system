@@ -5,7 +5,7 @@
   align-items: center;
   padding: 15px;
   min-height: calc(100vh - 120px); /* plats för header */
-  background: #f8f9fc;
+  background: var(--color-bg-body);
   gap: 40px;
 }
 
@@ -28,10 +28,23 @@
   gap: 20px;
   max-width: 380px;
   width: 100%;
-  padding: 24px;
-  border-radius: 8px;
-  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  background: var(--color-bg-card);
   border: 1px solid #ccc;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  opacity: 0;
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.form-content > *:nth-child(1) { animation-delay: 0.1s; } /* H2 */
+.form-content > *:nth-child(2) { animation-delay: 0.2s; } /* P */
+.form-content form { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .form-content input::placeholder {
@@ -41,16 +54,19 @@
 
 .form-content h2 {
   font-size: 1.8rem;
+  margin: 0;
 }
 
 .form-content p {
   font-size: 1rem;
+  margin: 0;
 }
 
 .form-content form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
+  margin-top: 20px;
 }
 
 .form-content form div {
@@ -71,63 +87,96 @@
   font-size: 1rem;
 }
 
-.form-content button {
-  padding: 12px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background: #9236ca;
-  color: white;
-  cursor: pointer;
-}
-
 .inputGroup{
   position: relative;
-
 }
+
 .inputGroup input{
   padding: 12px;
   font-size: 16px;
-  border: 1px solid #aaa;
+  border: 1px solid #cbd5e1;
   outline: none;
-  background: none;
+  background: transparent;
+  border-radius: 8px;
+  box-sizing: border-box; /* Viktigt så padding inte spräcker bredden */
+  transition: all 0.2s ease; /* Mjukare övergång */
+  color: #334155;
 }
 
 .labelline {
   position: absolute;
-  left: 10px;
+  left: 12px;
   top: 12px;
   transform-origin: left top;
   transform: translateY(0) scale(1);
-  transition: 0.2s ease;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--color-bg-card);
   padding: 0 4px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
+  user-select: none;
 }
 
 input:focus
 {
-  border-color: #9136C8FF;
-  box-shadow: 0 5px 15px rgba(0,123,255,0.1);
+  border-color: var(--color-primary);
+  /* box-shadow: 0 5px 15px rgba(0,123,255,0.1); */
+  box-shadow: 0 0 0 3px rgba(145, 54, 203, 0.1);
 }
 
-input:focus + .labelline,
-input:focus:valid + .labelline
+.inputGroup input:focus + .labelline,
+.inputGroup input:not(:placeholder-shown) + .labelline
 {
   transform: translateY(-22px) scale(.88);
   color: #9136C8FF;
 }
 
-input:valid + .labelline{
+.inputGroup input:not(:placeholder-shown):not(:focus) + .labelline{
   transform: translateY(-22px) scale(.88);
   border-color: #A9A9A9FF;
   color: #A9A9A9FF;
 }
 
+.form-content button {
+  position: relative;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.3s, background 0.3s;
+  margin-top: 10px;
+  overflow: hidden;
+  user-select: none;
+}
+
 .form-content button:hover {
-  background: #6f289b;
+  background: var(--color-primary-hover);
+  box-shadow: 0 10px 15px -3px rgba(145, 54, 203, 0.3);
+  transform: translateY(-2px);
+}
+
+form button:focus {
+  outline-color: var(--color-primary-active);
+}
+
+.form-content button:active {
+  transform: scale(0.98);
+  background: var(--color-primary-active);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
 .inputGroup.error {
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
