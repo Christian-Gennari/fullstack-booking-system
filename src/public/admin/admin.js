@@ -234,10 +234,39 @@ async function editUser(userId) {
     alert(`❌ Kunde inte hämta användardata: ${error.message}`);
   }
 
+  // event delegation for edit and delete buttons
+  document.addEventListener('DOMContentLoaded', () => {
+  const userList = document.getElementById('userList');
+
+  // listen for clicks on userList
+  userList.addEventListener('click', (e) => {
+    // check if button was clicked
+    const target = e.target;
+
+    // delete user  on click
+    if (target.classList.contains('btn-delete')) {
+      const userId = target.getAttribute('data-user-id');
+      deleteUser(userId);
+    }
+
+    // edit user on click
+    if (target.classList.contains('btn-edit')) {
+      const userId = target.getAttribute('data-user-id');
+      editUser(userId);
+    }
+  });
+
+  // load users when page loads
+  loadUser();
+});
+
+
 
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); 
-  LoadUser();
+  loadUser();
 });
+
+}
