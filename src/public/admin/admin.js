@@ -68,6 +68,11 @@ function renderStudentRooms(rooms) {
 creatUserBtn.addEventListener("click", () => {
   createUserModal.showModal(); // show the modal
 });
+cancelCreateUser.addEventListener("click", () => {
+  createUserForm.reset(); // reset the form
+  createUserModal.close(); // close the modal
+});
+
 
 
 window.addEventListener("DOMContentLoaded", () => {
