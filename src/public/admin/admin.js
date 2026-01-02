@@ -126,7 +126,7 @@ async function LoadUser() {
       throw new Error('Något gick fel vid hämtning av användare');
     }
     const users = await response.json();
-
+    displayUsers(users); // function to render users in the DOM
   
 } catch (error) {
    console.error('Error loading users:', error);
@@ -134,9 +134,29 @@ async function LoadUser() {
   }
 }
 
+function displayUsers(users) {
+  const userList = document.getElementById('userList');
+  if (  users.length === 0) {
+    userList.innerHTML = '<p>Inga användare hittades.</p>';
+    return;
+  }
+  userList.innerHTML = users.map(user => `
+    <div class="user-card">
+      <div class="user-info">
+        <p>📧 ${user.email}</p>
+        <span class="role-badge ${user.role}">${user.role}</span>
+      </div>
+      <div class="user-actions">
+        <button class="btn-edit" data-user-id="${user.id}">Redigera</button>
+        <button class="btn-delete" data-user-id="${user.id}">Ta bort</button>
+      </div>
+    </div>
+  `).join('');
+}
 
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); 
+  LoadUser();
 });
