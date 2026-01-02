@@ -108,15 +108,31 @@ createUserForm.addEventListener("submit", async (e) => {
     alert(`✅ Användare skapad: ${newUser.name} (${newUser.role})`);
     createUserForm.reset(); // reset the form
     createUserModal.close(); // close the modal
-    // Optionally, refresh the user list here
     
+    LoadUser(); // refresh user list
+
   } catch (error) {
      console.error('Error creating user:', error);
     alert(`❌ Kunde inte skapa användare: ${error.message}`);
   }
 });
 
+async function LoadUser() {
+  try {
+    const response = await fetch('/api/users', {
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error('Något gick fel vid hämtning av användare');
+    }
+    const users = await response.json();
 
+  
+} catch (error) {
+   console.error('Error loading users:', error);
+    alert('❌ Kunde inte ladda användare');
+  }
+}
 
 
 
