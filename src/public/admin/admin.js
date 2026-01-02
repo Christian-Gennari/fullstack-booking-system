@@ -154,6 +154,7 @@ function displayUsers(users) {
   `).join('');
 }
 
+
 // delete user //
 async function deleteUser(userId) {
   if (! confirm('❌ Är du säker på att du vill ta bort denna användare?')) {
@@ -175,6 +176,63 @@ async function deleteUser(userId) {
     alert(`❌ Kunde inte ta bort användare: ${error.message}`);
   }
 }
+// edit user //
+async function editUser(userId) {
+  try {
+    const response = await fetch(`/api/users/${userId}`, {
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      throw new Error('Kunde inte hämta användardata');
+    }
+
+    const user = await response.json();
+    // fill in form with existing data
+    document.getElementById('userName').value = user.name;
+    document.getElementById('userEmail').value = user.email;
+    document.getElementById('userRole').value = user.role;
+
+    // Show the modal
+    createUserModal.showModal();
+    createUserForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(createUserForm);
+      const updatedData = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        role: formData.get("role"),
+      };
+      const password = formData.get("password");
+      if (password && password.length > 0) {
+        updatedData.password = password;
+      }
+      try {
+        const response = await fetch(`/api/users/${userId}`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Något gick fel vid uppdatering av användare');
+        }
+        alert('✅ Användaren har uppdaterats');
+        createUserForm.reset();
+        createUserModal.close();
+        LoadUser(); // refresh user list
+      } catch (error) {
+        console.error('Error updating user:', error);
+        alert(`❌ Kunde inte uppdatera användare: ${error.message}`);
+      }
+    };
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    alert(`❌ Kunde inte hämta användardata: ${error.message}`);
+  }
 
 
 
