@@ -154,6 +154,29 @@ function displayUsers(users) {
   `).join('');
 }
 
+// delete user //
+async function deleteUser(userId) {
+  if (! confirm('❌ Är du säker på att du vill ta bort denna användare?')) {
+    return;
+  }
+  try {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Något gick fel vid borttagning av användare');
+    }
+    alert('✅ Användaren har tagits bort');
+    LoadUser(); // refresh user list
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    alert(`❌ Kunde inte ta bort användare: ${error.message}`);
+  }
+}
+
+
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
