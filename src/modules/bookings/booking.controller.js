@@ -47,7 +47,6 @@ export const listBookings = (req, res) => {
 export const createBooking = (req, res) => {
   try {
     // 1. Validation & Data Prep (Handled by DTO)
-    // This will throw an error immediately if data is missing or wrong type
     const bookingDTO = new CreateBookingDTO(req.body);
 
     // 2. Check for Overlaps (Prevent Double Booking)
@@ -64,7 +63,6 @@ export const createBooking = (req, res) => {
     }
 
     // 3. Pass clean data to Repo
-    // .toStorage() ensures we only send the fields defined in our DTO
     bookingRepo.createBooking(bookingDTO.toStorage());
 
     return res.status(201).send();
@@ -83,14 +81,13 @@ export const createBooking = (req, res) => {
 
 /**
  * PUT /api/bookings/:id
- * Updates a booking using a "Fetch -> Merge -> Update" strategy.
+ * Updates a booking using a "Fetch -> Merge -> Check -> Update" strategy.
  */
 export const updateBooking = (req, res) => {
   try {
     const id = Number(req.params.id);
 
     // 1. Validate Incoming Data (Handled by DTO)
-    // If req.body is empty or invalid, this will throw.
     const updateDTO = new UpdateBookingDTO(req.body);
 
     // 2. Fetch Existing Booking
@@ -101,13 +98,29 @@ export const updateBooking = (req, res) => {
     }
 
     // 3. Prepare Data (Merge Strategy)
-    // We merge the CLEANED partial update into the existing data
     const bookingData = {
       ...existingBooking, // Start with old data
       ...updateDTO.toPartialUpdate(), // Overwrite with valid new data
     };
 
-    // 4. Perform Update
+    // 4. CHECK OVERLAPS ON UPDATE (Crucial Fix)
+    // Ensuring the NEW time doesn't conflict with others.
+    const overlaps = bookingRepo.getOverlappingBookings(
+      bookingData.room_id,
+      bookingData.start_time,
+      bookingData.end_time
+    );
+
+    // Filter out OURSELVES (since we are in the DB, we will overlap with our old self)
+    const actualConflicts = overlaps.filter((b) => b.id !== id);
+
+    if (actualConflicts.length > 0) {
+      return res.status(409).json({
+        error: "The new time slot conflicts with another booking.",
+      });
+    }
+
+    // 5. Perform Update
     const info = bookingRepo.updateBookingById(id, bookingData);
 
     if (info.changes === 0) {
