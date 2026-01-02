@@ -1,4 +1,8 @@
 import API from "../api/api.js";
+const creatUserBtn = document.getElementById("createUserBtn");
+const createUserModal = document.getElementById("createUserModal");
+const createUserForm = document.getElementById("createUserForm");
+const cancelCreateUser = document.getElementById("cancelCreateUser");
 
 // --- Hämta inloggad användare ---
 function loadUserFromLocalStorage() {
@@ -59,6 +63,12 @@ function renderStudentRooms(rooms) {
       })
       .join("");
 }
+
+// --- Event listeners create user modal  ---
+creatUserBtn.addEventListener("click", () => {
+  createUserModal.showModal(); // show the modal
+});
+
 
 window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
