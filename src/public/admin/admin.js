@@ -137,7 +137,7 @@ function renderStudentRooms(rooms) {
 
 async function editUser(userId) {
   try {
-    const user = await API.getUser(userId);
+    const user = await API.getUserById(userId);
     //fill form fields
     
     document.getElementById('userName').value = user.display_name || user.name;
@@ -246,7 +246,10 @@ createUserForm.addEventListener('submit', async (e) => {
   }
   try {
     const newUser = await API.createUser(userData);
-      alert(`✅ Skapad:  ${newUser.display_name || newUser.name}`);
+
+const userName = newUser?. display_name || newUser?.Display_name || newUser?.name || userData.name;
+
+alert(`✅ Användare skapad: ${userName}`);
       createUserForm.reset();
       createUserModal.close();
       loadUsers();
