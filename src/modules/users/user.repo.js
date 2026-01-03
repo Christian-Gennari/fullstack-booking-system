@@ -8,7 +8,7 @@
  * * RELATION:
  * - Imports: 'src/db/query.js'
  * - Imported by: 'src/controllers/auth.controller.js'
- */
+*/
 import { db } from "../../db/db.js";
 
 export function getAllUsers() {
@@ -80,7 +80,7 @@ export function updateUser(id, user) {
 }
 
 export function deleteUser(id) {
-  const query = `DELETE FROM users WHERE id = ?`;
-  const result = db.prepare(query).run(id);
+  const query = `DELETE FROM users WHERE id = ? `;
+  const result = db.prepare(query).run(id); 
   return result.changes;
 }
