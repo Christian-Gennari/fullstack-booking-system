@@ -100,6 +100,23 @@ const API = {
       body: JSON.stringify(bookingData),
     });
   },
+  async getUsers() {
+    return await apiFetch("/api/users");
+  },
+
+  async deleteUser(userId) {
+    return await apiFetch(`/api/users/${userId}`, {
+      method: "DELETE",
+    });
+  },
+
+  async editUser(userId, updatedData) {
+    return await apiFetch(`/api/users/${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedData),
+    });
+  },
+  
 
   // TODO: Implement getRoom(id) - GET /api/rooms/:id
   // TODO: Implement createRoom(roomData) - POST /api/rooms
