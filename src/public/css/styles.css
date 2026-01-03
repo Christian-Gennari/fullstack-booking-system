@@ -14,46 +14,46 @@
 
 /* utkast färger */
 :root {
-  --color-primary: #9136CB;
-  --color-primary-hover: #A34ADC;
-  --color-primary-active: #7326A3;
-  --color-primary-surface: #F4EAFB;
+  --color-primary: #9136cb;
+  --color-primary-hover: #a34adc;
+  --color-primary-active: #7326a3;
+  --color-primary-surface: #f4eafb;
 
-  --color-success: #10B981;
+  --color-success: #10b981;
   --color-success-hover: #059669;
   --color-success-click: #086042;
-  --color-success-bg: #D1FAE5;
+  --color-success-bg: #d1fae5;
 
-  --color-warning: #F59E0B;
-  --color-warning-hover: #D97706;
-  --color-warning-bg: #FEF3C7;
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
+  --color-warning-bg: #fef3c7;
 
-  --color-danger: #EF4444;
-  --color-danger-hover: #DC2626;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
   --color-danger-click: #3a1212;
-  --color-danger-bg: #FEE2E2;
+  --color-danger-bg: #fee2e2;
 
-  --color-bg-body: #F3F4F6;
-  --color-bg-panel: #F8FAFC;
-  --color-bg-card: #F9F9F9;
-  --color-border: #E5E7EB;
+  --color-bg-body: #f3f4f6;
+  --color-bg-panel: #f8fafc;
+  --color-bg-card: #f9f9f9;
+  --color-border: #e5e7eb;
 
-  --color-asset-bg: #F1F5F9;
+  --color-asset-bg: #f1f5f9;
   --color-asset-text: #475569;
-  --color-asset-border: #E2E8F0;
+  --color-asset-border: #e2e8f0;
 
-  --color-text-main: #1F2937;
-  --color-text-muted: #6B7280;
-  --color-text-on-primary: #F5F5F5;
+  --color-text-main: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-text-on-primary: #f5f5f5;
 
-  --role-student-bg: #DCFCE7;
+  --role-student-bg: #dcfce7;
   --role-student-text: #166534;
 
-  --role-teacher-bg: #F3E8FF;
-  --role-teacher-text: #6B21A8;
+  --role-teacher-bg: #f3e8ff;
+  --role-teacher-text: #6b21a8;
 
-  --role-admin-bg: #FFEDD5;
-  --role-admin-text: #9A3412;
+  --role-admin-bg: #ffedd5;
+  --role-admin-text: #9a3412;
 
   --top-header-height: 64px;
 
@@ -62,10 +62,11 @@
 }
 
 /* --- GLOBALT --- */
-html, body {
+html,
+body {
   display: flex;
   flex-direction: column;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 0;
   background-color: var(--color-bg-body);
   color: var(--color-text-main);
@@ -213,7 +214,7 @@ html, body {
   letter-spacing: 0.4px;
   min-width: 86px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   user-select: none;
 }
 
@@ -227,7 +228,7 @@ html, body {
 /* Cancelled = red/neutral */
 .status.cancelled {
   background: var(--color-danger-bg);
-  color: var(--color-text-main);;
+  color: var(--color-text-main);
   border: 1px solid #f2c6c6;
 }
 
@@ -275,9 +276,7 @@ html, body {
 .booking-card:hover {
   position: relative;
   transform: translateY(-1px);
-  box-shadow:
-          0 10px 15px -3px #00000014,
-          0 4px 6px -2px #0000000a;
+  box-shadow: 0 10px 15px -3px #00000014, 0 4px 6px -2px #0000000a;
   border-color: var(--color-primary-hover);
   z-index: 600;
   transition: all 0.3s ease;
@@ -332,7 +331,7 @@ html, body {
   cursor: not-allowed;
 }
 
-.asset-chips { 
+.asset-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -349,7 +348,7 @@ html, body {
   font-size: 13px;
   line-height: 1;
   border: 1px solid var(--color-asset-border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -359,7 +358,6 @@ html, body {
 .room-card .asset-chips {
   margin-top: 12px;
 }
-
 
 /* --- STICKY RUBRIKER --- */
 .room-header,
@@ -405,7 +403,6 @@ html, body {
 .user-name {
   color: var(--color-text-muted);
 }
-
 
 /* --- ROLL-ID / USER ROLE --- */
 .user-role {
@@ -453,7 +450,7 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #D4A9EF;
+  background-color: #d4a9ef;
   border-radius: 4px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -464,11 +461,8 @@ html, body {
   transition: background-color 0.3s ease;
 }
 
-
-
 /* --- MOBILANPASSNING (GLOBAL) --- */
 @media (max-width: 825px) {
-
   .dashboard-layout,
   .teacher-layout,
   .admin-layout {
@@ -519,44 +513,58 @@ html, body {
   }
 }
 
+/* Ytterligare mobilanpassning (tar bort loggan i header) för väldigt små skärmar */
+@media (max-width: 440px) {
+  .top-logo {
+    display: none;
+  }
+
+  .user-actions {
+    flex: 1 1 auto;
+  }
+
+  .logout-btn {
+    flex: 1 1 auto;
+  }
+}
+
 /* --- Mörkt tema --- */
 @media (prefers-color-scheme: dark) {
   :root {
     /* --- Bakgrunder --- */
-    --color-bg-body: #111827;      /* mörk slate */
-    --color-bg-panel: #1F2937;     /* paneler */
-    --color-bg-card: #1E2530;      /* kort */
-    --color-border: #374151;       /* mörkare border */
+    --color-bg-body: #111827; /* mörk slate */
+    --color-bg-panel: #1f2937; /* paneler */
+    --color-bg-card: #1e2530; /* kort */
+    --color-border: #374151; /* mörkare border */
 
     /* --- Text --- */
-    --color-text-main: #F3F4F6;    /* ljus text */
-    --color-text-muted: #9CA3AF;   /* ljus-muted */
-    --color-text-on-primary: #F5F5F5;
+    --color-text-main: #f3f4f6; /* ljus text */
+    --color-text-muted: #9ca3af; /* ljus-muted */
+    --color-text-on-primary: #f5f5f5;
 
     /* --- Asset chips --- */
-    --color-asset-bg: #1F2937;
-    --color-asset-text: #E5E7EB;
-    --color-asset-border: #4B5563;
+    --color-asset-bg: #1f2937;
+    --color-asset-text: #e5e7eb;
+    --color-asset-border: #4b5563;
 
     /* --- Primärfärger (behålls men mörkare surface) --- */
-    --color-primary-surface: #2D1B3A;
+    --color-primary-surface: #2d1b3a;
 
     /* --- Statusfärger (behåller dina, men mörkare bakgrunder) --- */
-    --color-success-bg: #064E3B;
-    --color-warning-bg: #78350F;
-    --color-danger-bg: #7F1D1D;
+    --color-success-bg: #064e3b;
+    --color-warning-bg: #78350f;
+    --color-danger-bg: #7f1d1d;
 
     /* --- Roller --- */
-    --role-student-bg: #064E3B;
-    --role-student-text: #A7F3D0;
+    --role-student-bg: #064e3b;
+    --role-student-text: #a7f3d0;
 
-    --role-teacher-bg: #3B0764;
-    --role-teacher-text: #E9D5FF;
+    --role-teacher-bg: #3b0764;
+    --role-teacher-text: #e9d5ff;
 
-    --role-admin-bg: #7C2D12;
-    --role-admin-text: #FED7AA;
+    --role-admin-bg: #7c2d12;
+    --role-admin-text: #fed7aa;
   }
-
 
   /* Header får mörk bakgrund */
   .top-header {
@@ -587,15 +595,13 @@ html, body {
   }
 
   .user-name {
-        color: var(--color-text-muted);
+    color: var(--color-text-muted);
   }
-
 
   .user-box {
     background: var(--color-text-muted);
     color: var(--color-text-on-primary) !important;
   }
-
 
   /* Scrollbar */
   ::-webkit-scrollbar-thumb {
@@ -606,66 +612,134 @@ html, body {
   .benefits-box {
     background: var(--color-text-muted) !important;
     color: var(--color-bg-panel) !important;
-
   }
-
 }
 /* =========================================
    ANIMATION KEYFRAMES
    ========================================= */
 
-@keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes spin {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 @keyframes nudge {
-  0% { transform: scale(1) translateX(0); }
-  25% { transform: scale(1.02) translateX(-5px); }
-  50% { transform: scale(0.98) translateX(0) translateY(-2px); }
-  75% { transform: scale(1.02) translateX(-5px); }
-  100% { transform: scale(1) translateX(0); }
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  25% {
+    transform: scale(1.02) translateX(-5px);
+  }
+  50% {
+    transform: scale(0.98) translateX(0) translateY(-2px);
+  }
+  75% {
+    transform: scale(1.02) translateX(-5px);
+  }
+  100% {
+    transform: scale(1) translateX(0);
+  }
 }
 
 @keyframes pop-in {
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes pop-in-modal {
-  0% { transform: scale(0); opacity: 0; }
-  40% { transform: scale(1.1); opacity: 1; }
-  60% { transform: scale(0.95); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes slide-in-elastic {
-  0% { transform: translateX(120%); opacity: 0; }
-  60% { transform: translateX(-10px); opacity: 1; }
-  100% { transform: translateX(0); opacity: 1; }
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slide-out {
-  to { transform: translateX(120%); opacity: 0; }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
 }
 
 @keyframes progress-shrink {
-  from { width: 100%; }
-  to { width: 0%; }
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
 
 @keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(145, 54, 203, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(145, 54, 203, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(145, 54, 203, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(145, 54, 203, 0);
+  }
 }
 
 @keyframes pulse-green {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
