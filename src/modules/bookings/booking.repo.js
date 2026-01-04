@@ -44,6 +44,7 @@ export const getAllBookingsByDate = (searchStart, searchEnd) => {
 /**
  * Checks for any bookings in the specified room that overlap with the given time range.
  * Logic: (ExistingStart < NewEnd) AND (ExistingEnd > NewStart)
+ * UPDATE: Checks status to allow re-booking cancelled slots.
  */
 export const getOverlappingBookings = (roomId, startTime, endTime) => {
   return db
@@ -53,6 +54,7 @@ export const getOverlappingBookings = (roomId, startTime, endTime) => {
       WHERE room_id = ? 
       AND start_time < ? 
       AND end_time > ?
+      AND status != 'cancelled'
     `
     )
     .all(roomId, endTime, startTime);
