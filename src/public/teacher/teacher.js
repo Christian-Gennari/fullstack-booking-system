@@ -78,3 +78,4 @@ window.addEventListener("DOMContentLoaded", () => {
   loadUserFromLocalStorage();
   loadRooms(); 
 });
+
