@@ -5,6 +5,10 @@
   gap: 40px;
   padding: 40px;
   box-sizing: border-box;
+  height: calc(100vh - var(--top-header-height));
+  max-height: calc(100vh - var(--top-header-height));
+  overflow: hidden;
+
 }
 
 /* --- QUICK INFO & FÖRMÅNER (höger panel) --- */
