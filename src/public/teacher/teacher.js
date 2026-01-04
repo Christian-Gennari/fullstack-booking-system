@@ -1,4 +1,6 @@
 import API from "../api/api.js";
+import {showError, showInfo, showSuccess, showToast} from "../utils/toast.js";
+
 
 // --- Hämta inloggad användare ---
 function loadUserFromLocalStorage() {
@@ -15,6 +17,7 @@ function loadUserFromLocalStorage() {
   const displayname = userobject.display_name; 
 
   document.getElementById("username").textContent = displayname;
+  showInfo("Inloggad som " + displayname, { title: "Välkommen!" });
 
   console.log(displayname);
   
