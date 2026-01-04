@@ -79,3 +79,18 @@ window.addEventListener("DOMContentLoaded", () => {
   loadRooms(); 
 });
 
+// Logga ut
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await API.logout(); 
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      window.location.href = "/login/";
+    }
+  });
+}
