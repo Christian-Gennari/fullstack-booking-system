@@ -111,6 +111,11 @@ const closeModalButton = document.getElementById("modal-close");
 const modalRoomLabel = document.getElementById("modal-room-label");
 const bookingForm = document.getElementById("booking-form");
 const modalContent = modal?.querySelector(".modal-content");
+
+modalContent?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
 let selectedRoomId = null;
 
 function openbookingModal(room) {
