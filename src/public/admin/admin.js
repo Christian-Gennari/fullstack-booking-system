@@ -120,9 +120,9 @@ function renderStudentRooms(rooms) {
       <div class="asset-chips">${assets}</div>
 
       <div class="room-actions">
-        <button>Markera som upptaget</button>
-        <button>Redigera</button>
-        <button class="danger">Ta bort</button>
+        <button class ="danger" id="mark-as-occupied">Markera som upptaget</button>
+        <button id="edit-room">Redigera</button>
+        <button class="danger" id="delete-room">Ta bort</button>
       </div>
     </div>
     `;
