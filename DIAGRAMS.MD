@@ -5,68 +5,57 @@ sequenceDiagram
     autonumber
     participant User as 👤 User
     participant Frontend as 🖥️ Frontend (Browser)
-    participant Auth as 🛡️ Authentication (The Bouncer)
-    participant AuthZ as 🔐 Authorization (The Gatekeeper)
-    participant Controller as 🤵 Controller (The Waiter)
-    participant Repo as 📚 Repository (The Librarian)
+    participant Auth as 🛡️ Auth Middleware
+    participant Controller as 🤵 Controller
+    participant DTO as 📝 DTO (Data Prep)
+    participant Repo as 📚 Repository
     participant DB as 💽 Database (SQLite)
 
-    Note right of Auth: 🛡️ Strict Auth: Checks HttpOnly Cookie ONLY.
+    Note right of Auth: 🛡️ Strict Auth: Checks HttpOnly Cookie.
 
     Note over User, Frontend: Phase 1: The Order
     User->>Frontend: Clicks "Book Room"
-    Frontend->>Auth: POST /api/bookings (Browser sends Cookie automatically)
+    Frontend->>Auth: POST /api/bookings (Cookie attached auto)
 
-    Note over Auth, Controller: Phase 2: Authentication
-    Auth->>Auth: Check req.cookies.auth_token
+    Note over Auth, Controller: Phase 2: Security
+    Auth->>Auth: Validate Token & User Role
+    alt Invalid/Unauthorized
+        Auth-->>Frontend: 401 / Redirect
+    else Authorized
+        Auth->>Controller: next() (req.user attached)
+    end
 
-    alt No Cookie Found?
-        alt Is API Request?
-            Auth-->>Frontend: 401 Unauthorized ⛔
-        else Is HTML Page Request?
-            Auth-->>Frontend: Redirect to /login ↩️
-        end
-    else Cookie Found
-        Auth->>DB: SELECT * FROM sessions WHERE token = "..."
+    Note over Controller, DB: Phase 3: Processing
+    Controller->>DTO: new CreateBookingDTO(req.body)
+    DTO-->>Controller: Validated & Cleaned Data
+    
+    alt Validation Failed
+        Controller-->>Frontend: 400 Bad Request (Missing/Invalid fields)
+    else Validation OK
+        Note right of Controller: ⚠️ Conflict Check
+        Controller->>Repo: getOverlappingBookings(room, start, end)
+        Repo->>DB: SELECT * FROM bookings WHERE...
+        DB-->>Repo: Found 0 or more
+        Repo-->>Controller: Returns overlaps array
 
-        alt Session Invalid/Expired?
-             Auth-->>Frontend: 401 / Redirect
-        else Session Valid
-             Auth->>DB: SELECT * FROM users WHERE id = session.user_id
-             Auth->>AuthZ: next() (User attached to req.user) ✅
+        alt Overlap Found (Count > 0)
+            Controller-->>Frontend: 409 Conflict (Room Busy) ⛔
+        else No Overlaps
+            Controller->>Repo: createBooking(dto.toStorage())
+            Repo->>DB: INSERT INTO bookings...
+            DB-->>Repo: Success
+            Repo-->>Controller: Returns Result
+            Controller-->>Frontend: 201 Created
         end
     end
 
-    Note over AuthZ, Controller: Phase 3: Authorization
-    alt Role Allowed?
-        AuthZ->>Controller: next() ✅
-    else Insufficient Role
-        AuthZ-->>Frontend: 403 Forbidden ⛔
-    end
-
-    Note over Controller, DB: Phase 4: Processing
-    Note right of Controller: ⚠️ No Conflict Check in Code
-    Controller->>Controller: Validate Input Fields (User, Room, Time)
-
-    alt Missing Fields?
-        Controller-->>Frontend: 400 Bad Request ❌
-    else Valid Input
-        Controller->>Repo: createBooking(data)
-        Repo->>DB: INSERT INTO bookings...
-        DB-->>Repo: Success
-        Repo-->>Controller: Returns Result
-        Controller-->>Frontend: 201 Created (Empty Body)
+    Note over Frontend, User: Phase 4: Feedback
+    alt Success
         Frontend->>User: Alert("Bokning Skapad!")
         Frontend->>Frontend: Reload Room List
+    else Error
+        Frontend->>User: Show Error Message
     end
-
-    Note over User, Frontend: Phase 6: Logout
-    User->>Frontend: Clicks "Logout"
-    Frontend->>Frontend: Remove User from localStorage 🗑️
-    Frontend->>Auth: POST /api/auth/logout (Cookie sent automatically)
-    Auth->>DB: DELETE session (Using cookie token)
-    Auth-->>Frontend: 200 OK + Set-Cookie: auth_token= (Max-Age=0)
-    Frontend->>User: Redirect to Login
 ```
 
 # The Architecture Diagram (Physical Structure)
@@ -77,40 +66,41 @@ graph TD
         User((👤 User))
         Browser["🖥️ Browser / public/"]
         Cookie[("🍪 HttpOnly Cookie (Auth Token)")]
-        LS[("💾 localStorage (User Profile Data: Name, Role etc.)")]
+        LS[("💾 localStorage (UI Data Only)")]
     end
 
     subgraph Server ["The Kitchen (Backend)"]
         App["⚙️ App.js"]
 
-        subgraph Logic ["The Staff"]
+        subgraph Modules ["🏗️ Modules (Vertical Slices)"]
+            AuthMod["🔐 Auth (Routes/Ctrl/Repo)"]
+            BookMod["📅 Bookings (Routes/Ctrl/DTO/Repo)"]
+            RoomMod["🏫 Rooms (Routes/Ctrl/Repo)"]
+            UserMod["👥 Users (Routes/Ctrl/Repo)"]
+        end
+
+        subgraph Middleware ["🛡️ Security"]
             CP["🍪 CookieParser"]
-            MW["🛡️ Middleware (Auth + AuthZ)"]
-            Route["📜 Routes"]
-            Ctrl["🤵 Controllers"]
-            Repo["📚 Repositories"]
+            AuthN["🛡️ Authenticate"]
+            AuthZ["👮 Authorize"]
         end
 
         DB[("💽 SQLite Database")]
     end
 
     %% Connections
-    User -- Clicks Button --> Browser
-    Browser -- 1. Reads User Info --> LS
-    Browser -- 2. Auto-includes Cookie --> CP
-    CP -- Parses req.cookies --> App
+    User -- Interaction --> Browser
+    Browser -- API Req + Cookie --> CP
+    CP -- req.cookies --> App
+    App --> AuthN
+    AuthN -- Check Session --> AuthMod
+    AuthN -- OK --> AuthZ
+    AuthZ -- OK --> BookMod
+    
+    BookMod -- 1. Validate --> BookMod
+    BookMod -- 2. Check Conflict --> DB
+    BookMod -- 3. Insert --> DB
 
-    App --> Route
-    Route --> MW
-    MW -- Validates Session in DB --> DB
-    MW -- If Valid & Authorized --> Ctrl
-
-    Ctrl -- 1. Validates Input --> Ctrl
-    Ctrl -- 2. Inserts Data --> Repo
-    Repo -- SQL Query (INSERT) --> DB
-
-    DB -- Raw Data --> Repo
-    Repo -- Data --> Ctrl
-    Ctrl -- JSON Response (201 or 400) --> Browser
-    Browser -- Updates UI --> User
+    DB -- Data --> BookMod
+    BookMod -- JSON Response --> Browser
 ```
