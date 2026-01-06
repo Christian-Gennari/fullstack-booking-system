@@ -10,18 +10,28 @@ export const cookieParser = (req, res, next) => {
 
   if (cookieHeader) {
     cookieHeader.split(";").forEach((cookie) => {
+      // Split by the first "=" found
       let [name, ...rest] = cookie.split("=");
+      
       name = name?.trim();
       if (!name) return;
 
       const value = rest.join("=").trim();
       if (!value) return;
 
-      // Decode the value (handles %20 spaces etc)
-      list[name] = decodeURIComponent(value);
+      try {
+        // Decode the value (handles %20 spaces, @ symbols, etc)
+        list[name] = decodeURIComponent(value);
+      } catch (e) {
+        // Fallback to raw value if decoding fails
+        list[name] = value;
+      }
     });
   }
 
+  // Assign the parsed object to the request
   req.cookies = list;
+
+  // Proceed to the next middleware or route handler
   next();
 };
