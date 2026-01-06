@@ -11,8 +11,7 @@
 </head>
 <body>
 
-  <!-- Header med logga och logga ut-knapp -->
- <header class="top-header">
+  <header class="top-header">
     <img class="top-logo" src="../assets/ELLA header.png" alt="Logo small" />
     <div class="user-actions">
       <div class="user-box">
@@ -23,7 +22,7 @@
       <button class="logout-btn" id="logout-btn">Logga ut</button>
     </div>
   </header>
-<!-- Create User Section -->
+
 <main>
     <section class="user-management">
       <div class="section-header">
@@ -34,8 +33,7 @@
     </section>
   </main>
   
-<!-- Modal create user (hidden by default) -->
- <dialog id="createUserModal">
+<dialog id="createUserModal">
     <div class="modal-content">
       <h3>Skapa ny användare</h3>
       
@@ -73,36 +71,46 @@
     </div>
   </dialog>
 
-
-  
-
-  <!-- Adminlayout -->
   <div class="admin-layout">
 
-    <!-- Vänsterpanel: översikt + rum -->
     <section class="left-panel">
       <h2>Översikt</h2>
       <div class="summary-grid">
-        <div class="summary-card">Totalt antal rum: <strong>6</strong></div>
-        <div class="summary-card">Lediga rum: <strong>5</strong></div>
-        <div class="summary-card">Aktiva bokningar: <strong>2</strong></div>
-        <div class="summary-card">Totala bokningar: <strong>3</strong></div>
+        <div class="summary-card">Totalt antal rum: <strong id="summary-total-rooms">0</strong></div>
+        <div class="summary-card">Lediga rum: <strong id="summary-available-rooms">0</strong></div>
+        <div class="summary-card">Aktiva bokningar: <strong id="summary-active-bookings">0</strong></div>
+        <div class="summary-card">Totala bokningar: <strong id="summary-total-bookings">0</strong></div>
       </div>
 
-      <h2>Rum</h2>
+      <div class="room-header-row" style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Rum</h2>
+        <button class="add-room-btn" id="add-room-btn">+ Lägg till rum</button>
+      </div>
+      
       <div id="student-room-list"></div>
-      <div class="room-card">
-
-      <button class="add-room-btn">+ Lägg till rum</button>
     </section>
 
-    <!-- Högerpanel: bokningshantering -->
     <section class="right-panel">
-      <h2>Bokningshantering</h2>
-      <!-- Här kan du lägga bokningslistor, filter, etc -->
+      <div class="booking-header">
+        <div class="header-top">
+          <h2>Bokningshantering</h2>
+        </div>
+        <div class="booking-tabs">
+          <button class="tab-btn active" id="tab-upcoming">Kommande</button>
+          <button class="tab-btn" id="tab-history">Historik</button>
+
+          <label class="toggle-label">
+            <input type="checkbox" id="show-cancelled" />
+            Visa avbokade
+          </label>
+        </div>
+      </div>
+
+      <div class="booking-scroll" id="admin-booking-list">
+        <p>Laddar bokningar...</p>
+      </div>
     </section>
    
-
   </div>
 </body>
 </html>
