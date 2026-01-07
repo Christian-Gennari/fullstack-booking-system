@@ -1,9 +1,10 @@
 /* --- TEACHER LAYOUT (3 kolumner) --- */
 .teacher-layout {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
-  gap: 40px;
-  padding: 40px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 24px;
+  padding: 20px;
   box-sizing: border-box;
   height: calc(100vh - var(--top-header-height));
   max-height: calc(100vh - var(--top-header-height));
@@ -11,9 +12,12 @@
 }
 
 /* --- QUICK INFO & FÖRMÅNER (höger panel) --- */
-.quick-info {
+.info-panel {
+  grid-column: 1 / -1;
+  min-height: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 12px;
 }
 
