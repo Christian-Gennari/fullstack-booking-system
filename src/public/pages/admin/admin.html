@@ -35,22 +35,20 @@
       </ul>
     </nav>
 
+    <!-- ========================= -->
+    <!-- ANVÄNDARE PANEL -->
+    <!-- ========================= -->
     <section class="user-management" data-panel="users-panel" style="display:none;">
       <div class="section-header">
         <h2>Översikt Användare</h2>
         <button id="createUserBtn" class="btn-primary">+ Skapa ny användare</button>
-        
       </div>
 
-      <!-- FILTERBAR  -->
       <div class="user-filter-bar">
-
-        <!-- 1. Välj användare -->
         <select id="userDropdown">
           <option value="">Välj användare...</option>
         </select>
 
-        <!-- 2. Rollfilter -->
         <select id="userRoleFilter">
           <option value="all">Alla roller</option>
           <option value="student">Student</option>
@@ -58,83 +56,82 @@
           <option value="admin">Admin</option>
         </select>
 
-        <!-- 3. Sökfält -->
         <input type="text" id="userSearch" placeholder="Sök användare..." />
 
-        <!-- 4. Visa alla användare -->
         <label class="show-all-users">
           <input type="checkbox" id="showAllUsers" />
           Visa alla användare
         </label>
-
-        
-
       </div>
 
-      <!-- LISTA -->
       <div id="userList"></div>
     </section>
 
-    <!-- modal for adding/ editing rooms maybe move -->
-    <!-- (Denna del rör vi inte nu) -->
+    <!-- ========================= -->
+    <!-- MODAL: SKAPA ANVÄNDARE -->
+    <!-- ========================= -->
+    <dialog id="createUserModal">
+      <div class="modal-content">
+        <h3>Skapa ny användare</h3>
 
-    </div>
-    </section>
+        <form id="createUserForm">
+          <div class="form-group">
+            <label for="createUserName">Namn:</label>
+            <input type="text" id="createUserName" name="name" required>
+          </div>
 
-  </main>
+          <div class="form-group">
+            <label for="userEmail">E-post:</label>
+            <input type="email" id="userEmail" name="email" required>
+          </div>
 
-  <dialog id="createUserModal">
-    <div class="modal-content">
-      <h3>Skapa ny användare</h3>
+          <div class="form-group">
+            <label for="userPassword">Lösenord: </label>
+            <input type="password" id="userPassword" name="password" required minlength="6">
+          </div>
 
-      <form id="createUserForm">
-        <div class="form-group">
-          <label for="createUserName">Namn:</label>
-          <input type="text" id="createUserName" name="name" required>
-        </div>
+          <div class="form-group">
+            <label for="userRole">Roll:</label>
+            <select id="userRole" name="role" required>
+              <option value="">-- Välj roll --</option>
+              <option value="student">Student</option>
+              <option value="teacher">Lärare</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="userEmail">E-post:</label>
-          <input type="email" id="userEmail" name="email" required>
-        </div>
-
-        <div class="form-group">
-          <label for="userPassword">Lösenord: </label>
-          <input type="password" id="userPassword" name="password" required minlength="6">
-        </div>
-
-        <div class="form-group">
-          <label for="userRole">Roll:</label>
-          <select id="userRole" name="role" required>
-            <option value="">-- Välj roll --</option>
-            <option value="student">Student</option>
-            <option value="teacher">Lärare</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn-confirm">Skapa</button>
-          <button type="button" id="cancelCreateUser" class="btn-secondary">Avbryt</button>
-        </div>
-      </form>
-    </div>
-  </dialog>
-
-  <!-- admin layout  for left and right panels -->
-  <div class="admin-layout">
-
-    <section class="left-panel" data-panel="overview-panel">
-
-      <h2>Översikt</h2>
-      <div class="summary-grid">
-        <div class="summary-card">Totalt antal rum: <strong id="summary-total-rooms">0</strong></div>
-        <div class="summary-card">Lediga rum: <strong id="summary-available-rooms">0</strong></div>
-        <div class="summary-card">Aktiva bokningar: <strong id="summary-active-bookings">0</strong></div>
-        <div class="summary-card">Totala bokningar: <strong id="summary-total-bookings">0</strong></div>
+          <div class="form-actions">
+            <button type="submit" class="btn-confirm">Skapa</button>
+            <button type="button" id="cancelCreateUser" class="btn-secondary">Avbryt</button>
+          </div>
+        </form>
       </div>
+    </dialog>
 
-      <div data-panel="rooms-panel" style="display:none;">
+    <!-- ========================= -->
+    <!-- ADMIN LAYOUT -->
+    <!-- ========================= -->
+    <div class="admin-layout">
+
+      <!-- ========================= -->
+      <!-- ÖVERSIKT PANEL -->
+      <!-- ========================= -->
+      <section class="left-panel" data-panel="overview-panel">
+        <h2>Översikt</h2>
+
+        <div class="summary-grid">
+          <div class="summary-card">Totalt antal rum: <strong id="summary-total-rooms">0</strong></div>
+          <div class="summary-card">Lediga rum: <strong id="summary-available-rooms">0</strong></div>
+          <div class="summary-card">Aktiva bokningar: <strong id="summary-active-bookings">0</strong></div>
+          <div class="summary-card">Totala bokningar: <strong id="summary-total-bookings">0</strong></div>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- RUM PANEL -->
+      <!-- ========================= -->
+      <section class="left-panel" data-panel="rooms-panel" style="display:none;">
+
         <div class="room-header-row" style="display:flex; justify-content:space-between; align-items:center;">
           <h2>Rum</h2>
           <button class="add-room-btn" id="add-room-btn">+ Lägg till rum</button>
@@ -142,12 +139,12 @@
 
         <div id="student-room-list"></div>
 
-        <!-- Rumsmodalen ligger kvar här, oförändrad -->
         <dialog id="createRoomModal" class="modal">
           <div class="modal-content">
             <div class="modal-header">
               <h2>Skapa nytt rum</h2>
             </div>
+
             <form id="createRoomForm">
               <label for="roomName">Rum namn:</label>
               <input type="text" id="roomName" name="name" required>
@@ -174,33 +171,33 @@
           </div>
         </dialog>
 
-      </div>
+      </section>
 
-      <div id="student-room-list"></div>
-    </section>
+      <!-- ========================= -->
+      <!-- BOKNINGAR PANEL -->
+      <!-- ========================= -->
+      <section class="right-panel" data-panel="bookings-panel" style="display:none;">
+        <div class="booking-header">
+          <div class="header-top">
+            <h2>Bokningshantering</h2>
+          </div>
 
-    <section class="right-panel" data-panel="bookings-panel" style="display:none;">
-      <div class="booking-header">
-        <div class="header-top">
-          <h2>Bokningshantering</h2>
+          <div class="booking-tabs">
+            <button class="tab-btn active" id="tab-upcoming">Kommande</button>
+            <button class="tab-btn" id="tab-history">Historik</button>
+
+            <label class="toggle-label">
+              <input type="checkbox" id="show-cancelled" />
+              Visa avbokade
+            </label>
+          </div>
         </div>
-        <div class="booking-tabs">
-          <button class="tab-btn active" id="tab-upcoming">Kommande</button>
-          <button class="tab-btn" id="tab-history">Historik</button>
 
-          <label class="toggle-label">
-            <input type="checkbox" id="show-cancelled" />
-            Visa avbokade
-          </label>
+        <div class="booking-scroll" id="admin-booking-list">
+          <p>Laddar bokningar...</p>
         </div>
-      </div>
-
-      <div class="booking-scroll" id="admin-booking-list">
-        <p>Laddar bokningar...</p>
-      </div>
-    </section>
-
-  </div>
+      </section> <!-- bookings-panel -->
+  </div>        <!-- admin-layout -->
+  </main>
 </body>
-
 </html>
