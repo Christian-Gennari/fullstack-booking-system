@@ -254,7 +254,7 @@ dialog::backdrop {
 }
 
 .user-actions .btn-delete:active {
-  background: var(--color-danger-active);
+  background: var(--color-danger-click);
   transform: scale(0.98);
 }
 
