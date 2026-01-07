@@ -179,3 +179,26 @@ export class BookingModal {
     }
   }
 }
+
+const dateInput = document.getElementById("booking-date");
+const startHourSelect = document.getElementById("start-hour");
+
+if (dateInput) {
+  dateInput.addEventListener("change", (e) => {
+    if (e.target.value) {
+      e.target.classList.add("selected");
+    } else {
+      e.target.classList.remove("selected");
+    }
+  });
+}
+
+if (startHourSelect) {
+  startHourSelect.addEventListener("change", (e) => {
+    if (e.target.value) {
+      e.target.classList.add("selected");
+    } else {
+      e.target.classList.remove("selected");
+    }
+  });
+}
