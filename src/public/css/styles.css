@@ -616,6 +616,38 @@ body {
   color: var(--color-text-muted);
 }
 
+.modal-content form input[type="date"] {
+    position: relative;
+    padding-right: 40px;
+    cursor: pointer;
+    color: var(--color-text-main);
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.modal-content form input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    filter: var(--calendar-icon-filter, invert(30%) sepia(20%) saturate(500%) hue-rotate(220deg));
+}
+
+.modal-content form input[type="date"]:focus::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}
+
+.modal-content form input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: var(--calendar-icon-filter-hover, invert(30%) sepia(80%) saturate(2000%) hue-rotate(260deg) brightness(0.95));
+}
+
+.modal-content form input[type="date"]::-webkit-calendar-picker-indicator:active {
+    transform: scale(0.95);
+}
+
 .modal-content form input,
 .modal-content form textarea,
 .modal-content form select {
