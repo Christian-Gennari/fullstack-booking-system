@@ -17,22 +17,31 @@ async function apiFetch(url, options = {}) {
   });
 
   if (!response.ok) {
+    // Handle 401 Unauthorized
     if (response.status === 401) {
       // ONLY redirect if we are NOT currently trying to log in
       if (!url.includes("/api/auth/login")) {
         window.location.href = "/login/";
-        throw new Error("Session expired. Please login again.");
+        throw new Error(translateError("Session expired. Please login again."));
       }
       // If we ARE logging in, 401 means "Wrong password"
-      throw new Error("Fel email eller lösenord.");
+      throw new Error(translateError("Invalid credentials"));
     }
 
-    if (response.status === 403) throw new Error("Access denied.");
+    // Handle 403 Forbidden
+    if (response.status === 403) {
+      throw new Error(translateError("Access denied"));
+    }
 
-    const error = await response
-      .json()
-      .catch(() => ({ error: "Request failed" }));
-    throw new Error(error.error || "Request failed");
+    // Try to get error message from response body
+    try {
+      const errorData = await response.json();
+      const errorMessage = errorData.error || errorData.message || translateStatusCode(response.status);
+      throw new Error(translateError(errorMessage));
+    } catch (jsonError) {
+      // If JSON parsing fails, use status code translation
+      throw new Error(translateStatusCode(response.status));
+    }
   }
 
   // If response is empty (204 No Content, 201 Created without body) or not JSON, return null
