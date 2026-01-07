@@ -31,10 +31,7 @@ export class BookingModal {
     this.modal.addEventListener("click", (e) => {
       if (e.target === this.modal && this.modalContent) {
         // Nudge animation if clicking outside
-        this.modalContent.classList.remove("nudge");
-        void this.modalContent.offsetWidth; // Trigger reflow
-        this.modalContent.classList.add("nudge");
-        setTimeout(() => this.modalContent.classList.remove("nudge"), 300);
+        this.nudge();
       }
     });
 
@@ -43,6 +40,14 @@ export class BookingModal {
 
     // Handle Submit
     this.form.addEventListener("submit", (e) => this.handleBooking(e));
+  }
+
+  nudge() {
+    if (!this.modalContent) return;
+    this.modalContent.classList.remove('nudge');
+    void this.modalContent.offsetWidth;
+    this.modalContent.classList.add('nudge');
+    setTimeout(() => this.modalContent.classList.remove('nudge'), 300);
   }
 
   setUser(user) {
