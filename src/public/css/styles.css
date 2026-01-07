@@ -658,6 +658,13 @@ body {
     transform: scale(0.95);
 }
 
+.modal-content form input[type="date"].selected,
+.modal-content form select.selected {
+    border-color: var(--color-primary);
+    background: var(--color-primary-surface);
+    animation: pulse-border 1.5s infinite;
+}
+
 .modal-content form input,
 .modal-content form textarea,
 .modal-content form select {
