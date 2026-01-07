@@ -610,12 +610,11 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  margin-top: 8px;
 }
 
 .time-slot {
-  background: var(--color-bg-card);
-  border: 2px solid var(--color-border);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
   padding: 12px;
   border-radius: 8px;
   text-align: center;
@@ -623,19 +622,8 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s var(--ease-smooth);
-  user-select: none;
-}
-
-.time-slot:hover {
-  border-color: var(--color-primary-hover);
-  background: var(--color-primary-surface);
-}
-
-.time-slot.selected {
-  background: var(--color-primary);
-  color: var(--color-text-on-primary);
-  border-color: var(--color-primary);
-  font-weight: 600;
+  position: relative;
+  overflow: hidden;
 }
 
 .time-slot:hover {
@@ -644,10 +632,10 @@ body {
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
+/* Selected state with pulse */
 .time-slot.selected {
   background: var(--color-primary-surface);
   border-color: var(--color-primary);
-  color: var(--color-primary-active);
   animation: pulse-border 1.5s infinite;
 }
 
@@ -655,8 +643,6 @@ body {
   content: "✓";
   position: absolute;
   top: 2px; right: 4px;
-  font-size: 10px;
-  font-weight: bold;
 }
 
 .modal-content form textarea {
@@ -1072,4 +1058,10 @@ body {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(145, 54, 203, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(145, 54, 203, 0); }
 }
