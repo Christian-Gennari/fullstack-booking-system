@@ -13,10 +13,10 @@
 <body>
 
   <header class="top-header">
-    <img class="top-logo" src="../assets/ELLA header.png" alt="Logo small" />
+    <img class="top-logo" src="../assets/ELLA header.png" alt="ELLA – rumbokningssystem"/>
     <div class="user-actions">
       <div class="user-box">
-        <span class="user-icon">👤</span>
+        <span class="user-icon" aria-hidden="true">👤</span>
         <span class="user-label" id="username"></span>
         <span class="user-role teacher" id="user-role">Laddar..</span>
       </div>
@@ -24,7 +24,8 @@
     </div>
   </header>
 
-  <div class="teacher-layout">
+  <main class="teacher-layout">
+    <h1 class="visually-hidden">Lärardashboard – bokning av studierum</h1>
 
     <section class="left-panel">
       <div class="booking-header">
@@ -41,8 +42,7 @@
           </label>
         </div>
       </div>
-      <div class="booking-scroll">
-        </div>
+      <div class="booking-scroll" aria-live="polite"></div>
     </section>
 
     <section class="right-panel">
@@ -50,8 +50,7 @@
         <h2>Tillgängliga rum</h2>
         <p>Bläddra och boka studierum</p>
       </div>
-      <div class="room-scroll" id="student-room-list">
-        </div>
+      <div class="room-scroll" id="student-room-list" aria-live="polite"></div>
     </section>
 
     <section class="info-panel">
@@ -61,8 +60,8 @@
           <p>Aktiva bokningar: <strong id="active-bookings">0</strong></p>
           <p>Lediga rum: <strong id="available-rooms">0</strong>/<strong id="total-rooms">0</strong></p>
           <p>Lediga sittplatser: <strong id="total-seats">0</strong></p>
-
         </div>
+
         <div class="benefits-box">
           <h3>Förmåner för lärare</h3>
           <ul>
@@ -73,31 +72,29 @@
         </div>
       </div>
     </section>
-  </div>
 
-  <div class="modal-backdrop" id="booking-modal" hidden>
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" id="modal-close">×</button>
-      <h3>Boka rum</h3>
-      <p id="modal-room-label"></p>
-      <form id="booking-form">
-        <label>
-          Starttid
-          <input type="datetime-local" name="start_time" required />
-        </label>
-        <label>
-          Sluttid
-          <input type="datetime-local" name="end_time" required />
-        </label>
-        <label>
-          Anteckning
-          <textarea name="notes" rows="3"></textarea>
-        </label>
-        <button type="submit">Bekräfta bokning</button>
-      </form>
+    <div class="modal-backdrop" id="booking-modal" hidden role="dialog" aria-modal="true" aria-labelledby="booking-title">
+
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" id="modal-close" aria-label="Stäng dialog">×</button>
+        <h3 id="booking-title">Boka rum</h3>
+        <p id="modal-room-label"></p>
+        <form id="booking-form">
+          <label for="start_time">Starttid</label>
+          <input id="start_time" type="datetime-local" name="start_time" required />
+
+          <label for="end_time">Sluttid</label>
+          <input id="end_time" type="datetime-local" name="end_time" required />
+
+          <label for="notes">Anteckning</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+
+          <button type="submit">Bekräfta bokning</button>
+        </form>
+      </div>
     </div>
-  </div>
 
+  </main>
 </body>
 
 </html>
