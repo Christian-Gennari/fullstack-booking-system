@@ -307,18 +307,27 @@ body {
   min-width: 86px;
   text-align: end;
   user-select: none;
+  position: relative;
+}
+
+.status.active::after {
+  content: "✓";
+  padding-left: 6px;
+  color: var(--color-success);
+}
+
+.status.cancelled::after {
+  content: "✖";
+  padding-left: 6px;
+  color: var(--color-danger);
 }
 
 .status.active {
   color: var(--color-success);
-  /*  background: var(--color-success-bg);
-  border: 1px solid #cfead3;  */
 }
 
 .status.cancelled {
   color: var(--color-danger);
-  /*  background: var(--color-text-main);
-  border: 1px solid #f2c6c6;  */
 }
 
 .booking-card:has(.status.active):hover {
@@ -506,7 +515,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #d4a9ef;
+  background-color: var(--color-primary);
   border-radius: 4px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -514,6 +523,9 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary-hover);
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-primary-active);
 }
 
 /* --- MODAL STYLES --- */
@@ -614,9 +626,9 @@ body {
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: transparent;
   font-size: 14px;
-  color: var(--color-text-main);
+  color: var(--color-asset-text);
+  background: var(--color-asset-bg);
   font-family: inherit;
 }
 
@@ -891,8 +903,8 @@ body {
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg-body: #111827;
-    --color-bg-panel: #1f2937;
-    --color-bg-card: #1e2530;
+    --color-bg-panel: #1d2531;
+    --color-bg-card: #1a1e26;
     --color-bg-toast: #3d4659;
     --color-border: #374151;
     --color-text-main: #f3f4f6;
