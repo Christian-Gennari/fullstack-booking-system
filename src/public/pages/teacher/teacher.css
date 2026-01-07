@@ -33,19 +33,22 @@
 }
 
 .info-panel h3 {
+  font-family: "Nunito Sans", sans-serif;
   margin: 0 auto 0 0;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-md);
+  font-weight: 700;
+  line-height: var(--leading-tight);
   color: var(--color-primary);
   display: inline-block;
 }
 
 .info-panel p {
+  font-family: "Nunito Sans", sans-serif;
   display: inline-block;
   margin: 0;
   padding-right: 24px;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: var(--font-base);
+  line-height: var(--leading-normal);
   color: var(--color-text-main)
 }
 

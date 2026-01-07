@@ -9,8 +9,39 @@
   * - Component styles (.room-card, .btn-primary).
 */
 
+@font-face {
+    font-family: "Nunito Sans";
+    src: url("../assets/Nunito-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito Sans";
+    src: url("../assets/Nunito-Italic-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
 /* utkast färger */
 :root {
+    --font-xs: 0.75rem;
+    --font-sm: 0.875rem;
+    --font-base: 1.125rem;
+    --font-md: 1.25rem;
+    --font-lg: 1.5rem;
+    --font-xl: 1.875rem;
+    --font-2xl: 2.25rem;
+    --font-3xl: 3rem;
+
+    /* Line heights */
+    --leading-tight: 1.2;
+    --leading-snug: 1.375;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.75;
+
     --color-primary: #9136cb;
     --color-primary-hover: #a34adc;
     --color-primary-active: #7326a3;
@@ -65,7 +96,9 @@ html,
 body {
     display: flex;
     flex-direction: column;
-    font-family: "Inter", sans-serif;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: var(--font-base);
+    line-height: var(--leading-normal);
     margin: 0;
     background-color: var(--color-bg-body);
     color: var(--color-text-main);
@@ -73,6 +106,31 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    margin-top: 0;
+    margin-bottom: 0.75em;
+}
+
+h1 { font-size: var(--font-2xl); }
+h2 { font-size: var(--font-xl); }
+h3 { font-size: var(--font-lg); }
+h4 { font-size: var(--font-md); }
+h5, h6 { font-size: var(--font-base); }
+
+p, li {
+    line-height: var(--leading-relaxed);
+    margin-top: 0;
+}
+
+small {
+    font-size: var(--font-sm);
+    line-height: var(--leading-normal);
 }
 
 /* --- HEADER --- */
@@ -169,7 +227,9 @@ body {
 .right-panel h2,
 .info-panel h2,
 .info-panel h3 {
-    font-size: 22px;
+    font-size: var(--font-md);
+    font-weight: 700;
+    line-height: var(--leading-tight);
     color: var(--color-primary);
     margin-bottom: 16px;
 }
@@ -224,7 +284,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: var(--font-sm);
     color: var(--color-text-muted);
     cursor: pointer;
     margin-left: auto;
@@ -246,9 +306,11 @@ body {
 }
 
 .tab-btn {
+    font-family: "Nunito Sans", sans-serif;
     background: none;
     border: none;
-    font-size: 0.95rem;
+    font-size: var(--font-base);
+    font-weight: 600;
     padding: 8px 12px;
     cursor: pointer;
     color: var(--color-text-muted, #6b7280);
@@ -299,10 +361,11 @@ body {
 }
 
 .status {
+    font-family: "Nunito Sans", sans-serif;
     display: inline-block;
     padding: 6px 10px;
     font-weight: 700;
-    font-size: 12px;
+    font-size: var(--font-xs);
     text-transform: uppercase;
     letter-spacing: 0.4px;
     min-width: 86px;
@@ -354,6 +417,9 @@ body {
     border: none;
     padding: 10px 16px;
     border-radius: 6px;
+    font-size: var(--font-sm);
+    font-weight: 700;
+    line-height: var(--leading-normal);
     cursor: pointer;
     transition: all 0.3s ease;
     user-select: none;
@@ -391,20 +457,26 @@ body {
 
 .room-card h3,
 .booking-card h3 {
+    font-family: "Nunito Sans", sans-serif;
     margin: 0 0 8px;
-    font-size: 18px;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-tight);
     color: var(--color-text-main);
 }
 
 .room-card p,
 .booking-card p {
+    font-family: "Nunito Sans", sans-serif;
     margin: 4px 0;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    line-height: var(--leading-normal);
     color: var(--color-text-muted);
 }
 
 /* Book button inside room card */
 .room-card button {
+    font-family: "Nunito Sans", sans-serif;
     position: absolute;
     right: 16px;
     top: 50%;
@@ -414,6 +486,9 @@ body {
     border: none;
     padding: 10px 16px;
     border-radius: 6px;
+    font-size: var(--font-sm);
+    font-weight: 700;
+    line-height: var(--leading-normal);
     cursor: pointer;
     transition: all 0.3s ease;
     user-select: none;
@@ -443,12 +518,14 @@ body {
 }
 
 .asset-chip {
+    font-family: "Nunito Sans", sans-serif;
     display: inline-block;
     background: var(--color-asset-bg);
     color: var(--color-asset-text);
     padding: 6px 10px;
     border-radius: 3px;
-    font-size: 13px;
+    font-size: var(--font-xs);
+    font-weight: 600;
     line-height: 1;
     border: 1px solid var(--color-asset-border);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
@@ -459,28 +536,31 @@ body {
 
 /* --- KOMPAKT ANVÄNDARRUTA --- */
 .user-box {
+    font-family: "Nunito Sans", sans-serif;
     display: flex;
     align-items: center;
     gap: 2px;
     background: var(--color-primary-surface);
     padding: 6px 12px;
     border-radius: 10px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-sm);
+    font-weight: 600;
 }
 
 .user-icon {
-    font-size: 18px;
+    font-size: var(--font-base);
     opacity: 0.8;
     margin-right: 2px;
 }
 
 .user-name {
+    font-size: var(--font-xs);
     color: var(--color-text-muted);
 }
 
 .user-role {
-    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: var(--font-xs);
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 6px;
@@ -598,14 +678,19 @@ body {
 }
 
 .modal-content h3 {
+    font-family: "Nunito Sans", sans-serif;
     color: var(--color-primary);
     margin: 0 0 8px;
-    font-size: 18px;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-tight);
 }
 
 .modal-content p {
+    font-family: "Nunito Sans", sans-serif;
     margin: 4px 0;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    line-height: var(--leading-normal);
     color: var(--color-text-muted);
 }
 
@@ -615,10 +700,12 @@ body {
 }
 
 .modal-content form label {
+    font-family: "Nunito Sans", sans-serif;
     display: block;
     margin-bottom: 0.5em;
     margin-top: 1em;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    font-weight: 600;
     color: var(--color-text-muted);
 }
 
@@ -664,6 +751,7 @@ body {
 .modal-content form input,
 .modal-content form textarea,
 .modal-content form select {
+    font-family: "Nunito Sans", sans-serif;
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -671,10 +759,10 @@ body {
     padding: 10px 12px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    line-height: var(--leading-normal);
     color: var(--color-asset-text);
     background: var(--color-asset-bg);
-    font-family: inherit;
 }
 
 .modal-content form input:focus,
@@ -732,6 +820,7 @@ body {
 }
 
 .modal-content form button[type="submit"] {
+    font-family: "Nunito Sans", sans-serif;
     display: block;
     width: 100%;
     padding: 10px 14px;
@@ -740,7 +829,9 @@ body {
     border-radius: 8px;
     background: var(--color-success);
     color: var(--color-text-on-primary);
-    font-weight: 600;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-normal);
     cursor: pointer;
     transition: 0.3s all;
 }
@@ -756,6 +847,7 @@ body {
 }
 
 .modal-content form button[type="button"] {
+    font-family: "Nunito Sans", sans-serif;
     background: var(--color-danger);
     display: block;
     width: 100%;
@@ -764,7 +856,9 @@ body {
     border: none;
     border-radius: 8px;
     color: var(--color-text-on-primary);
-    font-weight: 600;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-normal);
     cursor: pointer;
     transition: 0.3s all;
 }

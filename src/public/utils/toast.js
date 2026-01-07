@@ -39,6 +39,9 @@ function injectStyles() {
   animation: toast-slide-in 450ms cubic-bezier(.2,.9,.2,1) forwards;
   position: relative;
   overflow: hidden;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: var(--font-base);
+  line-height: var(--leading-normal);
 }
 
 /* types */
@@ -46,10 +49,20 @@ function injectStyles() {
 .toast.toast-error   { border-left-color: var(--color-danger); }
 .toast.toast-info    { border-left-color: var(--color-primary); }
 
-.toast .toast-icon { font-size: 18px; }
+.toast .toast-icon { font-size: var(--font-sm); }
 .toast .toast-content { flex: 1; }
-.toast .toast-title { color: var(--color-text-main); font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-.toast .toast-desc { font-size: 13px; color: var(--color-text-muted); }
+.toast .toast-title { 
+  color: var(--color-text-main); 
+  font-weight: 700; 
+  font-size: var(--font-sm); 
+  line-height: var(--leading-tight);
+  margin-bottom: 2px; 
+}
+.toast .toast-desc { 
+  font-size: var(--font-sm); 
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted); 
+}
 
 /* progress */
 .toast .toast-progress {
@@ -87,10 +100,13 @@ function injectStyles() {
 
 /* small close button */
 .toast .toast-close {
+  font-family: "Nunito Sans", sans-serif;
   margin-left: 8px;
   background: transparent;
   border: none;
-  font-size: 16px;
+  font-size: var(--font-base);
+  font-weight: 700;
+  line-height: var(--leading-normal);
   color: var(--color-danger);
   cursor: pointer;
 }

@@ -1,12 +1,4 @@
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    min-height: 100%;
-    overflow-y: auto;
-
-}
-
 /* Layout */
 .admin-layout {
     height: calc(100vh - var(--top-header-height));
@@ -186,13 +178,16 @@ dialog::backdrop {
 
 .user-card .user-info h4 {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-tight);
     color: var(--color-text-main);
 }
 
 .user-card .user-info p {
     margin: 4px 0;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    line-height: var(--leading-normal);
     color: var(--color-text-muted);
 }
 
@@ -201,7 +196,7 @@ dialog::backdrop {
     padding: 6px 10px;
     border-radius: 999px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: var(--font-xs);
     border: 1px solid var(--color-border);
     margin-top: 6px;
 }
@@ -227,7 +222,8 @@ dialog::backdrop {
     border-radius: 6px;
     padding: 10px 16px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    font-weight: 600;
     color: var(--color-text-on-primary);
     transition: all 0.2s var(--ease-smooth);
     user-select: none;
@@ -299,7 +295,9 @@ dialog::backdrop {
     padding: 10px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    font-family: "Nunito Sans", sans-serif;
+    line-height: var(--leading-normal);
     background: var(--color-bg-card);
     color: var(--color-text-main);
 }
@@ -329,7 +327,9 @@ dialog::backdrop {
     padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    font-family: "Nunito Sans", sans-serif;
     transition: all 0.2s var(--ease-smooth);
 }
 
@@ -351,7 +351,9 @@ dialog::backdrop {
 
 .section-header h2 {
     text-align: center;
-    font-size: 20px;
+    font-size: var(--font-md);
+    font-weight: 700;
+    line-height: var(--leading-tight);
     color: var(--color-primary);
 }
 
@@ -420,7 +422,9 @@ main, .admin-layout {
     border-radius: 6px;
     background: var(--color-bg-card);
     color: var(--color-text-main);
-    font-size: 14px;
+    font-size: var(--font-sm);
+    font-family: "Nunito Sans", sans-serif;
+    line-height: var(--leading-normal);
 }
 
 .user-filter-bar select,
@@ -443,7 +447,7 @@ main, .admin-layout {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: var(--font-sm);
     white-space: nowrap; /* Hindrar texten från att radbrytas */
     cursor: pointer;
 }
