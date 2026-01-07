@@ -252,7 +252,7 @@ body {
   cursor: pointer;
   color: var(--color-text-muted, #6b7280);
   border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-weight: 500;
 }
 
@@ -264,6 +264,7 @@ body {
   color: var(--color-primary, #9036c8);
   font-weight: 700;
   border-bottom: 2px solid var(--color-primary, #9036c8);
+  transition: all 0.3s ease;
 }
 
 /* --- BOOKING LIST & CARDS --- */
