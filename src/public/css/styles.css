@@ -577,9 +577,11 @@ body {
 .modal[hidden] {
   display: none;
 }
+/*
 .modal:not([hidden]) {
   display: flex;
 }
+  */
 
 .modal-content h3 {
   color: var(--color-primary);
