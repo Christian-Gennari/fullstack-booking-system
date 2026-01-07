@@ -141,7 +141,24 @@ const API = {
     });
   },
  
-
+async createRoom(roomData) {
+    return await apiFetch('/api/rooms', {
+      method: 'POST',
+      body: JSON.stringify(roomData)
+    });
+  },
+  async updateRoom(roomId, roomData) {
+    return await apiFetch(`/api/rooms/${roomId}`, {
+      method: 'PUT',
+      body: JSON.stringify(roomData)
+    });
+  },
+  async deleteRoom(roomId) {
+    return await apitFetch('/api/rooms/${roomId}', {
+      method: 'DELETE'
+    });
+  },
+    
 
 
   // TODO: Implement getRoom(id) - GET /api/rooms/:id
