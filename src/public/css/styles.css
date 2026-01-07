@@ -999,6 +999,22 @@ body {
         color: var(--color-text-on-primary) !important;
     }
 
+    :root {
+        --calendar-icon-filter: invert(80%) sepia(10%) saturate(200%) hue-rotate(180deg);
+        --calendar-icon-filter-hover: invert(60%) sepia(50%) saturate(500%) hue-rotate(260deg) brightness(1.1);
+    }
+
+    .modal-content form input[type="date"] {
+        color: var(--color-text-main);
+    }
+
+    .modal-content form input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(80%) sepia(10%) saturate(200%) hue-rotate(180deg);
+    }
+
+    .modal-content form input[type="date"]::-webkit-calendar-picker-indicator:hover {
+        filter: invert(60%) sepia(50%) saturate(500%) hue-rotate(260deg) brightness(1.1);
+    }
 }
 
 /* =========================================
