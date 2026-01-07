@@ -43,9 +43,6 @@ roomsRouter.delete(
 // Assets under a room
 //roomsRouter.get("/:id/assets", roomController.listAssetsByRoom);
 
-// COMMENTED OUT - ASSETS NOT USED YET
-
-/* 
 roomsRouter.post(
   "/:id/assets",
   authenticate,
@@ -53,19 +50,22 @@ roomsRouter.post(
   roomController.createRoomAsset
 );
 
-//// Assets by id
+// NO TIME TO IMPLEMENT CORRECTLY, SO COMMENTING OUT FOR NOW
+// Assets by id
+/*
 roomsRouter.put(
   "/assets/:assetId",
   authenticate,
   authorize(ROLES.TEACHER, ROLES.ADMIN),
   roomController.updateRoomAsset
 );
+*/
+
 roomsRouter.delete(
   "/assets/:assetId",
   authenticate,
   authorize(ROLES.ADMIN),
   roomController.deleteRoomAsset
 );
-*/
 
 export default roomsRouter;
