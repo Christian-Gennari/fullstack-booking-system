@@ -116,6 +116,19 @@ export class BookingModal {
     this.modal.setAttribute("hidden", "");
     this.modal.classList.remove("open");
     this.form.reset();
+
+    // Remove selected state from date and time inputs
+    this.dateInput?.classList.remove("selected");
+    this.startHourSelect?.classList.remove("selected");
+
+    // Remove selected state from time slots
+    document
+        .querySelectorAll(".time-slot")
+        .forEach((el) => el.classList.remove("selected"));
+
+    // Reset duration selection
+    this.selectedDuration = null;
+
     this.currentRoom = null;
   }
 
