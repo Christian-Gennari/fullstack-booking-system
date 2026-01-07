@@ -19,6 +19,7 @@ app.use(cookieParser);
 // ==========================
 // 🔓 1. PUBLIC ASSETS
 // ==========================
+// Dessa ligger först för att säkerställa att filer som css/bilder alltid hittas
 app.use("/css", express.static("src/public/css"));
 app.use("/js", express.static("src/public/js"));
 app.use("/assets", express.static("src/public/assets"));
@@ -28,12 +29,11 @@ app.use("/utils", express.static("src/public/utils"));
 app.use("/components", express.static("src/public/components"));
 
 // ==========================
-// 🔓 2. PUBLIC PAGES
+// 🔓 2. PUBLIC PAGES (Startsida)
 // ==========================
-app.use(
-  "/login",
-  express.static("src/public/pages/login", { index: "index.html" })
-);
+// Login page is now the root page
+app.use("/", express.static("src/public/pages/login", { index: "index.html" }));
+
 app.get("/403", (req, res) =>
   res.sendFile("403.html", { root: "src/public/pages" })
 );
@@ -66,7 +66,7 @@ app.use(
 // ==========================
 // 🛡️ 4. API ROUTES
 // ==========================
-// /api/auth stays public so users can hit /login
+// /api/auth stays public so users can hit /login (via fetch)
 app.use("/api/auth", authRouter);
 
 // 🔒 These require a valid cookie/token
@@ -77,8 +77,11 @@ app.use("/api/bookings", authenticate, bookingsRouter);
 // ==========================
 // 🔀 5. REDIRECTS & ERRORS
 // ==========================
-app.get("/", (req, res) => res.redirect("/login"));
-app.get("/index.html", (req, res) => res.redirect("/login"));
+
+// if /login redirect to /
+app.get("/login", (req, res) => {
+  res.redirect("/");
+});
 
 // Catch-all 404 (Must be last)
 app.use((req, res) => {
