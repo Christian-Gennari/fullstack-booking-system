@@ -6,6 +6,7 @@ import { UserModal } from "../components/user.modal.js";
 import { RoomModal } from "../../components/room.modal.js";
 import { loadUser, setupLogout } from "../components/auth.manager.js";
 import { showError, showSuccess } from "../utils/toast.js";
+import { showDangerConfirm } from "../utils/confirm.js";
 
 // --- State ---
 let allRooms = [];
@@ -306,7 +307,11 @@ function setupUserFilters() {
 
 // --- Delete User ---
 async function deleteUser(userId) {
-  if (!confirm("⚠️ Är du säker på att du vill ta bort denna användare?")) return;
+  const confirmed = await showDangerConfirm(
+    "Är du säker på att du vill ta bort denna användare?",
+    "Ta bort användare"
+  );
+  if (!confirmed) return;
 
   try {
     await API.deleteUser(userId);
@@ -354,7 +359,11 @@ function renderAdminRooms(rooms) {
 }
 
 async function handleDeleteRoom(roomId) {
-  if (!confirm("⚠️ Är du säker på att du vill ta bort detta rum?")) return;
+  const confirmed = await showDangerConfirm(
+    "Är du säker på att du vill ta bort detta rum?",
+    "Ta bort rum"
+  );
+  if (!confirmed) return;
 
   try {
     await API.deleteRoom(roomId);
