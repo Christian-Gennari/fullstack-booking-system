@@ -162,6 +162,7 @@ function updateUserDropdown() {
   );
 }
 
+
 // Sökfunktion
 function getFilteredUsers() {
   let filtered = [...allUsers];
