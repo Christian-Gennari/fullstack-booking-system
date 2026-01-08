@@ -44,29 +44,38 @@ if (currentUser) {
   loadUsers();
 }
 // --- Sidebar Navigation ---
+// Ta bort den gamla setupSidebar() funktionen och ersätt med:
 function setupSidebar() {
-  const items = document.querySelectorAll(".sidebar-item");
-  const panels = document.querySelectorAll("[data-panel]");
+  const sidebarItems = document.querySelectorAll('.sidebar-item');
 
-  function showPanel(target) {
-    panels.forEach(panel => {
-      const id = panel.getAttribute("data-panel");
-      panel.style.display = id === target ? "" : "none";
-    });
-  }
+  // Mappa sidebar data-panel till faktiska section element
+  const panelMap = {
+    'dashboard': document.querySelector('[data-panel="overview-panel"]'),
+    'rooms': document.querySelector('[data-panel="rooms-panel"]'),
+    'bookings': document.querySelector('[data-panel="bookings-panel"]'),
+    'users': document.querySelector('[data-panel="users-panel"]')
+  };
 
-  items.forEach(item => {
-    item.addEventListener("click", () => {
-      const target = item.getAttribute("data-target");
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const panelId = item.dataset.panel;
 
-      items.forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
+      // Ta bort active från alla sidebar-items
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
 
-      showPanel(target);
+      // Göm alla paneler
+      Object.values(panelMap).forEach(panel => {
+        if (panel) panel.style.display = 'none';
+      });
+
+      // Visa vald panel
+      const targetPanel = panelMap[panelId];
+      if (targetPanel) {
+        targetPanel.style.display = 'block';
+      }
     });
   });
-
-  showPanel("overview-panel");
 }
 
 // --- Load Users ---
