@@ -162,17 +162,6 @@ function updateUserDropdown() {
   );
 }
 
-  
-
-// Annars → visa alla filtrerade användare
-renderUsers(
-  filtered,
-  container,
-  (id) => userModal.openForEdit(id),
-  (id) => deleteUser(id)
-);
-
-
 // Sökfunktion
 function getFilteredUsers() {
   let filtered = [...allUsers];
