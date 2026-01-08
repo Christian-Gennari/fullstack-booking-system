@@ -6,6 +6,9 @@ import { UserModal } from "../components/user.modal.js";
 import { RoomModal } from "../../components/room.modal.js";
 import { loadUser, setupLogout } from "../components/auth.manager.js";
 import { showError, showSuccess } from "../utils/toast.js";
+import { BookingModal } from "../components/booking.modal.js";
+
+
 
 // --- State ---
 let allRooms = [];
@@ -21,6 +24,7 @@ let userRoleFilter = "all";
 // --- Components ---
 const userModal = new UserModal("createUserModal", "createUserForm", loadUsers);
 const roomModal = new RoomModal("createRoomModal", "createRoomForm", loadRooms);
+const bookingModal = new BookingModal("booking-modal", "booking-form");
 
 // --- Initialization ---
 const currentUser = loadUser();
@@ -162,7 +166,7 @@ function updateUserDropdown() {
   );
 }
 
-  
+
 
 // Annars → visa alla filtrerade användare
 renderUsers(
@@ -345,6 +349,7 @@ function renderAdminRooms(rooms) {
 
   container.innerHTML = rooms.map(room => {
     const actionButtons = `
+      <button class="btn-action btn-book-room" data-id="${room.id}" style="background:var(--color-success); color:white;">Boka</button>
       <button class="btn-action btn-edit-room" data-id="${room.id}" style="background:var(--color-warning);">Redigera</button>
       <button class="btn-action btn-delete-room" data-id="${room.id}" style="background:var(--color-danger); color:white;">Ta bort</button>
     `;
@@ -360,6 +365,17 @@ function renderAdminRooms(rooms) {
     if (e.target.classList.contains("btn-edit-room")) {
       roomModal.openForEdit(roomId);
     }
+
+    if (e.target.classList.contains("btn-book-room")) {
+  const room = allRooms.find(r => r.id == roomId);
+
+  // Admin bokar åt sig själv (du kan ändra detta senare)
+  bookingModal.setUser(currentUser);
+
+  bookingModal.open(room);
+}
+
+
   };
 }
 
@@ -374,6 +390,7 @@ async function handleDeleteRoom(roomId) {
     showError(`Kunde inte ta bort:  ${error.message}`);
   }
 }
+
 
 // --- Bookings ---
 async function loadBookings() {
