@@ -46,7 +46,7 @@ Vi bifogar härunder emails och lösenord som ligger i vår SQLite-databas så d
 
 ## Säkerhet
 * Rollbaserad åtkomstkontroll (RBAC) – varje roll har specifika rättigheter
-* Hashade lösenord med bcrypt
+* Hashade lösenord med scrypt
 * Session management med automatisk rensning av utgångna sessioner
 * Skyddade API-endpoints – kräver autentisering
 * Input-validering både på frontend och backend
