@@ -67,9 +67,9 @@ export class RoomModal {
 
     const roomData = {
       room_number: formData.get('name'),
-      type: formData. get('type'),
+      type: formData.get('type'),
       capacity: parseInt(formData.get('capacity')) || null,
-      location: formData. get('location') || null,
+      location: formData.get('location') || null,
       floor_number: parseInt(formData.get('floor')) || null
     };
 
@@ -107,7 +107,7 @@ export class RoomModal {
         roomId = newRoom.id;
       }
       
-      showSuccess(`Rum ${roomData.room_number} skapat!`);
+      showSuccess(`Rum ${roomData.location} skapat!`);
     }
 
       // ✅ Add assets if provided
@@ -116,6 +116,7 @@ export class RoomModal {
           try {
             await API.createRoomAsset(roomId, asset);
           } catch (err) {
+            showError((`Kunde inte lägga till utrustning: ${asset}`));
             console.error(`Failed to add asset "${asset}": `, err);
           }
         }
