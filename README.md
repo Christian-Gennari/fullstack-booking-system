@@ -41,7 +41,7 @@ Vi bifogar härunder emails och lösenord som ligger i vår SQLite-databas så d
 * Frontend: HTML5, CSS3 (med CSS-variabler), Vanilla JavaScript
 * Backend: Node.js med Express
 * Databas: SQLite3
-* Autentisering: Session-baserad med cookies och bcrypt för lösenordshantering
+* Autentisering: Session-baserad med cookies och scrypt för lösenordshantering
 * Arkitektur: MVC-struktur med middleware för autentisering och auktorisering
 
 ## Säkerhet
