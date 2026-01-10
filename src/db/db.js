@@ -19,17 +19,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // from src/db/ -> src/ -> root/
-const dbPath = path.resolve(__dirname, "../../identifier.sqlite");
+const dbPath = path.resolve(__dirname, "../../data/identifier.sqlite");
 
 // 2. DEBUG: Verify the file exists physically on the disk
-if (!fs.existsSync(dbPath)) {
-  console.error("CRITICAL ERROR: Database file not found!");
-  console.error(`Expected location: ${dbPath}`);
-  console.log(
-    "Tip: Check if the filename is exactly 'identifier.sqlite' and not 'identifier.sqlite.sqlite'"
-  );
-  process.exit(1);
-}
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 // 3. Initialize connection
 export const db = new DatabaseSync(dbPath);
