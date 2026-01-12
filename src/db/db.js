@@ -65,8 +65,6 @@ if (userCount.count === 0) {
         hashPassword(password), // admin@edugrade.com
         hashPassword(password), // larare@edugrade.com
         hashPassword(password), // elev@edugrade.com
-        hashPassword(password), // anette.johansson@edugrade.com
-        hashPassword(password), // oscar.marcusson@edugrade.com
         hashPassword(password), // andre.ponten@edu.edugrade.com
         hashPassword(password), // christian.gennari@edu.edugrade.com
         hashPassword(password), // marcus.loov@edu.edugrade.com

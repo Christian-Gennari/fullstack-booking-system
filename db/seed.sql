@@ -2,13 +2,11 @@ INSERT INTO users (email, password_hash, role, class, display_name)
 VALUES
     ('admin@edugrade.com',   '__HASH__', 'admin',   NULL,   'Admin Testberg'),
     ('larare@edugrade.com',  '__HASH__', 'teacher', NULL,   'Lärare Testholm'),
-    ('elev@edugrade.com',    '__HASH__', 'student', 'net25','Elev Testlund'),
-    ('anette.johansson@edugrade.com', '__HASH__', 'admin', NULL, 'Anette Johansson'),
-    ('oscar.marcusson@edugrade.com', '__HASH__', 'teacher', NULL, 'Oscar Marcusson'),
-    ('andre.ponten@edu.edugrade.com', '__HASH__', 'student', 'net25', 'André Pontén'),
-    ('christian.gennari@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Christian Gennari'),
-    ('marcus.loov@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Marcus Lööv'),
-    ('viktor.johansson@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Viktor Johansson');
+    ('elev@edugrade.com',    '__HASH__', 'student', 'demo26','Elev Testlund'),
+    ('andre.ponten.net25@edu.edugrade.com', '__HASH__', 'student', 'net25', 'André Pontén'),
+    ('christian.gennari.net25@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Christian Gennari'),
+    ('marcus.loov.net25@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Marcus Lööv'),
+    ('viktor.johansson.net25@edu.edugrade.com', '__HASH__', 'student', 'net25', 'Viktor Johansson');
 
 INSERT INTO rooms (room_number, type, capacity, location, floor_number) VALUES
                                                                             ('1', 'lab',        16, 'Lintjärn',     1),
