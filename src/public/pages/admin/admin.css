@@ -293,27 +293,36 @@ dialog::backdrop {
     transform: scale(0.98);
 }
 
-.modal-content {
-    background: var(--color-bg-panel);
-    color: var(--color-text-main);
-    border-radius: 10px;
-    padding: 24px;
-    border: 1px solid var(--color-border);
-    overflow: auto;
-    border: transparent;
-    opacity: 1 ease-in-out 0.3s var(--ease-elastic);
-
+/* Dialog element specific styles */
+dialog {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #1f293766;
+    backdrop-filter: blur(4px);
+    border: none;
+    max-width: 100vw;
+    max-height: 100vh;
+    z-index: 2000;
 }
 
-
-.modal-content h3 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    color: var(--color-primary);
+dialog::backdrop {
+    background: #1f293766;
+    backdrop-filter: blur(4px);
 }
 
+/* Ensure dialog modal-content has same width constraints as booking modal */
+dialog .modal-content {
+    max-width: 500px;
+    width: 100%;
+}
 
-/* Form styling */
+/* Form styling for dialog forms using form-group pattern */
 .modal-content form .form-group {
     margin-bottom: 14px;
 }
@@ -321,29 +330,29 @@ dialog::backdrop {
 .modal-content form .form-group label {
     display: block;
     margin-bottom: 6px;
-    font-weight: 500;
-    color: var(--color-text-main);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-size: var(--font-sm);
 }
 
 .modal-content form .form-group input,
 .modal-content form .form-group select {
     width: 100%;
-    padding: 10px;
+    padding: 10px 12px;
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: var(--font-sm);
     font-family: "Nunito Sans", sans-serif;
     line-height: var(--leading-normal);
-    background: var(--color-bg-card);
-    color: var(--color-text-main);
+    background: var(--color-asset-bg);
+    color: var(--color-asset-text);
+    box-sizing: border-box;
 }
 
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
+.modal-content form .form-group input:focus,
+.modal-content form .form-group select:focus {
+    outline: 2px solid rgba(144, 54, 200, 0.12);
     border-color: var(--color-primary-hover);
-    box-shadow: 0 0 0 2px rgba(145, 54, 203, 0.2);
 }
 
 /* Buttons */
@@ -354,26 +363,55 @@ dialog::backdrop {
     margin-top: 16px;
 }
 
-/* modal button */
-.btn-primary {
+/* Modal buttons matching standard modal style */
+.btn-primary,
+.btn-confirm {
+    font-family: "Nunito Sans", sans-serif;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
     background: var(--color-success);
     color: var(--color-text-on-primary);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-normal);
     cursor: pointer;
-    font-size: var(--font-sm);
-    font-weight: 600;
+    transition: 0.3s all;
+}
+
+.btn-primary:hover,
+.btn-confirm:hover {
+    background: var(--color-success-hover);
+}
+
+.btn-primary:active,
+.btn-confirm:active {
+    background: var(--color-success-click);
+    transform: scale(0.98);
+}
+
+.btn-secondary {
     font-family: "Nunito Sans", sans-serif;
-    transition: all 0.2s var(--ease-smooth);
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg-panel);
+    color: var(--color-text-main);
+    font-size: var(--font-base);
+    font-weight: 700;
+    line-height: var(--leading-normal);
+    cursor: pointer;
+    transition: 0.3s all;
 }
 
-.btn-primary:hover {
-    background-color: var(--color-success-hover);
+.btn-secondary:hover {
+    background: var(--color-bg-card);
+    border-color: var(--color-primary);
 }
 
-.btn-primary:active {
-    background-color: var(--color-success-click);
+.btn-secondary:active {
     transform: scale(0.98);
 }
 
