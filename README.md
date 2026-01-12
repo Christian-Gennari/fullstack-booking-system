@@ -174,7 +174,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Developers
 
 **Viktor Johansson**
-- LinkedIn: [linkedin.com/in/dittnamn](https://linkedin.com/in/dittnamn)
+- LinkedIn: [linkedin.com/in/dittnamn](https://www.linkedin.com/in/viktorjohansson96/)
 - GitHub: [@discovicke](https://github.com/discovicke)
 
 **Christian Gennari**
@@ -182,11 +182,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - GitHub: [@Christian-Gennari](https://github.com/Christian-Gennari)
 
 **Markus Lööv**
-- LinkedIn: [linkedin.com/in/markusloov](https://linkedin.com/in/markusloov)
+- LinkedIn: [linkedin.com/in/markusloov](https://www.linkedin.com/in/marcus-l%C3%B6f-a64888382/)
 - GitHub: [@LeafMaster1](https://github.com/LeafMaster1)
 
 **André Pontén**
-- LinkedIn: [linkedin.com/in/andrepponten](https://linkedin.com/in/andrepponten)
+- LinkedIn: [linkedin.com/in/andrepponten](https://linkedin.com/in/andreponten)
 - GitHub: [@aponten](https://github.com/aponten)
 ---
 
