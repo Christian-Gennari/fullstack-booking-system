@@ -6,12 +6,14 @@ import { loadUser, setupLogout } from "../components/auth.manager.js";
 import { showError, showSuccess } from "../utils/toast.js";
 import { BookingModal } from "../components/booking.modal.js";
 import { showDangerConfirm } from "../utils/confirm.js";
+import { BookingModal } from "../../components/booking.modal.js";
+import { showDangerConfirm } from "../../utils/confirm.js";
 import {
   openCreateUserModal,
   openEditUserModal,
   openCreateRoomModal,
   openEditRoomModal
-} from "../utils/modal.examples.js";
+} from "../../utils/modal.examples.js";
 
 // --- State ---
 let allRooms = [];
@@ -218,10 +220,7 @@ function updateUserUI() {
       container.innerHTML = "";
     }
   }
-
 }
-
-
 
 // --- User Filters ---
 function setupUserFilters() {
@@ -264,34 +263,8 @@ function setupUserFilters() {
       }
     });
   }
-
-  if (dropdown) {
-    dropdown.addEventListener("change", (e) => {
-      const showAll = document.getElementById("showAllUsers");
-      if (showAll && showAll.checked) return;
-
-      const id = e.target.value;
-      const container = document.getElementById("userList");
-      if (!container) return;
-
-      if (!id) {
-        container.innerHTML = "";
-        return;
-      }
-
-      const user = allUsers.find(u => u.id == id);
-
-      if (user) {
-        renderUsers(
-          [user],
-          container,
-          (id) => userModal.openForEdit(id),
-          (id) => deleteUser(id)
-        );
-      }
-    });
-  }
 }
+
 
 // --- Delete User ---
 async function deleteUser(userId) {
