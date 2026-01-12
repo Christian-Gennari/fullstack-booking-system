@@ -52,13 +52,49 @@ function hashPassword(password) {
 const userCount = db.prepare("SELECT COUNT(*) AS count FROM users").get();
 
 if (userCount.count === 0) {
-  let seedSql = fs.readFileSync(
-      path.resolve(__dirname, "../../db/seed.sql"),
-      "utf8"
-  );
+  // Wrap in async IIFE to handle async hashPassword calls
+  await (async () => {
+    try {
+      console.log("📦 Seeding database with initial data...");
 
-  const hashed = hashPassword("lösen123");
-  seedSql = seedSql.replace(/__HASH__/g, hashed);
+      // Read the seed SQL template
+      let seedSql = fs.readFileSync(
+          path.resolve(__dirname, "../../db/seed.sql"),
+          "utf8"
+      );
 
-  db.exec(seedSql);
+      // Generate a unique hash for each user
+      // We need to hash the password multiple times since each user needs their own salt
+      const password = "lösen123";
+      console.log("🔐 Hashing passwords for 9 users...");
+
+      const hashes = await Promise.all([
+        hashPassword(password), // admin@edugrade.com
+        hashPassword(password), // larare@edugrade.com
+        hashPassword(password), // elev@edugrade.com
+        hashPassword(password), // anette.johansson@edugrade.com
+        hashPassword(password), // oscar.marcusson@edugrade.com
+        hashPassword(password), // andre.ponten@edu.edugrade.com
+        hashPassword(password), // christian.gennari@edu.edugrade.com
+        hashPassword(password), // marcus.loov@edu.edugrade.com
+        hashPassword(password), // viktor.johansson@edu.edugrade.com
+      ]);
+
+      console.log("✅ Password hashing complete");
+
+      // Replace each __HASH__ placeholder with a unique hash
+      let hashIndex = 0;
+      seedSql = seedSql.replace(/__HASH__/g, () => hashes[hashIndex++]);
+
+      console.log("📝 Executing seed SQL...");
+      db.exec(seedSql);
+
+      console.log(`✅ Database seeded with ${hashes.length} users`);
+
+    } catch (error) {
+      console.error("❌ Error seeding database:", error);
+      console.error("Stack trace:", error.stack);
+      throw error; // Re-throw to prevent server from starting with broken DB
+    }
+  })();
 }
