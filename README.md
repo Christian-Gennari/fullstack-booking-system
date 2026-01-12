@@ -6,8 +6,8 @@
 
 A comprehensive room booking system built for educational environments featuring three distinct user roles: Admin, Teacher, and Student. The system provides a modern, responsive interface with role-based access control and real-time booking management.
 
-> 📸 **[View Screenshots](SCREENSHOTS.md)** to see the application in action!  
-> 🚀 **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes!
+> 📸 **[View Screenshots](docs/SCREENSHOTS.md)** to see the application in action!  
+> 🚀 **[Quick Start Guide](docs/QUICKSTART.md)** - Get up and running in 5 minutes!
 
 ## 📋 Table of Contents
 

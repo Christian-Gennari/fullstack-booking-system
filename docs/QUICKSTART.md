@@ -101,10 +101,9 @@ On macOS/Linux, port 80 requires elevated privileges. Either:
 
 ## Next Steps
 
-- Read the full [README.md](README.md) for detailed documentation
+- Read the full [README.md](../README.md) for detailed documentation
 - Check [GUIDE.md](GUIDE.md) for the project architecture
 - View [SCREENSHOTS.md](SCREENSHOTS.md) to see all features
-- Read [CONTRIBUTING.md](CONTRIBUTING.md) if you want to contribute
 
 ## Need Help?
 
