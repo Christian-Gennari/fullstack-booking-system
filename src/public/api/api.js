@@ -77,6 +77,10 @@ const API = {
     return await apiFetch("/api/auth/logout", { method: "DELETE" });
   },
 
+  async getMe() {
+    return await apiFetch("/api/auth/me");
+  },
+
   async getRooms(includeAssets = false) {
     const url = includeAssets ? "/api/rooms?includeAssets=true" : "/api/rooms";
     return await apiFetch(url);
@@ -90,24 +94,16 @@ const API = {
   },
 
   async createBooking(bookingData) {
-    return this.#fetch("/api/bookings", {
+    return await apiFetch("/api/bookings", {
       method: "POST",
       body: JSON.stringify(bookingData),
     });
   },
 
   async deleteBooking(bookingId) {
-    const response = await apiFetch(`/api/bookings/${bookingId}`, {
+    return await apiFetch(`/api/bookings/${bookingId}`, {
       method: "DELETE",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
     });
-
-    if (!response.ok) {
-      throw new Error("Kunde inte avboka rummet.");
-    }
-
-    return response.json();
   },
 
   async updateBooking(bookingId, bookingData) {

@@ -126,3 +126,25 @@ export const logout = (req, res) => {
     return res.sendStatus(500);
   }
 };
+
+/**
+ * Returns the currently authenticated user.
+ * @param {Object} req - Express request object (user attached by authenticate middleware).
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with user data.
+ */
+export const getCurrentUser = (req, res) => {
+  try {
+    // req.user is attached by the authenticate middleware
+    if (!req.user) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
+    // Return user data (password_hash is already excluded by authenticate middleware)
+    return res.status(200).json({ user: req.user });
+  } catch (error) {
+    console.error("Get current user error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+

@@ -10,7 +10,7 @@
  */
 
 import express from "express";
-import { login, logout } from "../../modules/auth/auth.controller.js";
+import { login, logout, getCurrentUser } from "../../modules/auth/auth.controller.js";
 import { authenticate } from "../../middleware/authentication.middleware.js";
 
 const authRouter = express.Router();
@@ -20,5 +20,8 @@ authRouter.post("/login", login);
 
 // DELETE /api/auth/logout - Invalidate session token
 authRouter.delete("/logout", authenticate, logout);
+
+// GET /api/auth/me - Get current authenticated user
+authRouter.get("/me", authenticate, getCurrentUser);
 
 export default authRouter;
