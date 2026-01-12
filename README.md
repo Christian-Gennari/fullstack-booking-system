@@ -1,70 +1,186 @@
+# ![ELLA Logo](src/public/assets/ELLA%20small.png) ELLA - Edugrade Location & Logistics Assistant
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/express-5.2.1-blue)](https://expressjs.com/)
 
-# ![ELLA Logo](src/public/assets/ELLA%20small.png) ELLA - Edugrade Location & Logistics Assistant 
-ELLA är ett fullständigt rumbokningssystem byggt för utbildningsmiljöer med tre olika användarroller: Admin, Lärare och Elev. Systemet erbjuder en modern och responsiv gränssnittsdesign med rollbaserad åtkomstkontroll.
-Vi bifogar härunder emails och lösenord som ligger i vår SQLite-databas så du kan logga in och faktiskt se hemsidan. Lösenorden är hashade så vi kan inte bifoga någon skärmdump, men kanske lättare att kopiera från tabellen bara.
+A comprehensive room booking system built for educational environments featuring three distinct user roles: Admin, Teacher, and Student. The system provides a modern, responsive interface with role-based access control and real-time booking management.
 
-## Testanvändare
-| Email  | Lösen | Roll |
-| ------------- | ------ |:-------------:|
-| anette.johansson@edugrade.com | FluentInCSN | Admin |
-| oscar.marcusson@edugrade.com | ducksducks| Lärare |
-| andre.ponten@edu.edugrade.com | heaton| Elev |
-| christian.gennari@edu.edugrade.com| scalar | Elev |
-| marcus.loov@edu.edugrade.com| javascriptlover | Elev |
-| viktor.johansson@edu.edugrade.com| ettanlös | Elev |
+> 📸 **[View Screenshots](SCREENSHOTS.md)** to see the application in action!  
+> 🚀 **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes!
 
-## Huvudfunktioner
-### Bokningshantering
-* Boka studierum med val av datum, starttid och längd (2h, 4h, 6h eller 8h)
-* Avboka rum för aktiva bokningar
-* Visa bokningar uppdelat på "Kommande" och "Historik"
-* Filtrera bort avbokade bokningar via checkbox
-* Validering förhindrar bokningar på helger och efter 19:00
-### Rumsadministration (Admin)
-* Skapa nya rum med rumsnamn, typ, kapacitet, våning och utrustning
-* Redigera befintliga rum
-* Ta bort rum med säkerhetsbekräftelse
-* Översikt visar lediga/upptagna rum
-### Användarhantering (Admin)
-* Skapa användare med namn, email, lösenord och roll
-* Redigera användaruppgifter
-* Ta bort användare
-* Sök efter användare via sökfält
-* Filtrera användare baserat på roll (Student/Lärare/Admin)
-* Dropdown för snabbåtkomst till specifika användare
-### Dashboard & Statistik (Admin)
-* Totalt antal rum och lediga rum
-* Aktiva bokningar och totala bokningar
-* Realtidsuppdatering vid ändringar
-## Teknisk Stack
-* Frontend: HTML5, CSS3 (med CSS-variabler), Vanilla JavaScript
-* Backend: Node.js med Express
-* Databas: SQLite3
-* Autentisering: Session-baserad med cookies och scrypt för lösenordshantering
-* Arkitektur: MVC-struktur med middleware för autentisering och auktorisering
+## 📋 Table of Contents
 
-## Säkerhet
-* Rollbaserad åtkomstkontroll (RBAC) – varje roll har specifika rättigheter
-* Hashade lösenord med scrypt
-* Session management med automatisk rensning av utgångna sessioner
-* Skyddade API-endpoints – kräver autentisering
-* Input-validering både på frontend och backend
+- [Features Overview](#-features-overview)
+- [Technology Stack](#-technology-stack)
+- [Security](#-security)
+- [UI/UX Features](#-uiux-features)
+- [Technical Highlights](#-technical-highlights)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Authors](#-authors)
+
+## 🌟 Features Overview
+
+## 🌟 Features Overview
+
+### 📅 Booking Management
+* Book study rooms with date selection, start time, and duration (2h, 4h, 6h, or 8h)
+* Cancel active bookings
+* View bookings categorized as "Upcoming" and "History"
+* Filter out cancelled bookings via checkbox
+* Validation prevents bookings on weekends and after 7:00 PM
+
+### 🏢 Room Administration (Admin)
+* Create new rooms with name, type, capacity, floor, and equipment
+* Edit existing rooms
+* Delete rooms with safety confirmation
+* Dashboard shows available/occupied rooms
+
+### 👥 User Management (Admin)
+* Create users with name, email, password, and role
+* Edit user information
+* Delete users
+* Search for users via search field
+* Filter users by role (Student/Teacher/Admin)
+* Dropdown for quick access to specific users
+
+### 📊 Dashboard & Statistics (Admin)
+* Total rooms and available rooms count
+* Active bookings and total bookings statistics
+* Real-time updates on changes
+
+## 🛠️ Technology Stack
+* **Frontend:** HTML5, CSS3 (with CSS variables), Vanilla JavaScript
+* **Backend:** Node.js with Express
+* **Database:** SQLite3
+* **Authentication:** Session-based with cookies and scrypt for password hashing
+* **Architecture:** MVC structure with middleware for authentication and authorization
+
+## 🔒 Security
+## 🔒 Security
+* Role-Based Access Control (RBAC) – each role has specific permissions
+* Password hashing with scrypt
+* Session management with automatic cleanup of expired sessions
+* Protected API endpoints – requires authentication
+* Input validation on both frontend and backend
  
-## UI/UX-funktioner
-* Responsiv design – fungerar på desktop, tablet och mobil
-* Toast-notifikationer för feedback vid åtgärder
-* Modala dialoger för bokningar och formulär med nudge-animation vid felaktig input
-* Bekräftelsedialoger vid borttagning av användare/rum
-* Dark mode-stöd via CSS-variabler
-* Tillgänglighetsanpassat med semantisk HTML och ARIA-attribut
+## 🎨 UI/UX Features
+* Responsive design – works on desktop, tablet, and mobile
+* Toast notifications for action feedback
+* Modal dialogs for bookings and forms with nudge animation on invalid input
+* Confirmation dialogs for user/room deletion
+* Dark mode support via CSS variables
+* Accessibility features with semantic HTML and ARIA attributes
 
-## Noterbart
-* Modulär JavaScript – kod är uppdelad i återanvändbara komponenter (BookingModal, UserModal, RoomModal)
-* API-wrapper – centraliserad hantering av alla API-anrop
-* Error handling – översättning av tekniska felmeddelanden till användarvänliga texter
-* State management – lokal hantering av användare, rum och bokningar med filtrering
-* Optimerad rendering – effektiv uppdatering av UI baserat på filterval
+## ⚙️ Technical Highlights
+* **Modular JavaScript** – code is organized into reusable components (BookingModal, UserModal, RoomModal)
+* **API Wrapper** – centralized handling of all API calls
+* **Error Handling** – translation of technical error messages to user-friendly text
+* **State Management** – local management of users, rooms, and bookings with filtering
+* **Optimized Rendering** – efficient UI updates based on filter selections
 
-ELLA är ett nästintill komplett exempel på en modern webbapplikation med tydlig separation mellan frontend och backend, säker autentisering och en användarvänlig gränssnittsdesign.
-Vi hoppas att den kan komma till användning på Edugrade för att kunna lösa bokningsproblematiken när det hålls externa kurser på skolan så att elever kan se och boka rum när de vill studera på plats. Den borde vara modulär nog för att koppla andra databaser till den för att lätt implementera den i verkligheten. Ni vet var ni hittar oss om ni är köpsugna :)
+## 🚀 Getting Started
+
+### Prerequisites
+* Node.js (v18 or higher recommended)
+* npm
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/discovicke/ella-room-booking-system.git
+cd ella-room-booking-system
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. The database will be automatically created and seeded on first run
+
+4. Start the server
+```bash
+npm start
+```
+
+5. Open your browser and navigate to:
+```
+http://localhost:80
+```
+
+### Demo Accounts
+
+For testing purposes, the following accounts are pre-configured:
+
+| Email                 | Password   | Role |
+|-----------------------|------------|------|
+| admin@edugrade.com    | lösen123   | Admin |
+| larare@edugrade.com   | lösen123 | Teacher |
+| elev@edu.edugrade.com | lösen123     | Student |
+
+## 📡 API Overview
+
+The application exposes a RESTful API with the following main endpoints:
+
+### Authentication
+- `POST /api/login` - User login
+- `POST /api/logout` - User logout
+- `GET /api/me` - Get current user
+
+### Bookings
+- `GET /api/bookings` - Get all bookings (filtered by role)
+- `POST /api/bookings` - Create a new booking
+- `DELETE /api/bookings/:id` - Cancel a booking
+
+### Rooms
+- `GET /api/rooms` - Get all rooms
+- `POST /api/rooms` - Create a room (Admin only)
+- `PUT /api/rooms/:id` - Update a room (Admin only)
+- `DELETE /api/rooms/:id` - Delete a room (Admin only)
+
+### Users
+- `GET /api/users` - Get all users (Admin only)
+- `POST /api/users` - Create a user (Admin only)
+- `PUT /api/users/:id` - Update a user (Admin only)
+- `DELETE /api/users/:id` - Delete a user (Admin only)
+
+All API endpoints require authentication via session cookies, except for the login endpoint.
+
+## 📁 Project Structure
+
+```
+src/
+├── modules/          # Feature modules (auth, bookings, rooms, users)
+├── middleware/       # Authentication and authorization
+├── public/          # Frontend assets and pages
+│   ├── components/  # Reusable UI components
+│   ├── pages/       # Role-specific pages
+│   └── utils/       # Frontend utilities
+├── db/              # Database connection
+└── utils/           # Backend utilities
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+* Viktor Johansson
+* Christian Gennari
+* André Pontén
+* Marcus Lööv
+
+## 🙏 Acknowledgments
+
+ELLA demonstrates a complete modern web application with clear separation between frontend and backend, secure authentication, and a user-friendly interface design. The system is modular enough to integrate with other databases for real-world implementation.
+
