@@ -192,10 +192,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- **Nunito Sans** - Font från Google Fonts
-- **Node.js Community** - För fantastiska verktyg och libraries
-- **Express.js** - För ett robust web framework
-- **SQLite** - För en enkel och effektiv databas
+- **Nunito Sans** - Font from Google Fonts
+- **Node.js Community** - For amazing tools and libraries
+- **Express.js** - For a robust web framework
+- **SQLite** - For a simple and efficient database
 
 ELLA demonstrates a complete modern web application with clear separation between frontend and backend, secure authentication, and a user-friendly interface design. The system is modular enough to integrate with other databases for real-world implementation.
 
