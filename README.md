@@ -181,7 +181,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - LinkedIn: [linkedin.com/in/christiangennari](https://linkedin.com/in/christiangennari)
 - GitHub: [@Christian-Gennari](https://github.com/Christian-Gennari)
 
-**Markus Lööv**
+**Marcus Lööv**
 - LinkedIn: [linkedin.com/in/marcus-lof-a64888382](https://www.linkedin.com/in/marcus-l%C3%B6f-a64888382)
 - GitHub: [@LeafMaster1](https://github.com/LeafMaster1)
 
