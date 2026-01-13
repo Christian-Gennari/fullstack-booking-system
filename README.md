@@ -20,7 +20,7 @@ A comprehensive room booking system built for educational environments featuring
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
-- [Authors](#authors)
+- [Authors](#developers)
 
 ## Features Overview
 
