@@ -90,8 +90,8 @@ A comprehensive room booking system built for educational environments featuring
 
 1. Clone the repository
 ```bash
-git clone https://github.com/discovicke/ella-room-booking-system.git
-cd ella-room-booking-system
+git clone https://github.com/Christian-Gennari/fullstack-booking-system/
+cd fullstack-booking-system
 ```
 
 2. Install dependencies
